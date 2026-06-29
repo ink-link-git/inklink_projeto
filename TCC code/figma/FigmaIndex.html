@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Ink Studio - Estúdio de Tatuagem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="FigmaStyle.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <h1 class="logo">Golden Ink Studio</h1>
+            <p class="subtitle">Arte em pele desde 2015</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Artist Card -->
+        <div class="card">
+            <div class="artist-info">
+                <div class="avatar">
+                    <span>RS</span>
+                </div>
+                <div class="artist-details">
+                    <h2>Rodrigo Silva</h2>
+                    <p class="role">Tatuador Profissional</p>
+                    <p class="description">
+                        Especialista em trabalhos realistas e blackwork com mais de 10 anos de experiência.
+                        Cada tatuagem é uma obra de arte única, criada especialmente para você.
+                    </p>
+                </div>
+            </div>
+
+            <div class="portfolio-section">
+                <h3>Portfólio</h3>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1775135436883-56af5c10a476?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0YXR0b28lMjBhcnQlMjBwb3J0Zm9saW98ZW58MXx8fHwxNzc2ODAwOTYwfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Tatuagem detalhada de olho em preto e branco">
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1769605767701-6e5a680ef685?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHx0YXR0b28lMjBhcnQlMjBwb3J0Zm9saW98ZW58MXx8fHwxNzc2ODAwOTYwfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Tatuador trabalhando no braço do cliente">
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1668260702387-77b7a9e585ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHx0YXR0b28lMjBhcnQlMjBwb3J0Zm9saW98ZW58MXx8fHwxNzc2ODAwOTYwfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Arte de tatuagem">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointment Form -->
+        <div class="card appointment-card">
+            <h2>Agendar Sessão</h2>
+
+            <form id="appointmentForm" class="appointment-form">
+                <div class="form-section">
+                    <div class="calendar-section">
+                        <h3>Selecione a Data</h3>
+                        <div id="calendar" class="calendar"></div>
+
+                        <div id="timeSlots" class="time-slots hidden">
+                            <h3>Horários Disponíveis</h3>
+                            <div class="time-grid" id="timeGrid"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-fields">
+                        <h3>Seus Dados</h3>
+
+                        <div class="form-group">
+                            <label>Nome Completo *</label>
+                            <input type="text" id="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Telefone *</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cor da Pele *</label>
+                            <div class="skin-tone-grid" id="skinToneGrid">
+                                <button type="button" class="skin-tone-btn" data-value="muito-clara">
+                                    <span class="color-circle" style="background-color: #FFE4C4;"></span>
+                                    <span>Muito Clara</span>
+                                </button>
+                                <button type="button" class="skin-tone-btn" data-value="clara">
+                                    <span class="color-circle" style="background-color: #F5D0A9;"></span>
+                                    <span>Clara</span>
+                                </button>
+                                <button type="button" class="skin-tone-btn" data-value="media">
+                                    <span class="color-circle" style="background-color: #D2B48C;"></span>
+                                    <span>Média</span>
+                                </button>
+                                <button type="button" class="skin-tone-btn" data-value="morena">
+                                    <span class="color-circle" style="background-color: #C68642;"></span>
+                                    <span>Morena</span>
+                                </button>
+                                <button type="button" class="skin-tone-btn" data-value="escura">
+                                    <span class="color-circle" style="background-color: #8B4513;"></span>
+                                    <span>Escura</span>
+                                </button>
+                                <button type="button" class="skin-tone-btn" data-value="muito-escura">
+                                    <span class="color-circle" style="background-color: #5C4033;"></span>
+                                    <span>Muito Escura</span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="skinTone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Descrição da Tatuagem</label>
+                            <textarea id="description" rows="4" placeholder="Descreva sua ideia de tatuagem..."></textarea>
+                        </div>
+
+                        <div class="anamnesis-check">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="hasAnamnesis">
+                                <div>
+                                    <strong>Confirmo que possuo a ficha de anamnese completa *</strong>
+                                    <p>A ficha de anamnese é obrigatória para iniciar a sessão de tatuagem.</p>
+                                    <button type="button" id="fillAnamnesisBtn" class="link-btn">
+                                        Não tenho a ficha? Clique aqui para preencher agora
+                                    </button>
+                                </div>
+                            </label>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="submit-btn" disabled>
+                            Solicitar Agendamento
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2026 Golden Ink Studio. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Anamnesis Modal -->
+    <div id="anamnesisModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ficha de Anamnese</h2>
+                <button type="button" id="closeModal" class="close-btn">&times;</button>
+            </div>
+            <form id="anamnesisForm" class="anamnesis-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nome Completo *</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Idade *</label>
+                        <input type="number" min="18" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo Sanguíneo</label>
+                    <select>
+                        <option value="">Selecione</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="Não sei">Não sei</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Condições de Saúde *</label>
+                    <div class="checkbox-grid">
+                        <label><input type="checkbox" name="health" value="Diabetes"> Diabetes</label>
+                        <label><input type="checkbox" name="health" value="Hipertensão"> Hipertensão</label>
+                        <label><input type="checkbox" name="health" value="Cardiopatia"> Cardiopatia</label>
+                        <label><input type="checkbox" name="health" value="Epilepsia"> Epilepsia</label>
+                        <label><input type="checkbox" name="health" value="Hemofilia"> Hemofilia</label>
+                        <label><input type="checkbox" name="health" value="HIV/AIDS"> HIV/AIDS</label>
+                        <label><input type="checkbox" name="health" value="Hepatite"> Hepatite</label>
+                        <label><input type="checkbox" name="health" value="Nenhuma"> Nenhuma</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Possui alguma alergia? *</label>
+                    <textarea rows="2" required placeholder="Especifique suas alergias ou escreva 'Nenhuma'"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Faz uso de medicamentos? *</label>
+                    <textarea rows="2" required placeholder="Liste os medicamentos ou escreva 'Nenhum'"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Está grávida ou amamentando? *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="pregnant" value="Sim" required> Sim</label>
+                        <label><input type="radio" name="pregnant" value="Não" required> Não</label>
+                        <label><input type="radio" name="pregnant" value="N/A" required> Não se aplica</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Histórico de queloides ou cicatrização anormal? *</label>
+                    <textarea rows="2" required placeholder="Descreva ou escreva 'Não'"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Possui problemas de pele (psoríase, eczema, etc.)? *</label>
+                    <textarea rows="2" required placeholder="Descreva ou escreva 'Não'"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Já fez tatuagens anteriormente? *</label>
+                    <textarea rows="2" required placeholder="Quantas e quando? Ou escreva 'Não'"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Fez cirurgia recentemente? *</label>
+                    <textarea rows="2" required placeholder="Qual e quando? Ou escreva 'Não'"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Consome bebidas alcoólicas regularmente? *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="alcohol" value="Sim" required> Sim</label>
+                        <label><input type="radio" name="alcohol" value="Não" required> Não</label>
+                        <label><input type="radio" name="alcohol" value="Ocasionalmente" required> Ocasionalmente</label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="cancelAnamnesis" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Anamnese</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="FigmaJS.js"></script>
+</body>
+</html>
