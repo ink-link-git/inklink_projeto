@@ -1,18 +1,19 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, url_for
 from forms import RegisterForm
 
 main_bp = Blueprint('main', __name__)
 
-# Rota raiz para redirecionar automaticamente e evitar o erro 404 ao abrir o servidor
 @main_bp.route('/')
 def home():
-    return redirect('/register')
+    return redirect(url_for('main.register'))
 
 @main_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+    
     if form.validate_on_submit():
-        return redirect('/template')  # Redireciona para a URL '/template'
+        # Apenas valida os campos e envia para a próxima tela sem salvar no banco
+        return redirect(url_for('main.template'))
     
     return render_template('register.html', form=form)
 
