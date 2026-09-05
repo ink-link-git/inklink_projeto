@@ -6,7 +6,6 @@ CREATE TABLE Tatuador (
     nome VARCHAR(100) NOT NULL,                 -- Nome completo do profissional
     cpf VARCHAR(14) UNIQUE NOT NULL,            -- CPF para identificação e emissão de cobranças do SaaS
     email VARCHAR(100) UNIQUE NOT NULL,         -- E-mail para login no sistema web
-    senha_hash VARCHAR(255) NOT NULL,           -- Hash seguro da senha de acesso (nunca texto puro)
     tel VARCHAR(20) NOT NULL,                   -- WhatsApp/Telefone de contato do tatuador
     especialidade VARCHAR(100),                 -- Estilo principal (ex: Blackwork, Fineline, Realismo)
    );
