@@ -1,11 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from forms import RegisterForm
 from db import supabase
 
-# 1. Cria a instância do Blueprint primeiro
 main_bp = Blueprint('main', __name__)
 
-# 2. Define as rotas abaixo
 @main_bp.route('/')
 def home():
     return redirect(url_for('main.register'))
@@ -16,22 +14,40 @@ def register():
     
     if form.validate_on_submit():
         try:
-            dados = {
+            # 1. Cria o usuário com e-mail e senha no Supabase Auth
+            auth_response = supabase.auth.sign_up({
+                "email": form.email.data,
+                "password": form.password.data,
+                "options": {
+                    "data": {
+                        "tipo_usuario": "tatuador",
+                        "nome": form.nome.data
+                    }
+                }
+            })
+
+            # Pega o ID único (UUID) gerado na autenticação
+            id_tatuador = auth_response.user.id
+
+            # 2. Prepara os dados do perfil (SEM a senha)
+            dados_tatuador = {
+                "id_tatuador": id_tatuador,  # Chave estrangeira ligada ao auth.users
                 "nome": form.nome.data,
+                "email": form.email.data,
                 "cpf": form.cpf.data,
                 "tel": form.tel.data,
-                "especialidade": form.especialidade.data,
-                "senha": form.password.data  # Usando 'password' conforme o seu forms.py
+                "especialidade": form.especialidade.data
             }
             
-            # Substitua 'usuarios' pelo nome EXATO da sua tabela no Supabase
-            response = supabase.table('tatuador').insert(dados).execute()
+            # 3. Insere os dados adicionais na tabela 'tatuador'
+            response = supabase.table('tatuador').insert(dados_tatuador).execute()
             print(">>> SUCESSO NO SUPABASE:", response.data)
 
             return redirect(url_for('main.template'))
 
         except Exception as e:
             print(">>> ERRO DO SUPABASE:", e)
+            flash("Erro ao realizar o cadastro. Verifique os dados informados.", "danger")
     else:
         if form.errors:
             print(">>> ERROS DE VALIDAÇÃO DO FORMULÁRIO:", form.errors)

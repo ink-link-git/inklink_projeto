@@ -1,9 +1,14 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, InputRequired, EqualTo, Length
+from wtforms.validators import DataRequired, InputRequired, EqualTo, Length, Email
 
 class RegisterForm(FlaskForm):
     nome = StringField('Nome Completo', validators=[DataRequired(message='O nome é obrigatório.')])
+    
+    email = StringField('E-mail', validators=[
+        DataRequired(message='O e-mail é obrigatório.'),
+        Email(message='Informe um e-mail válido.')
+    ])
     
     cpf = StringField('CPF', validators=[
         DataRequired(message='O CPF é obrigatório.'),
