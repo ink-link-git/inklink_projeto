@@ -168,4 +168,3 @@ CREATE TABLE Portfolio (
     FOREIGN KEY (id_tatuador) REFERENCES Tatuador(id_tatuador) ON DELETE CASCADE
 );
 
-
