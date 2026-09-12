@@ -14,14 +14,12 @@ CREATE TABLE Tatuador (
 -- 2. CLIENTE
 
 CREATE TABLE Cliente (
-    id_cliente INT AUTO_INCREMENT PRIMARY KEY,   -- Identificador único do cliente
-    id_tatuador INT NOT NULL,                    -- FK: Garante a privacidade (cada tatuador só vê seus próprios clientes)
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,   -- Identificador único do cliente                   
     nome VARCHAR(100) NOT NULL,                  -- Nome completo do cliente
     cpf VARCHAR(14),                             -- CPF do cliente (opcional para ficha)
     tel VARCHAR(20) NOT NULL,                    -- Telefone/WhatsApp principal para envio de lembretes
     email VARCHAR(100),                          -- E-mail de contato
     data_nascimento DATE,                        -- Utilizado para verificar se o cliente é maior de idade
-    FOREIGN KEY (id_tatuador) REFERENCES Tatuador(id_tatuador) ON DELETE CASCADE
 );
 
 
