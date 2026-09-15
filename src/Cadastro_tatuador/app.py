@@ -1,5 +1,5 @@
 from flask import Flask
-from routes import main_bp
+from login_tatuador.routes import main_bp
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'abc123'

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
-from forms import RegisterForm
-from db import supabase
+from login_tatuador.forms import RegisterForm
+from login_tatuador.db import supabase
 
 main_bp = Blueprint('main', __name__)
 

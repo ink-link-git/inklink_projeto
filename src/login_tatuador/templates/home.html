@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Área do Tatuador</title>
+</head>
+<body>
+
+    <h1>Bem-vindo!</h1>
+
+   <!-- Busca as mensagens guardadas pelo flash() e guarda numa variável chamada mensagens -->
+    {% with mensagens = get_flashed_messages() %}
+     <!-- Tem alguma mensagem nessa variável? Se sim, continua -->
+        {% if mensagens %}
+        <!-- Abre uma lista na tela-->
+            <ul>
+                 <!-- Para cada mensagem dentro do mensagens, repete o que vem a seguir-->
+                {% for mensagem in mensagens %}
+                    <!-- Mostra a mensagem atual como item da lista-->
+                    <li>{{ mensagem }}</li>
+                 <!-- Fecha a repetição-->
+                {% endfor %}
+            <!-- fecha a lista-->
+            </ul>
+        <!-- fecha o "se"-->    
+        {% endif %}
+     <!-- fecha o with, encerra o uso da variável mensagens-->     
+    {% endwith %}
+
+    <p> Essa é a sua área de trabalho.</p>
+<a href="{{ url_for('main.logout') }}">Sair</a>
+</body>
+</html>
