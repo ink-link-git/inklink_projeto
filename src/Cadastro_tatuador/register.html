@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - Área do Tatuador</title>
+
+    <!-- Fontes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Conexão com o CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- Cabeçalho (Sem o botão Fluxograma Tatuador) -->
+  <!-- Cabeçalho com o link correto de voltar ao login -->
+<header class="header">
+    <a href="{{ url_for('main.login') }}" class="back-link">&larr; VOLTAR AO LOGIN</a>
+    <div class="header-buttons">
+        <a href="#" class="btn-outline">&larr; PERFIS</a>
+    </div>
+</header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container">
+        <div class="form-wrapper">
+            <span class="subtitle">ÁREA DO TATUADOR</span>
+            <h1 class="title">Criar conta</h1>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}" style="color: #e11d48; margin-bottom: 15px; font-size: 13px;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form id="registerForm" method="POST" action="{{ url_for('main.register') }}">
+                {{ form.hidden_tag() }}
+
+                <div class="input-group">
+                    <label for="nome">NOME COMPLETO</label>
+                    {{ form.nome(id="nome", placeholder="Seu Nome Completo") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="cpf">CPF</label>
+                    {{ form.cpf(id="cpf", placeholder="000.000.000-00") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="tel">TELEFONE</label>
+                    {{ form.tel(id="tel", placeholder="(00) 00000-0000") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="email">E-MAIL PROFISSIONAL</label>
+                    {{ form.email(id="email", placeholder="seu.email@dominio.com.br") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="especialidade">ESPECIALIDADE</label>
+                    {{ form.especialidade(id="especialidade", placeholder="Blackwork & Fineline") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="password">SENHA</label>
+                    {{ form.password(id="password", placeholder="••••••••") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm">CONFIRMAR SENHA</label>
+                    {{ form.confirm(id="confirm", placeholder="••••••••") }}
+                </div>
+
+                <button type="submit" class="btn-submit">CRIAR CONTA</button>
+            </form>
+        </div>
+    </main>
+
+    <button class="help-btn" type="button">?</button>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
