@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
-from login_tatuador.forms import RegisterForm
-from login_tatuador.db import supabase
+from forms import RegisterForm
+from db import supabase
 
 main_bp = Blueprint('main', __name__)
 
@@ -26,20 +26,23 @@ def register():
                 }
             })
 
-            # Pega o ID único (UUID) gerado na autenticação
+            # Verifica se o usuário foi gerado corretamente
+            if not auth_response.user:
+                raise Exception("Não foi possível criar o utilizador no Supabase Auth.")
+
             id_tatuador = auth_response.user.id
 
-            # 2. Prepara os dados do perfil (SEM a senha)
+            # 2. Prepara os dados do perfil
             dados_tatuador = {
-                "id_tatuador": id_tatuador,  # Chave estrangeira ligada ao auth.users
+                "id_tatuador": id_tatuador,
                 "nome": form.nome.data,
                 "email": form.email.data,
-                "cpf": form.cpf.data,
-                "tel": form.tel.data,
+                "cpf": getattr(form, 'cpf', None) and form.cpf.data,
+                "tel": getattr(form, 'tel', None) and form.tel.data,
                 "especialidade": form.especialidade.data
             }
             
-            # 3. Insere os dados adicionais na tabela 'tatuador'
+            # 3. Insere os dados na tabela 'tatuador'
             response = supabase.table('tatuador').insert(dados_tatuador).execute()
             print(">>> SUCESSO NO SUPABASE:", response.data)
 
