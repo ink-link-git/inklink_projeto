@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Tatuador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register_style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Cadastro de Tatuador</h1>
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <!-- Nome -->
+            {{ form.nome.label }} {{ form.nome() }} <br>
+            {% for error in form.nome.errors %}
+                <b style="color: red;">{{ error }}</b><br>
+            {% endfor %}
+
+            <!-- Email -->
+            {{ form.email.label }} {{ form.email() }} <br>
+            {% for error in form.email.errors %}
+                <b style="color: red;">{{ error }}</b><br>
+            {% endfor %}
+
+            <!-- CPF -->
+            {{ form.cpf.label }} {{ form.cpf() }} <br>
+            {% for error in form.cpf.errors %}
+                <b style="color: red;">{{ error }}</b><br>
+            {% endfor %}
+
+            <!-- Telefone -->
+            {{ form.tel.label }} {{ form.tel() }} <br>
+            {% for error in form.tel.errors %}
+                <b style="color: red;">{{ error }}</b><br>
+            {% endfor %}
+
+            <!-- Especialidade -->
+            {{ form.especialidade.label }} {{ form.especialidade() }} <br>
+            {% for error in form.especialidade.errors %}
+                <b style="color: red;">{{ error }}</b><br>
+            {% endfor %}
+
+            <!-- Senha -->
+            {{ form.password.label }} {{ form.password() }} <br>
+            {% for error in form.password.errors %}
+                <b style="color: red;">{{ error }}</b><br>
+            {% endfor %}
+
+            <!-- Confirmação de Senha -->
+            {{ form.confirm.label }} {{ form.confirm() }} <br>
+
+            <!-- Botão de Envio -->
+            <br>
+            {{ form.submit() }} <br>
+        </form>
+
+        <p>
+            Já possui uma conta? <a href="{{ url_for('main.login') }}">Faça login aqui</a>.
+        </p>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='register_script.js') }}"></script>
+</body>
+</html>
