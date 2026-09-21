@@ -3,50 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login do Tatuador</title>
+    <title>Login - Studio Ink</title>
+    <!-- Importação das fontes do Google Fonts (Playfair Display + Montserrat) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link para o arquivo CSS dentro da pasta static -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Login do Tatuador</h1>
 
-    <!-- Exibe mensagens gerais do flash() sem a tag da categoria -->
-    {% with mensagens = get_flashed_messages() %}
-        {% if mensagens %}
-            <ul>
-                {% for mensagem in mensagens %}
-                    <li>{{ mensagem }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-
-    <form method="POST" action="{{ url_for('main.login') }}">
-        {{ form.hidden_tag() }}
-
-        <!-- CAMPO E-MAIL -->
-        <div>
-            {{ form.email.label }}<br>
-            {{ form.email() }}
-            {% if form.email.errors %}
-                {% for erro in form.email.errors %}
-                    <br><span style="color: red;">{{ erro }}</span>
-                {% endfor %}
-            {% endif %}
+    <!-- Cabeçalho Superior (Botão de Perfis) -->
+    <header class="top-header">
+        <div class="header-buttons">
+            <a href="#" class="btn-outline">← PERFIS</a>
         </div>
-        <br>
+    </header>
 
-        <!-- CAMPO SENHA -->
-        <div>
-            {{ form.password.label }}<br>
-            {{ form.password() }}
-            {% if form.password.errors %}
-                {% for erro in form.password.errors %}
-                    <br><span style="color: red;">{{ erro }}</span>
-                {% endfor %}
-            {% endif %}
+    <!-- Conteúdo Principal / Formulário -->
+    <main class="login-container">
+        
+        <!-- Logo / Marca -->
+        <div class="brand">
+            <span class="brand-box">IL</span>
+            <span class="brand-text">INKLINK
+            </span>
         </div>
-        <br>
 
-        {{ form.submit() }}
-    </form>
+        <!-- Títulos -->
+        <span class="subtitle">ÁREA DO TATUADOR</span>
+        <h1 class="title">Entrar</h1>
+
+        <!-- Mensagens Flashed do Flask -->
+        {% with mensagens = get_flashed_messages() %}
+            {% if mensagens %}
+                <ul class="flash-messages">
+                    {% for mensagem in mensagens %}
+                        <li>{{ mensagem }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Formulário de Login -->
+        <form method="POST" action="{{ url_for('main.login') }}" class="login-form">
+            {{ form.hidden_tag() }}
+
+            <!-- CAMPO E-MAIL -->
+            <div class="form-group">
+                <label for="email">E-MAIL PROFISSIONAL</label>
+                {{ form.email(oninvalid="this.setCustomValidity('Por favor, informe seu e-mail.')", oninput="this.setCustomValidity('')") }}
+                {% if form.email.errors %}
+                    {% for erro in form.email.errors %}
+                        <span class="error-msg">{{ erro }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- CAMPO SENHA -->
+            <div class="form-group">
+                <label for="password">SENHA</label>
+                {{ form.password(oninvalid="this.setCustomValidity('Por favor, informe sua senha.')", oninput="this.setCustomValidity('')") }}
+                {% if form.password.errors %}
+                    {% for erro in form.password.errors %}
+                        <span class="error-msg">{{ erro }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- BOTÃO ENTRAR -->
+            {{ form.submit(class="btn-submit", value="ENTRAR") }}
+        </form>
+
+        <!-- Rodapé do Card -->
+        <div class="form-footer">
+            <p>Não tem conta? <a href="#">Cadastre-se</a></p>
+        </div>
+
+    </main>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>
