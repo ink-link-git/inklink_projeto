@@ -4,67 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Tatuador</title>
+    <!-- Fontes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Estilizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='register_style.css') }}">
 </head>
 <body>
 
-    <div class="container">
+    <header class="top-header">
+        <div class="header-buttons">
+            <a href="{{ url_for('main.login') }}" class="btn-outline">← PERFIS</a>
+        </div>
+    </header>
 
-        <h1>Cadastro de Tatuador</h1>
+    <main class="login-container">
+        
+        <div class="brand">
+            <span class="brand-box">IL</span>
+            <span class="brand-text">INKLINK</span>
+        </div>
 
-        <form method="POST">
+        <span class="subtitle">ÁREA DO TATUADOR</span>
+        <h1 class="title">Criar Conta</h1>
+
+        <!-- Form com ID para o JavaScript -->
+        <form method="POST" action="{{ url_for('main.register') }}" class="login-form" id="registerForm">
             {{ form.hidden_tag() }}
 
-            <!-- Nome -->
-            {{ form.nome.label }} {{ form.nome() }} <br>
-            {% for error in form.nome.errors %}
-                <b style="color: red;">{{ error }}</b><br>
-            {% endfor %}
+            <div class="form-group">
+                <label for="nome">NOME COMPLETO</label>
+                {{ form.nome() }}
+                {% for error in form.nome.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            </div>
 
-            <!-- Email -->
-            {{ form.email.label }} {{ form.email() }} <br>
-            {% for error in form.email.errors %}
-                <b style="color: red;">{{ error }}</b><br>
-            {% endfor %}
+            <div class="form-group">
+                <label for="email">E-MAIL PROFISSIONAL</label>
+                {{ form.email() }}
+                {% for error in form.email.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            </div>
 
-            <!-- CPF -->
-            {{ form.cpf.label }} {{ form.cpf() }} <br>
-            {% for error in form.cpf.errors %}
-                <b style="color: red;">{{ error }}</b><br>
-            {% endfor %}
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                {{ form.cpf() }}
+                {% for error in form.cpf.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            </div>
 
-            <!-- Telefone -->
-            {{ form.tel.label }} {{ form.tel() }} <br>
-            {% for error in form.tel.errors %}
-                <b style="color: red;">{{ error }}</b><br>
-            {% endfor %}
+            <div class="form-group">
+                <label for="tel">TELEFONE</label>
+                {{ form.tel() }}
+                {% for error in form.tel.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            </div>
 
-            <!-- Especialidade -->
-            {{ form.especialidade.label }} {{ form.especialidade() }} <br>
-            {% for error in form.especialidade.errors %}
-                <b style="color: red;">{{ error }}</b><br>
-            {% endfor %}
+            <div class="form-group">
+                <label for="especialidade">ESPECIALIDADE</label>
+                {{ form.especialidade() }}
+                {% for error in form.especialidade.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            </div>
 
-            <!-- Senha -->
-            {{ form.password.label }} {{ form.password() }} <br>
-            {% for error in form.password.errors %}
-                <b style="color: red;">{{ error }}</b><br>
-            {% endfor %}
+            <div class="form-group">
+                <label for="senha">SENHA</label>
+                {{ form.password(id="senha") }}
+                {% for error in form.password.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            </div>
 
-            <!-- Confirmação de Senha -->
-            {{ form.confirm.label }} {{ form.confirm() }} <br>
+            <div class="form-group">
+                <label for="confirmar-senha">CONFIRME A SENHA</label>
+                {{ form.confirm(id="confirmar-senha") }}
+                {% for error in form.confirm.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            </div>
 
-            <!-- Botão de Envio -->
-            <br>
-            {{ form.submit() }} <br>
+            {{ form.submit(class="btn-submit", value="CADASTRAR TATUADOR") }}
         </form>
 
-        <p>
-            Já possui uma conta? <a href="{{ url_for('main.login') }}">Faça login aqui</a>.
-        </p>
+        <div class="form-footer">
+            <p>Já possui uma conta? <a href="{{ url_for('main.login') }}">Faça login aqui</a></p>
+        </div>
 
-    </div>
+    </main>
 
+    <!-- JavaScript com caminho correto -->
     <script src="{{ url_for('static', filename='register_script.js') }}"></script>
 </body>
 </html>

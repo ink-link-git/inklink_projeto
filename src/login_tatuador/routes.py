@@ -6,6 +6,8 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def home():
+    if 'usuario_logado' in session:
+        return redirect(url_for('main.home_logada'))
     return redirect(url_for('main.login'))
 
 @main_bp.route('/register', methods=['GET', 'POST'])
@@ -31,8 +33,8 @@ def register():
                 "id_tatuador": id_tatuador,
                 "nome": form.nome.data,
                 "email": form.email.data,
-                "cpf": getattr(form, 'cpf', None) and form.cpf.data,
-                "tel": getattr(form, 'tel', None) and form.tel.data,
+                "cpf": form.cpf.data,
+                "tel": form.tel.data,
                 "especialidade": form.especialidade.data
             }
             
@@ -49,7 +51,8 @@ def register():
         if form.errors:
             print(">>> ERROS DE VALIDAÇÃO DO FORMULÁRIO:", form.errors)
 
-    return render_template('login.html', form=form)
+    # Corrigido aqui para renderizar register.html
+    return render_template('register.html', form=form)
 
 
 @main_bp.route('/login', methods=['GET', 'POST'])
