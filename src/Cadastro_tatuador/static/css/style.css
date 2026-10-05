@@ -1,0 +1,179 @@
+/* Configurações Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: #0c0c0e;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 40px;
+    width: 100%;
+}
+
+.back-link {
+    color: #7d7d8e;
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #ffffff;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #232328;
+    color: #9a9aae;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 1.1px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.btn-outline:hover, 
+.btn-outline.active {
+    background-color: #1a1a1e;
+    color: #ffffff;
+    border-color: #383842;
+}
+
+/* Container Principal */
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 440px;
+}
+
+.subtitle {
+    color: #e11d48;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 500;
+    margin-bottom: 32px;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+/* Formulário e Inputs */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    font-size: 11px;
+    color: #838396;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    background-color: #161619;
+    border: 1px solid #242429;
+    border-radius: 6px;
+    padding: 14px 16px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-group input::placeholder {
+    color: #4a4a58;
+}
+
+.input-group input:focus {
+    border-color: #e11d48;
+    background-color: #1a1a1e;
+}
+
+/* Botão de Envio */
+.btn-submit {
+    width: 100%;
+    background-color: #e11d48;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-submit:hover {
+    background-color: #be123c;
+}
+
+.btn-submit:active {
+    transform: scale(0.99);
+}
+
+/* Botão de Ajuda (?) */
+.help-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #1a1a1e;
+    color: #7d7d8e;
+    border: 1px solid #2a2a32;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.help-btn:hover {
+    color: #ffffff;
+    border-color: #4a4a58;
+    background-color: #242429;
+}

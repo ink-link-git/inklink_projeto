@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro </title>
+</head>
+<body>
+
+    <div class="container">
+
+    <h1>Cadastro</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+       {{form.first_name.label}} {{ form.first_name() }}  </br>
+       {{form.last_name.label}} {{ form.last_name() }}  </br>
+       
+       {{form.email.label}} {{ form.email() }}  </br>
+       {% for error in form.email.errors %}
+            <b>{{error}}</b></br>
+        {% endfor %}
+
+       {{form.password.label}} {{ form.password() }}  </br>
+        {% for error in form.password.errors %}
+            <b>{{error}}</b></br>
+        {% endfor %}
+
+       {{form.confirm.label}} {{ form.confirm() }}  </br>
+       {{form.submit.label}} {{ form.submit() }}  </br>
+    </form>
+    </div>
+</body>
+</html>
