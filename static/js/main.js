@@ -161,8 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
         if (response.ok && data.success) {
           submitBtn.innerText = "Conta criada ✓";
-          form.reset();
-          strengthBars.forEach(b => b.style.background = "var(--border)");
+          setTimeout(() => {
+            window.location.href = "/login/cliente";
+          }, 1000);
           return;
         }
   

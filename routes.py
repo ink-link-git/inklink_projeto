@@ -6,10 +6,15 @@ from forms import (
     validar_login,
     autenticar_usuario,
 )
+from db import supabase
 
 # Criação do Blueprint único da aplicação
 bp = Blueprint("main", __name__)
 
+
+# ==========================================
+# ROTAS DE PÁGINAS (TEMPLATES)
+# ==========================================
 
 @bp.route("/")
 def selecionar_perfil():
@@ -43,13 +48,7 @@ def login_tatuador():
 
 @bp.route("/agendar")
 def agendar_sessao():
-    """Tela de agendamento de sessão do cliente.
-
-    Front-end apenas por enquanto: calendário e horários são simulados
-    em JS (static/js/agendar.js) até existir a tabela de agendamentos
-    no Supabase. Também não há checagem de login ainda — qualquer
-    pessoa consegue acessar essa URL diretamente por enquanto.
-    """
+    """Tela de agendamento de sessão do cliente."""
     return render_template("agendar.html")
 
 
@@ -58,6 +57,15 @@ def ficha_anamnese():
     """Ficha de anamnese (ainda não implementada)."""
     return render_template("em_construcao.html", titulo="Ficha de Anamnese")
 
+@bp.route("/dashboard")
+def dashboard():
+    """Área principal do cliente após efetuar o login."""
+    return render_template("dashboard.html")
+
+
+# ==========================================
+# ROTAS DA API - AUTENTICAÇÃO
+# ==========================================
 
 @bp.route("/api/index", methods=["POST"])
 def criar_conta():
@@ -127,3 +135,89 @@ def api_login_cliente():
         return jsonify({"success": False, "errors": {"geral": error_msg}}), 500
 
     return jsonify({"success": True, "usuario": {"email": user.email}}), 200
+
+
+# ==========================================
+# ROTAS DA API - SERVIÇOS
+# ==========================================
+
+@bp.route("/api/servicos", methods=["GET"])
+def listar_servicos():
+    """Retorna a lista de serviços cadastrados no banco Supabase."""
+    try:
+        resposta = supabase.table("servicos").select("*").execute()
+        return jsonify({"success": True, "servicos": resposta.data}), 200
+    except Exception as exc:
+        return jsonify({"success": False, "errors": {"geral": str(exc)}}), 500
+
+
+# ==========================================
+# ROTAS DA API - AGENDAMENTOS
+# ==========================================
+
+@bp.route("/api/agendamentos", methods=["POST"])
+def criar_agendamento():
+    """Recebe dados de agendamento e insere na tabela 'agendamentos' do Supabase."""
+    data = request.get_json(silent=True) or {}
+
+    cliente_id = data.get("cliente_id")
+    servico_id = data.get("servico_id")
+    data_hora = data.get("data_hora")
+    observacoes = data.get("observacoes", "")
+
+    if not all([cliente_id, servico_id, data_hora]):
+        return jsonify({
+            "success": False,
+            "errors": {"geral": "Campos obrigatórios ausentes: cliente_id, servico_id e data_hora."}
+        }), 400
+
+    try:
+        resposta = supabase.table("agendamentos").insert({
+            "cliente_id": cliente_id,
+            "servico_id": servico_id,
+            "data_hora": data_hora,
+            "observacoes": observacoes,
+            "status": "agendado"
+        }).execute()
+
+        return jsonify({
+            "success": True,
+            "mensagem": "Agendamento realizado com sucesso!",
+            "agendamento": resposta.data
+        }), 201
+    except Exception as exc:
+        return jsonify({"success": False, "errors": {"geral": str(exc)}}), 500
+
+
+@bp.route("/api/agendamentos/cliente/<cliente_id>", methods=["GET"])
+def listar_agendamentos_cliente(cliente_id):
+    """Busca os agendamentos realizados por um cliente específico."""
+    try:
+        resposta = (
+            supabase.table("agendamentos")
+            .select("*, servicos(*)")
+            .eq("cliente_id", cliente_id)
+            .execute()
+        )
+        return jsonify({"success": True, "agendamentos": resposta.data}), 200
+    except Exception as exc:
+        return jsonify({"success": False, "errors": {"geral": str(exc)}}), 500
+
+
+@bp.route("/api/agendamentos/<agendamento_id>/cancelar", methods=["PATCH"])
+def cancelar_agendamento(agendamento_id):
+    """Atualiza o status de um agendamento para 'cancelado'."""
+    try:
+        resposta = (
+            supabase.table("agendamentos")
+            .update({"status": "cancelado"})
+            .eq("id", agendamento_id)
+            .execute()
+        )
+        return jsonify({
+            "success": True,
+            "mensagem": "Agendamento cancelado com sucesso.",
+            "agendamento": resposta.data
+        }), 200
+    except Exception as exc:
+        return jsonify({"success": False, "errors": {"geral": str(exc)}}), 500

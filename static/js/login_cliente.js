@@ -75,10 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
 
-      if (response.ok && data.success) {
-        submitBtn.innerText = "Login efetuado ✓";
-        return;
-      }
+     if (response.ok && data.success) {
+    window.location.href = "/dashboard";
+}
 
       submitBtn.disabled = false;
       submitBtn.innerText = "Entrar";

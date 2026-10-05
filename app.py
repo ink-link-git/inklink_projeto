@@ -1,10 +1,19 @@
+import os
 from flask import Flask
-from routes import bp as main_bp
+from dotenv import load_dotenv
+from routes import bp
 
-app = Flask(__name__)
+load_dotenv()
 
-# Registra o Blueprint único (perfil + cadastro + login) na aplicação
-app.register_blueprint(main_bp)
+def create_app():
+    app = Flask(__name__)
+    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "chave_secreta_padrao")
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    # Registro do Blueprint único
+    app.register_blueprint(bp)
+
+    return app
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run(debug=True, port=5000)
