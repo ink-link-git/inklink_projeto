@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Ink — Quem é você?</title>
+  <!-- Reaproveita as variáveis de cor/tema já definidas no style.css do projeto -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+</head>
+<body>
+
+  <main class="perfil-main">
+    <div class="brand">
+      <div class="brand-mark">SI</div>
+      <span class="brand-name">Studio Ink</span>
+    </div>
+
+    <div class="mode-toggle" role="tablist" aria-label="Escolha entrar ou criar conta">
+      <button type="button" class="mode-btn active" id="btn-entrar" role="tab" aria-selected="true" data-mode="login">Entrar</button>
+      <button type="button" class="mode-btn" id="btn-criar" role="tab" aria-selected="false" data-mode="cadastro">Criar conta</button>
+    </div>
+
+    <p class="eyebrow" id="eyebrow-text">Bem-vindo de volta</p>
+    <h1>Quem é você?</h1>
+    <p class="subtitle" id="subtitle-text">Escolha seu perfil para continuar</p>
+
+    <div class="perfil-cards">
+      <button type="button" class="perfil-card" id="card-cliente" data-tipo="cliente">
+        <span class="perfil-icon perfil-icon--cliente" aria-hidden="true"></span>
+        <h3>Cliente</h3>
+        <p>Agende tatuagens, veja artistas e acompanhe seus agendamentos.</p>
+      </button>
+
+      <button type="button" class="perfil-card" id="card-tatuador" data-tipo="tatuador">
+        <span class="perfil-icon perfil-icon--tatuador" aria-hidden="true">&#10022;</span>
+        <h3>Tatuador</h3>
+        <p>Gerencie agenda, portfólio, estoque e fichas de anamnese.</p>
+      </button>
+    </div>
+  </main>
+
+  <button type="button" class="help-btn" aria-label="Ajuda">?</button>
+
+  <script src="{{ url_for('static', filename='js/perfil.js') }}"></script>
+</body>
+</html>

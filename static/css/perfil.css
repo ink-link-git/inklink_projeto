@@ -1,0 +1,166 @@
+/* Estilos exclusivos da tela "Quem é você?".
+   As cores (var(--primary), var(--card), etc.) vêm do :root
+   já declarado em style.css — este arquivo não redefine nada,
+   só usa. */
+
+.perfil-main {
+  max-width: 620px;
+  margin: 48px auto 80px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  background: var(--primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-foreground);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.brand-name {
+  color: var(--secondary-foreground);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.mode-toggle {
+  display: inline-flex;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 28px;
+}
+
+.mode-btn {
+  padding: 8px 22px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s ease, color .15s ease;
+}
+
+.mode-btn.active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.eyebrow {
+  color: var(--primary);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.perfil-main h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: 34px;
+  color: var(--foreground);
+  margin: 0 0 12px;
+  letter-spacing: 0.01em;
+}
+
+.subtitle {
+  color: var(--secondary-foreground);
+  font-size: 15px;
+  margin: 0 0 32px;
+}
+
+.perfil-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  text-align: left;
+}
+
+.perfil-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px 20px;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  transition: border-color .15s ease;
+}
+.perfil-card:hover { border-color: #3a3836; }
+.perfil-card:focus-visible {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.22);
+}
+
+.perfil-icon {
+  display: block;
+  margin-bottom: 20px;
+}
+.perfil-icon--cliente {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+}
+.perfil-icon--tatuador {
+  color: var(--primary);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.perfil-card h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: 19px;
+  color: var(--foreground);
+  margin: 0 0 10px;
+}
+.perfil-card p {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.help-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--secondary-foreground);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+@media (max-width: 520px) {
+  .perfil-cards { grid-template-columns: 1fr; }
+}
