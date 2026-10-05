@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendar Sessão</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/agendar.css') }}">
+</head>
+<body>
+
+  <main class="agenda-main">
+    <h1 class="agenda-title">Agendar Sessão</h1>
+
+    <div class="agenda-grid">
+
+      <!-- Coluna esquerda: calendário + horários -->
+      <section class="agenda-col">
+        <h2 class="section-title">Selecione a Data</h2>
+
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <span class="calendar-month" id="calendar-month">—</span>
+            <div class="calendar-nav">
+              <button type="button" id="prev-month" aria-label="Mês anterior">&#8249;</button>
+              <button type="button" id="next-month" aria-label="Próximo mês">&#8250;</button>
+            </div>
+          </div>
+
+          <div class="calendar-weekdays">
+            <span>DOM</span><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SAB</span>
+          </div>
+
+          <div class="calendar-days" id="calendar-days"></div>
+
+          <div class="times-section">
+            <p class="times-label" id="times-label">Selecione um dia disponível para ver os horários.</p>
+            <div class="times-grid" id="times-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Coluna direita: detalhes da tatuagem -->
+      <section class="agenda-col">
+        <h2 class="section-title">Detalhes da Tatuagem</h2>
+
+        <form id="agendamento-form" novalidate>
+
+          <div class="field">
+            <label>Cor da Pele <span class="req">*</span></label>
+            <div class="skin-grid">
+              <label class="skin-option">
+                <input type="radio" name="pele" value="muito-clara">
+                <span class="skin-dot" style="background:#F6E0C8;"></span> Muito Clara
+              </label>
+              <label class="skin-option">
+                <input type="radio" name="pele" value="clara">
+                <span class="skin-dot" style="background:#E8C19A;"></span> Clara
+              </label>
+              <label class="skin-option">
+                <input type="radio" name="pele" value="media">
+                <span class="skin-dot" style="background:#C98B5E;"></span> Média
+              </label>
+              <label class="skin-option">
+                <input type="radio" name="pele" value="morena">
+                <span class="skin-dot" style="background:#A86539;"></span> Morena
+              </label>
+              <label class="skin-option">
+                <input type="radio" name="pele" value="escura">
+                <span class="skin-dot" style="background:#7A4426;"></span> Escura
+              </label>
+              <label class="skin-option">
+                <input type="radio" name="pele" value="muito-escura">
+                <span class="skin-dot" style="background:#4A2A18;"></span> Muito Escura
+              </label>
+            </div>
+            <div class="field-error" id="err-pele">Selecione uma opção.</div>
+          </div>
+
+          <div class="field">
+            <label for="descricao">Descrição da Tatuagem</label>
+            <textarea id="descricao" name="descricao" placeholder="Descreva sua ideia de tatuagem..."></textarea>
+
+            <div class="upload-area">
+              <label class="upload-btn" for="imagens">Anexar imagem de referência</label>
+              <input type="file" id="imagens" accept="image/*" multiple hidden>
+              <div class="upload-previews" id="upload-previews"></div>
+            </div>
+          </div>
+
+          <div class="anamnese-card">
+            <input type="checkbox" id="anamnese" name="anamnese">
+            <div class="anamnese-text">
+              <strong>Confirmo que possuo a ficha de anamnese completa <span class="req">*</span></strong>
+              <p>A ficha de anamnese é obrigatória para iniciar a sessão de tatuagem.</p>
+              <a href="{{ url_for('main.ficha_anamnese') }}">Não tenho a ficha? Clique aqui para preencher agora</a>
+            </div>
+          </div>
+          <div class="field-error" id="err-anamnese">Confirme que possui a ficha de anamnese.</div>
+
+          <div class="field-error" id="err-horario">Selecione uma data e um horário disponíveis.</div>
+
+          <button type="submit" class="agenda-submit" id="submit-btn">Solicitar Agendamento</button>
+          <p class="server-message" id="server-message"></p>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/agendar.js') }}"></script>
+</body>
+</html>

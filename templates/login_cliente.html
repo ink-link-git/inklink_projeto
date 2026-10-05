@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar</title>
+  <!-- Mesmo CSS da tela de cadastro — reaproveita as classes .field, .submit, .server-error, .foot -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <main>
+    <p class="eyebrow">Bem-vindo de volta</p>
+    <h1>Entrar</h1>
+
+    <form id="login-form" novalidate>
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input id="email" name="email" type="email" placeholder="seu@email.com" autocomplete="email">
+        <div class="field-error" id="err-email">Informe um e-mail válido.</div>
+      </div>
+
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input id="senha" name="senha" type="password" placeholder="••••••••" autocomplete="current-password">
+        <div class="field-error" id="err-senha">Informe sua senha.</div>
+      </div>
+
+      <button class="submit" type="submit" id="submit-btn">Entrar</button>
+      <div class="server-error" id="server-error"></div>
+    </form>
+
+    <p class="foot">Não tem conta? <a href="/cadastro/cliente">Criar conta</a></p>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/login_cliente.js') }}"></script>
+</body>
+</html>
