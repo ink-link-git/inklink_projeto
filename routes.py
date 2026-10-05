@@ -41,6 +41,24 @@ def login_tatuador():
     return render_template("em_construcao.html", titulo="Login — Tatuador")
 
 
+@bp.route("/agendar")
+def agendar_sessao():
+    """Tela de agendamento de sessão do cliente.
+
+    Front-end apenas por enquanto: calendário e horários são simulados
+    em JS (static/js/agendar.js) até existir a tabela de agendamentos
+    no Supabase. Também não há checagem de login ainda — qualquer
+    pessoa consegue acessar essa URL diretamente por enquanto.
+    """
+    return render_template("agendar.html")
+
+
+@bp.route("/anamnese")
+def ficha_anamnese():
+    """Ficha de anamnese (ainda não implementada)."""
+    return render_template("em_construcao.html", titulo="Ficha de Anamnese")
+
+
 @bp.route("/api/index", methods=["POST"])
 def criar_conta():
     """Recebe dados do formulário, valida, registra no Auth e salva na tabela 'cliente'."""
