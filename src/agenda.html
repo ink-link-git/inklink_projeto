@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Agenda - Studio Ink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/agenda.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="square">SI</span>
+                <div>
+                    <strong>STUDIO INK</strong><br>
+                    <small>TATUADOR</small>
+                </div>
+            </div>
+            <nav>
+                <a href="#">Meu Perfil</a>
+                <a href="/agenda" class="active">Minha Agenda</a>
+                <a href="#">Meu Portfólio</a>
+                <a href="#">Estoque</a>
+                <a href="#">Fichas Anamnese</a>
+                <a href="#">Configurações</a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header>
+                <span class="sub-title">GESTÃO</span>
+                <h1>Minha Agenda</h1>
+            </header>
+
+            <div class="cards-list">
+                {% for item in agendamentos %}
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Cliente ID: {{ item['id_cliente'] }}</h2>
+                        <span class="badge {{ item['status'].lower() }}">
+                            {{ item['status'].capitalize() }}
+                        </span>
+                    </div>
+
+                    <p class="data">
+                        🕒 <strong>Início:</strong> {{ item['data_hora_inicio'] }}
+                    </p>
+                    <p class="data">
+                        🕒 <strong>Fim previsto:</strong> {{ item['data_hora_fim'] }}
+                    </p>
+                    
+                    {% if item['descricao'] %}
+                        <p class="obs">"{{ item['descricao'] }}"</p>
+                    {% endif %}
+
+                    {% if item['valor_final'] %}
+                        <p class="valor">
+                            <strong>Valor:</strong> R$ {{ item['valor_final'] }}
+                            {% if item['forma_pagamento'] %} ({{ item['forma_pagamento'] }}){% endif %}
+                        </p>
+                    {% endif %}
+
+                    <div class="card-actions">
+                        {% if item['status'] == 'PENDENTE' %}
+                        <form action="{{ url_for('agenda.confirmar', id_agendamento=item['id_agendamento']) }}" method="POST">
+                            <button type="submit" class="btn btn-confirmar">✓ Confirmar</button>
+                        </form>
+                        {% endif %}
+                        
+                        {% if item['status'] != 'CANCELADO' %}
+                        <!-- Botão de Reagendar (Usa data-id sem eventos JS inline) -->
+                        <button type="button" class="btn btn-reagendar" data-id="{{ item['id_agendamento'] }}">📅 Reagendar</button>
+
+                        <form action="{{ url_for('agenda.remover', id_agendamento=item['id_agendamento']) }}" method="POST">
+                            <button type="submit" class="btn btn-remover">✕ Cancelar</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <p>Nenhum agendamento encontrado.</p>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Reagendamento -->
+    <div id="modalReagendar" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Reagendar Tattoo</h2>
+            <form id="formReagendar" method="POST">
+                <label for="data_hora_inicio">Nova Data/Hora Início:</label>
+                <input type="datetime-local" id="data_hora_inicio" name="data_hora_inicio" required>
+
+                <label for="data_hora_fim">Nova Data/Hora Fim:</label>
+                <input type="datetime-local" id="data_hora_fim" name="data_hora_fim" required>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-confirmar">Salvar Novo Horário</button>
+                    <button type="button" id="btnFecharModal" class="btn btn-remover">Fechar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Importação do Ficheiro JS Separado -->
+    <script src="{{ url_for('static', filename='js/agenda.js') }}"></script>
+</body>
+</html>
