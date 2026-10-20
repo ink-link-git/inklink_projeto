@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Agenda - Studio Ink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/agenda.css') }}">
+    
+    <!-- Adicione estas linhas para carregar a fonte serifada Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="square">SI</span>
+                <div>
+                    <strong>STUDIO INK</strong><br>
+                    <small>TATUADOR</small>
+                </div>
+            </div>
+            <nav>
+                <a href="#">Meu Perfil</a>
+                <a href="/agenda" class="active">Minha Agenda</a>
+                <a href="#">Meu Portfólio</a>
+                <a href="#">Estoque</a>
+                <a href="#">Fichas Anamnese</a>
+                <a href="#">Configurações</a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header>
+                <span class="sub-title">GESTÃO</span>
+                <h1>Minha Agenda</h1>
+            </header>
+
+            <div class="cards-list">
+                {% for item in agendamentos %}
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Cliente ID: {{ item['cliente_id'] }}</h2>
+                        <!-- Caso a coluna status venha vazia do banco por padrão, define como 'pendente' -->
+                        <span class="badge {{ item.get('status', 'pendente').lower() }}">
+                            {{ item.get('status', 'Pendente').capitalize() }}
+                        </span>
+                    </div>
+
+                    <p class="data">
+                         <strong>Serviço:</strong> {{ item['servico'] }} ({{ item['especialidade'] }})
+                    </p>
+                    <p class="data">
+                         <strong>Data/Hora:</strong> {{ item['data_hora'] }}
+                    </p>
+                    <p class="data">
+                         <strong>Profissional:</strong> {{ item['profissional'] }}
+                    </p>
+                    
+                    {% if item['observacoes'] %}
+                        <p class="obs">"{{ item['observacoes'] }}"</p>
+                    {% endif %}
+
+                    <div class="card-actions">
+                        {% if item.get('status') == 'PENDENTE' or not item.get('status') %}
+                        <form action="{{ url_for('agenda.confirmar', id_agendamento=item['id']) }}" method="POST">
+                            <button type="submit" class="btn btn-confirmar">✓ Confirmar</button>
+                        </form>
+                        {% endif %}
+                        
+                        {% if item.get('status') != 'CANCELADO' %}
+                        <button type="button" class="btn btn-reagendar" data-id="{{ item['id'] }}">📅 Reagendar</button>
+
+                        <form action="{{ url_for('agenda.remover', id_agendamento=item['id']) }}" method="POST">
+                            <button type="submit" class="btn btn-remover">✕ Cancelar</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <p>Nenhum agendamento encontrado.</p>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Reagendamento -->
+    <div id="modalReagendar" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Reagendar Tattoo</h2>
+            <form id="formReagendar" method="POST">
+                <label for="data_hora">Nova Data e Hora:</label>
+                <input type="datetime-local" id="data_hora" name="data_hora" required>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-confirmar">Salvar Novo Horário</button>
+                    <button type="button" id="btnFecharModal" class="btn btn-remover">Fechar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/agenda.js') }}"></script>
+</body>
+</html>
