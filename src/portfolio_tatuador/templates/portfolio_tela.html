@@ -1,0 +1,33 @@
+{% extends "portfolio_base.html" %}
+
+{% block content %}
+<header class="content-header">
+    <div class="header-titles">
+        <span class="subtitle">PORTFÓLIO</span>
+        <h1>Meu Portfólio</h1>
+    </div>
+    <div class="header-actions">
+        <button class="btn-edit">EDITAR</button>
+        <button class="btn-client">VER COMO CLIENTE</button>
+    </div>
+</header>
+
+<div class="portfolio-grid">
+    {% for trabalho in trabalhos %}
+    <div class="portfolio-card">
+        <div class="card-image-placeholder"></div>
+        <div class="card-info">
+            <h3>{{ trabalho.titulo }}</h3>
+            <p>{{ trabalho.estilo }}</p>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="portfolio-card add-card">
+        <div class="add-content">
+            <span class="plus-icon">+</span>
+            <span>Adicionar</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
