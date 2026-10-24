@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Ink - Adicionar Trabalho</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="logo-box">SI</span>
+                <div class="logo-text">
+                    <strong>STUDIO INK</strong>
+                    <span>TATUADOR</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#">Meu Perfil</a>
+                <a href="#">Minha Agenda</a>
+                <a href="{{ url_for('portfolio.mostrar_portfolio') }}" class="active">Meu Portfólio</a>
+                <a href="#">Estoque</a>
+                <a href="#">Fichas Anamnese</a>
+                <a href="#">Configurações</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-avatar">R</div>
+                <div class="user-info">
+                    <strong>Rafael Ink</strong>
+                    <span>rafael@studio.com</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-titles">
+                    <span class="breadcrumb">PORTFÓLIO</span>
+                    <h1>Adicionar Novo Trabalho</h1>
+                </div>
+                <div class="header-actions">
+                    <a href="{{ url_for('portfolio.mostrar_portfolio') }}" class="btn-outline">← VOLTAR AO PORTFÓLIO</a>
+                </div>
+            </header>
+
+            <div class="form-container">
+                <form action="{{ url_for('portfolio.adicionar_portfolio') }}" method="POST" enctype="multipart/form-data" class="portfolio-form">
+                    <div class="form-group">
+                        <label for="titulo">Título da Obra</label>
+                        <input type="text" id="titulo" name="titulo" placeholder="Ex: Mandala Geométrica" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="estilo">Estilo</label>
+                        <input type="text" id="estilo" name="estilo" placeholder="Ex: Blackwork, Fineline, Realismo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <textarea id="descricao" name="descricao" rows="4" placeholder="Detalhes técnicos ou artísticos da arte..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imagem">Imagem do Trabalho</label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="imagem" name="imagem" accept="image/*" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-red btn-submit">Salvar Trabalho</button>
+                        <a href="{{ url_for('portfolio.mostrar_portfolio') }}" class="btn-dark">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

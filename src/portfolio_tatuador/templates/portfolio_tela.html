@@ -1,33 +1,81 @@
-{% extends "portfolio_base.html" %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Ink - Tatuador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="logo-box">SI</span>
+                <div class="logo-text">
+                    <strong>STUDIO INK</strong>
+                    <span>TATUADOR</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#">Meu Perfil</a>
+                <a href="#">Minha Agenda</a>
+                <a href="{{ url_for('portfolio.mostrar_portfolio') }}" class="active">Meu Portfólio</a>
+                <a href="#">Estoque</a>
+                <a href="#">Fichas Anamnese</a>
+                <a href="#">Configurações</a>
+            </nav>
 
-{% block content %}
-<header class="content-header">
-    <div class="header-titles">
-        <span class="subtitle">PORTFÓLIO</span>
-        <h1>Meu Portfólio</h1>
-    </div>
-    <div class="header-actions">
-        <button class="btn-edit">EDITAR</button>
-        <button class="btn-client">VER COMO CLIENTE</button>
-    </div>
-</header>
+            <div class="sidebar-footer">
+                <div class="user-avatar">R</div>
+                <div class="user-info">
+                    <strong>Rafael Ink</strong>
+                    <span>rafael@studio.com</span>
+                </div>
+            </div>
+        </aside>
 
-<div class="portfolio-grid">
-    {% for trabalho in trabalhos %}
-    <div class="portfolio-card">
-        <div class="card-image-placeholder"></div>
-        <div class="card-info">
-            <h3>{{ trabalho.titulo }}</h3>
-            <p>{{ trabalho.estilo }}</p>
-        </div>
-    </div>
-    {% endfor %}
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-titles">
+                    <span class="breadcrumb">PORTFÓLIO</span>
+                    <h1>Meu Portfólio</h1>
+                </div>
+                <div class="header-actions">
+                    <a href="#" class="btn-outline">← PERFIS</a>
+                    <a href="#" class="btn-red">EDITAR</a>
+                    <a href="#" class="btn-dark">VER COMO CLIENTE</a>
+                </div>
+            </header>
 
-    <div class="portfolio-card add-card">
-        <div class="add-content">
-            <span class="plus-icon">+</span>
-            <span>Adicionar</span>
-        </div>
+            <div class="portfolio-grid">
+                <a href="{{ url_for('portfolio.adicionar_portfolio') }}" class="portfolio-card add-card">
+                    <div class="add-content">
+                        <span class="plus-icon">+</span>
+                        <span>Adicionar</span>
+                    </div>
+                </a>
+
+                {% for trabalho in trabalhos %}
+                    <div class="portfolio-card">
+                        <div class="card-img-container">
+                            <img src="{{ trabalho.caminho_imagem }}" alt="{{ trabalho.titulo }}" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/1a1a24/ffffff?text=Erro+no+Carregamento';">
+                            <form action="{{ url_for('portfolio.deletar_portfolio', id_portfolio=trabalho.id_portfolio) }}" method="POST" class="delete-form">
+                                <button type="submit" class="btn-delete" title="Excluir trabalho">&times;</button>
+                            </form>
+                        </div>
+                        <div class="card-info">
+                            <h3>{{ trabalho.titulo }}</h3>
+                            <span class="card-style">{{ trabalho.estilo }}</span>
+                            {% if trabalho.descricao %}
+                                <p class="card-description">{{ trabalho.descricao }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </main>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>
