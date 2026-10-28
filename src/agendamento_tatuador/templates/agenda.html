@@ -1,0 +1,128 @@
+{% extends "shared/tatuador_base.html" %}
+{% block titulo %}Minha Agenda - InkLink{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('agendamento_tatuador.static', filename='css/agenda.css') }}">
+{% endblock %}
+
+{% macro card(item) %}
+<div class="card {{ 'card-inativo' if item.status == 'CANCELADO' }}">
+    <div class="card-header">
+        <h2>{{ item.nome_cliente }}</h2>
+        <span class="badge {{ item.status | lower }}">{{ item.status | capitalize }}</span>
+    </div>
+
+    <p class="data">
+        <strong>{{ 'Horário:' if item.data_hora else 'Dia pedido:' }}</strong> {{ item | quando }}
+        {% if item.data_hora and item.duracao_min %}· {{ item.duracao_min }} min{% endif %}
+    </p>
+    {% if item.telefone_cliente %}
+    <p class="data"><strong>Contato:</strong> {{ item.telefone_cliente }}</p>
+    {% endif %}
+    {% if item.cor_pele %}
+    <p class="data"><strong>Cor da pele:</strong> {{ item.cor_pele | replace('-', ' ') | capitalize }}</p>
+    {% endif %}
+
+    {% if item.descricao %}
+        <p class="obs">"{{ item.descricao }}"</p>
+    {% endif %}
+
+    {% if item.referencias %}
+    <div class="referencias">
+        {% for url in item.referencias %}
+            <a href="{{ url }}" target="_blank" rel="noopener"><img src="{{ url }}" alt="Referência"></a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="card-actions">
+        {% if item.status == 'PENDENTE' %}
+        <button type="button" class="btn btn-confirmar btn-horario" data-id="{{ item.id }}" data-dia="{{ item.dia }}"
+                data-hora="" data-duracao="{{ duracao_padrao }}" data-modo="aceitar" data-cliente="{{ item.nome_cliente }}">✓ Aceitar e definir horário</button>
+        {% endif %}
+
+        {% if item.status == 'CONFIRMADO' %}
+        <form action="{{ url_for('agendamento_tatuador.realizado', id_agendamento=item.id) }}" method="POST">
+            <button type="submit" class="btn btn-confirmar">✓ Marcar como realizado</button>
+        </form>
+        {% if tem_rota('gestao_anamnese.ficha_do_agendamento') %}
+        <a class="btn btn-reagendar" href="{{ url_for('gestao_anamnese.ficha_do_agendamento', id_agendamento=item.id) }}">Ver ficha</a>
+        {% endif %}
+        <button type="button" class="btn btn-reagendar btn-horario" data-id="{{ item.id }}" data-dia="{{ item.dia }}"
+                data-hora="{{ item.data_hora[11:16] if item.data_hora else '' }}" data-duracao="{{ item.duracao_min or duracao_padrao }}"
+                data-modo="reagendar" data-cliente="{{ item.nome_cliente }}">📅 Reagendar</button>
+        {% endif %}
+
+        {% if item.status in ('PENDENTE', 'CONFIRMADO') %}
+        <form action="{{ url_for('agendamento_tatuador.cancelar', id_agendamento=item.id) }}" method="POST">
+            <button type="submit" class="btn btn-remover">✕ {{ 'Recusar' if item.status == 'PENDENTE' else 'Cancelar' }}</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+{% block conteudo %}
+<header class="content-header">
+    <div class="header-titles">
+        <span class="breadcrumb">GESTÃO</span>
+        <h1>Minha Agenda</h1>
+    </div>
+</header>
+
+{% if erro %}
+    <p class="texto-suave">{{ erro }}</p>
+{% endif %}
+
+<h2 class="secao-titulo">Pedidos aguardando sua resposta</h2>
+<div class="cards-list">
+    {% for item in pedidos %}{{ card(item) }}
+    {% else %}
+        <p class="texto-suave">Nenhum pedido novo.</p>
+    {% endfor %}
+</div>
+
+<h2 class="secao-titulo secao-espaco">Sessões marcadas</h2>
+<div class="cards-list">
+    {% for item in marcados %}{{ card(item) }}
+    {% else %}
+        <p class="texto-suave">Nenhuma sessão marcada ainda.</p>
+    {% endfor %}
+</div>
+
+<!-- Modal: aceitar pedido / reagendar -->
+<div id="modalHorario" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2 id="modalTitulo">Definir horário</h2>
+        <form id="formHorario" method="POST" data-url-base="{{ url_for('agendamento_tatuador.minha_agenda') }}">
+            <label for="dia">Dia</label>
+            <input type="date" id="dia" name="dia" required>
+
+            <label for="hora">Horário de início</label>
+            <input type="time" id="hora" name="hora" required>
+
+            <label for="duracao_min">Duração prevista</label>
+            <select id="duracao_min" name="duracao_min">
+                {% for d in duracoes %}
+                <option value="{{ d }}" {{ 'selected' if d == duracao_padrao }}>{{ (d // 60) ~ 'h' ~ ((' ' ~ (d % 60) ~ 'min') if d % 60 else '') if d >= 60 else d ~ ' min' }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="dia-ocupado" id="diaOcupado" hidden>
+                <strong>Já confirmado nesse dia:</strong>
+                <ul id="listaOcupado"></ul>
+            </div>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn btn-confirmar">Confirmar</button>
+                <button type="button" id="btnFecharModal" class="btn btn-remover">Fechar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script id="dadosConfirmadas" type="application/json">{{ confirmadas | tojson }}</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('agendamento_tatuador.static', filename='js/agenda.js') }}"></script>
+{% endblock %}
