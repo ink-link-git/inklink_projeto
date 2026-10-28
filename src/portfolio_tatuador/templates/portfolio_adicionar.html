@@ -1,0 +1,52 @@
+{% extends "shared/tatuador_base.html" %}
+{% block titulo %}Adicionar Trabalho - InkLink{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('portfolio_tatuador.static', filename='css/portfolio.css') }}">
+{% endblock %}
+
+{% block conteudo %}
+<header class="content-header">
+    <div class="header-titles">
+        <span class="breadcrumb">PORTFÓLIO</span>
+        <h1>Adicionar Novo Trabalho</h1>
+    </div>
+    <div class="header-actions">
+        <a href="{{ url_for('portfolio_tatuador.mostrar_portfolio') }}" class="btn-outline">← VOLTAR AO PORTFÓLIO</a>
+    </div>
+</header>
+
+<div class="form-container">
+    <form action="{{ url_for('portfolio_tatuador.adicionar_portfolio') }}" method="POST" enctype="multipart/form-data" class="portfolio-form">
+        <div class="form-group">
+            <label for="titulo">Título da Obra</label>
+            <input type="text" id="titulo" name="titulo" maxlength="100" value="{{ valores.titulo or '' }}" placeholder="Ex: Mandala Geométrica" required>
+            {% if erros.titulo %}<span class="campo-erro">{{ erros.titulo }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="estilo">Estilo</label>
+            <input type="text" id="estilo" name="estilo" maxlength="50" value="{{ valores.estilo or '' }}" placeholder="Ex: Blackwork, Fineline, Realismo" required>
+            {% if erros.estilo %}<span class="campo-erro">{{ erros.estilo }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" name="descricao" rows="4" maxlength="1000" placeholder="Detalhes técnicos ou artísticos da arte...">{{ valores.descricao or '' }}</textarea>
+            {% if erros.descricao %}<span class="campo-erro">{{ erros.descricao }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="imagem">Imagem do Trabalho</label>
+            <div class="file-upload-wrapper">
+                <input type="file" id="imagem" name="imagem" accept="image/*" required>
+            </div>
+            {% if erros.imagem %}<span class="campo-erro">{{ erros.imagem }}</span>{% endif %}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-red btn-submit">Salvar Trabalho</button>
+            <a href="{{ url_for('portfolio_tatuador.mostrar_portfolio') }}" class="btn-dark">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
