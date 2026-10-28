@@ -1,0 +1,47 @@
+/* Tema do InkLink — paleta e fontes das telas de login, usadas em TODAS as telas.
+   Para mudar o visual do sistema inteiro, mude só as variáveis daqui. */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap");
+
+:root {
+    --background: #121212;          /* fundo da página */
+    --foreground: #FFFFFF;          /* texto principal */
+    --card: #181818;                /* cartões e painéis */
+    --secondary: #1E1E1E;           /* campos de texto */
+    --secondary-foreground: #CCCCCC;
+    --muted-foreground: #888888;    /* rótulos e textos de apoio */
+    --border: #2A2A2A;
+    --border-strong: #444444;       /* botões de contorno */
+    --primary: #D31235;             /* vermelho InkLink */
+    --primary-hover: #B00E2B;
+    --primary-foreground: #FFFFFF;
+    --ring: #D31235;
+    --danger: #FF4D4D;              /* mensagens de erro */
+
+    --font-corpo: 'Montserrat', sans-serif;
+    --font-titulo: 'Playfair Display', serif;
+}
+
+/* Marca "IL INKLINK" (a mesma do login) para as telas internas */
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.marca-box {
+    background-color: var(--primary);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 2px;
+}
+
+.marca-texto {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--secondary-foreground);
+}

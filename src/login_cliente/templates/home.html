@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área do cliente - InkLink</title>
+  <link rel="stylesheet" href="{{ url_for('login_cliente.static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('login_cliente.static', filename='css/home.css') }}">
+</head>
+<body>
+
+  <main class="home-main">
+    <div class="marca"><span class="marca-box">IL</span><span class="marca-texto">INKLINK</span></div>
+    <p class="eyebrow">Área do cliente</p>
+    <h1>Olá, {{ cliente.nome.split(' ')[0] }}</h1>
+
+    <div class="home-acoes">
+      {% if tem_rota('agendamento_cliente.agendar_sessao') %}
+      <a href="{{ url_for('agendamento_cliente.agendar_sessao') }}" class="submit home-botao">Agendar sessão</a>
+      {% endif %}
+      {% if tem_rota('gestao_anamnese.ficha_cliente') %}
+      <a href="{{ url_for('gestao_anamnese.ficha_cliente') }}" class="home-botao-secundario">Preencher ficha de anamnese</a>
+      {% endif %}
+      {% if not tem_rota('agendamento_cliente.agendar_sessao') %}
+      <p class="home-vazio">Em breve você poderá agendar sessões por aqui.</p>
+      {% endif %}
+    </div>
+
+    {% if tem_rota('agendamento_cliente.api_agendamentos_cliente') %}
+    <h2 class="home-subtitulo">Meus agendamentos</h2>
+    <div id="lista-agendamentos" data-cancelar-url="/api/agendamentos/__ID__/cancelar"
+         data-ficha-url="{{ rota('gestao_anamnese.ficha_cliente') }}">
+      <p class="home-vazio">Carregando...</p>
+    </div>
+    {% endif %}
+
+    <p class="foot"><a href="{{ url_for('login_cliente.logout_cliente') }}">Sair</a></p>
+  </main>
+
+  <script src="{{ url_for('login_cliente.static', filename='js/home.js') }}"></script>
+</body>
+</html>

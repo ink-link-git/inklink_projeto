@@ -1,33 +1,42 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Área do Tatuador</title>
-</head>
-<body>
+{% extends "shared/tatuador_base.html" %}
+{% block titulo %}Área do Tatuador - InkLink{% endblock %}
 
-    <h1>Bem-vindo!</h1>
+{% block conteudo %}
+<header class="content-header">
+    <div class="header-titles">
+        <span class="breadcrumb">ÁREA DO TATUADOR</span>
+        <h1>Olá, {{ tatuador.nome.split(' ')[0] }}</h1>
+    </div>
+</header>
 
-   <!-- Busca as mensagens guardadas pelo flash() e guarda numa variável chamada mensagens -->
-    {% with mensagens = get_flashed_messages() %}
-     <!-- Tem alguma mensagem nessa variável? Se sim, continua -->
-        {% if mensagens %}
-        <!-- Abre uma lista na tela-->
-            <ul>
-                 <!-- Para cada mensagem dentro do mensagens, repete o que vem a seguir-->
-                {% for mensagem in mensagens %}
-                    <!-- Mostra a mensagem atual como item da lista-->
-                    <li>{{ mensagem }}</li>
-                 <!-- Fecha a repetição-->
-                {% endfor %}
-            <!-- fecha a lista-->
-            </ul>
-        <!-- fecha o "se"-->    
-        {% endif %}
-     <!-- fecha o with, encerra o uso da variável mensagens-->     
-    {% endwith %}
+{% if resumo %}
+<section class="resumo-grid">
+    <a class="resumo-card" href="{{ rota('agendamento_tatuador.minha_agenda') }}">
+        <span class="resumo-numero">{{ resumo.pendentes }}</span>
+        <span class="resumo-label">Aguardando confirmação</span>
+    </a>
+    <a class="resumo-card" href="{{ rota('agendamento_tatuador.minha_agenda') }}">
+        <span class="resumo-numero">{{ resumo.confirmados }}</span>
+        <span class="resumo-label">Sessões confirmadas</span>
+    </a>
+    {% if tem_rota('gestao_anamnese.fichas_tatuador') %}
+    <a class="resumo-card" href="{{ rota('gestao_anamnese.fichas_tatuador') }}">
+        <span class="resumo-numero">{{ resumo.fichas_pendentes }}</span>
+        <span class="resumo-label">Fichas de anamnese a receber</span>
+    </a>
+    {% endif %}
+</section>
 
-    <p> Essa é a sua área de trabalho.</p>
-<a href="{{ url_for('main.logout') }}">Sair</a>
-</body>
-</html>
+<h2 class="secao-titulo">Próxima sessão</h2>
+{% if resumo.proximo %}
+    <div class="proximo-card">
+        <strong>{{ resumo.proximo | quando }}</strong>
+        <span>{{ resumo.proximo.nome_cliente }}</span>
+    </div>
+{% else %}
+    <p class="texto-suave">Nenhuma sessão marcada por enquanto.</p>
+{% endif %}
+{% else %}
+<p class="texto-suave">Use o menu ao lado para navegar pelas áreas do sistema.</p>
+{% endif %}
+{% endblock %}

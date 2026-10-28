@@ -1,95 +1,84 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session
-from forms import RegisterForm, LoginForm
-from db import supabase
+from login_tatuador.forms import LoginForm
+from login_tatuador.db import supabase
+from shared.auth import tatuador_required, tatuador_logado
 
-main_bp = Blueprint('main', __name__)
+try:
+    from agendamento_tatuador.forms import resumo_agenda
+except ImportError:  # módulo da agenda ainda não está no projeto
+    resumo_agenda = None
 
-@main_bp.route('/')
-def home():
-    if 'usuario_logado' in session:
-        return redirect(url_for('main.home_logada'))
-    return redirect(url_for('main.login'))
-
-@main_bp.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    
-    if form.validate_on_submit():
-        try:
-            auth_response = supabase.auth.sign_up({
-                "email": form.email.data,
-                "password": form.password.data,
-                "options": {
-                    "data": {
-                        "tipo_usuario": "tatuador",
-                        "nome": form.nome.data
-                    }
-                }
-            })
-
-            id_tatuador = auth_response.user.id
-
-            dados_tatuador = {
-                "id_tatuador": id_tatuador,
-                "nome": form.nome.data,
-                "email": form.email.data,
-                "cpf": form.cpf.data,
-                "tel": form.tel.data,
-                "especialidade": form.especialidade.data
-            }
-            
-            response = supabase.table('tatuador').insert(dados_tatuador).execute()
-            print(">>> SUCESSO NO SUPABASE:", response.data)
-
-            flash('Cadastro realizado com sucesso! Faça login.', 'success')
-            return redirect(url_for('main.login'))
-
-        except Exception as e:
-            print(">>> ERRO DO SUPABASE:", e)
-            flash("Erro ao realizar o cadastro. Verifique os dados informados.", "danger")
-    else:
-        if form.errors:
-            print(">>> ERROS DE VALIDAÇÃO DO FORMULÁRIO:", form.errors)
-
-    # Corrigido aqui para renderizar register.html
-    return render_template('register.html', form=form)
+# Blueprint do módulo. O static_url_path próprio evita conflito com os outros módulos.
+main_bp = Blueprint(
+    'login_tatuador',
+    __name__,
+    static_folder='static',
+    static_url_path='/static/login_tatuador',
+)
 
 
-@main_bp.route('/login', methods=['GET', 'POST'])
+@main_bp.route('/login/tatuador', methods=['GET', 'POST'])
 def login():
+    if tatuador_logado():
+        return redirect(url_for('login_tatuador.home_logada'))
+
     form = LoginForm()
 
     if form.validate_on_submit():
         try:
-            supabase.auth.sign_in_with_password({
+            resposta = supabase.auth.sign_in_with_password({
                 "email": form.email.data,
                 "password": form.password.data
             })
-            session['usuario_logado'] = form.email.data
-            flash('Login realizado com sucesso!', 'success')
-            return redirect(url_for('main.home_logada'))
         except Exception as e:
             print(">>> ERRO NO LOGIN:", e)
             flash('Usuário ou senha incorretos.', 'danger')
+            return render_template('login_tatuador/login.html', form=form)
 
-    return render_template('login.html', form=form)
+        # A conta existe no Auth, mas precisa ser de tatuador (e não de cliente).
+        try:
+            perfil = (
+                supabase.table('tatuador')
+                .select('id_tatuador, nome, email, especialidade')
+                .eq('id_tatuador', resposta.user.id)
+                .limit(1)
+                .execute()
+            )
+        except Exception as e:
+            print(">>> ERRO AO CONSULTAR TATUADOR:", e)
+            flash('Não foi possível verificar sua conta. Tente novamente.', 'danger')
+            return render_template('login_tatuador/login.html', form=form)
+
+        if not perfil.data:
+            supabase.auth.sign_out()
+            flash('Esta conta não é de tatuador. Entre pela área do cliente.', 'danger')
+            return render_template('login_tatuador/login.html', form=form)
+
+        session['usuario_logado'] = form.email.data
+        # Dados que as outras telas do tatuador (agenda, portfólio, fichas) usam.
+        session['tatuador'] = {
+            'id': perfil.data[0]['id_tatuador'],
+            'nome': perfil.data[0].get('nome') or form.email.data,
+            'email': form.email.data,
+            'especialidade': perfil.data[0].get('especialidade'),
+        }
+        flash('Login realizado com sucesso!', 'success')
+        return redirect(url_for('login_tatuador.home_logada'))
+
+    return render_template('login_tatuador/login.html', form=form)
 
 
-@main_bp.route('/home')
+@main_bp.route('/tatuador/home')
+@tatuador_required
 def home_logada():
-    if 'usuario_logado' not in session:
-        flash('Você precisa fazer login primeiro.', 'warning')
-        return redirect(url_for('main.login'))
-    return render_template('home.html')
+    tatuador = tatuador_logado()
+    resumo = resumo_agenda(tatuador['id']) if resumo_agenda else None
+    return render_template('login_tatuador/home.html', tatuador=tatuador, resumo=resumo, ativo='inicio')
 
 
-@main_bp.route('/logout')
+@main_bp.route('/logout/tatuador')
 def logout():
     session.pop('usuario_logado', None)
+    session.pop('tatuador', None)
     flash('Você saiu da sua conta.', 'info')
-    return redirect(url_for('main.login'))
-
-
-@main_bp.route('/template')
-def template():
-    return render_template('index.html')
+    return redirect(url_for('login_tatuador.login'))
