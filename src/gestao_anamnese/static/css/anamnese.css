@@ -1,0 +1,60 @@
+/* Fichas de anamnese — lado do tatuador (o layout vem de shared/tatuador.css) */
+
+.fichas-lista { display: flex; flex-direction: column; gap: 12px; max-width: 800px; }
+
+.ficha-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background-color: #181818;
+    border: 1px solid #2A2A2A;
+    border-radius: 8px;
+    padding: 16px 20px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+}
+
+.ficha-item:hover { border-color: #D31235; }
+.ficha-item-info { display: flex; flex-direction: column; gap: 4px; }
+.ficha-item-info strong { color: #fff; font-size: 0.95rem; }
+.ficha-item-info span { color: #888888; font-size: 0.8rem; }
+.ficha-item-info .ficha-alerta { color: #fbbf24; }
+
+.selo {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+.selo-ok { background-color: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.selo-pendente { background-color: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+.ficha-aviso {
+    background-color: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    max-width: 800px;
+}
+.ficha-aviso strong { color: #fbbf24; font-size: 0.85rem; }
+.ficha-aviso p { color: #CCCCCC; font-size: 0.85rem; margin-top: 4px; }
+
+.respostas { display: flex; flex-direction: column; gap: 8px; max-width: 800px; }
+
+.resposta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 16px;
+    background-color: #181818;
+    border: 1px solid #2A2A2A;
+    border-radius: 6px;
+    padding: 12px 16px;
+}
+.resposta-pergunta { color: #CCCCCC; font-size: 0.88rem; }
+.resposta-valor { font-size: 0.8rem; font-weight: 600; }
+.resposta-valor.sim { color: #FF4D4D; }
+.resposta-valor.nao { color: #888888; }
+.resposta-detalhe { grid-column: 1 / -1; color: #888888; font-size: 0.82rem; font-style: italic; }
