@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio de {{ tatuador.nome }} - InkLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('shared.static', filename='css/tatuador.css') }}">
+    <link rel="stylesheet" href="{{ url_for('portfolio_tatuador.static', filename='css/portfolio.css') }}">
+</head>
+<body>
+    <main class="main-content main-content--cheio">
+        <header class="content-header">
+            <div class="header-titles">
+                <span class="breadcrumb">PORTFÓLIO{% if tatuador.especialidade %} · {{ tatuador.especialidade | upper }}{% endif %}</span>
+                <h1>{{ tatuador.nome }}</h1>
+            </div>
+            <div class="header-actions">
+                <a href="{{ voltar }}" class="btn-outline">← VOLTAR</a>
+            </div>
+        </header>
+
+        <div class="portfolio-grid">
+            {% for trabalho in trabalhos %}
+                <div class="portfolio-card">
+                    <div class="card-img-container">
+                        <img src="{{ trabalho.caminho_imagem }}" alt="{{ trabalho.titulo }}" loading="lazy">
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ trabalho.titulo }}</h3>
+                        <span class="card-style">{{ trabalho.estilo }}</span>
+                        {% if trabalho.descricao %}
+                            <p class="card-description">{{ trabalho.descricao }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <p class="texto-suave">Este tatuador ainda não publicou trabalhos.</p>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

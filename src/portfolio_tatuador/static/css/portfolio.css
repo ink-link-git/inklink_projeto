@@ -1,0 +1,185 @@
+/* Tela do portfólio — o layout geral vem de shared/tatuador.css */
+
+/* CARDS E PORTFÓLIO */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+.portfolio-card {
+    background-color: #181818;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #2A2A2A;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-4px);
+}
+
+.card-img-container {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    background-color: #1E1E1E;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.delete-form {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.btn-delete {
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #D31235;
+    border: 1px solid rgba(211, 18, 53, 0.4);
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: #D31235;
+    color: white;
+}
+
+.card-info {
+    padding: 14px;
+}
+
+.card-info h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.card-style {
+    font-size: 0.75rem;
+    color: #D31235;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.card-description {
+    font-size: 0.8rem;
+    color: #888888;
+    line-height: 1.4;
+}
+
+.add-card {
+    border: 2px dashed #2A2A2A;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    text-decoration: none;
+}
+
+.add-card:hover {
+    border-color: #D31235;
+    background-color: rgba(211, 18, 53, 0.03);
+}
+
+.add-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #888888;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.plus-icon {
+    font-size: 1.8rem;
+    color: #D31235;
+    line-height: 1;
+}
+
+/* FORMULÁRIO DE ADICIONAR */
+.form-container {
+    max-width: 600px;
+    background-color: #181818;
+    border: 1px solid #2A2A2A;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+.portfolio-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #CCCCCC;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    background-color: #121212;
+    border: 1px solid #2A2A2A;
+    border-radius: 6px;
+    padding: 12px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #D31235;
+}
+
+.file-upload-wrapper input[type="file"] {
+    background-color: #121212;
+    border: 1px solid #2A2A2A;
+    border-radius: 6px;
+    padding: 10px;
+    color: #888888;
+    width: 100%;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+}
+.campo-erro { font-size: 0.75rem; color: #FF4D4D; }
+
+/* Versão sem barra lateral (portfólio visto pelo cliente) */
+.main-content--cheio { margin-left: 0; max-width: 1200px; margin-inline: auto; }
