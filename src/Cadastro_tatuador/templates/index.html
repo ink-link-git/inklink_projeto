@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PaginaFlask</title>
+    <title>Bem-vindo - InkLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('cadastro_tatuador.static', filename='css/style.css') }}">
 </head>
 <body>
-   <div class="welcome">
+   <main class="container">
+    <div class="form-wrapper welcome">
 
-    <h1>Bem-vindo!</h1>
+    <h1 class="title">Bem-vindo!</h1>
 
     <p>
         Seu cadastro foi realizado com sucesso.
@@ -21,6 +26,9 @@
         agendamentos e materiais.
     </p>
 
-</div>
+    <a href="{{ url_for('login_tatuador.login') }}" class="btn-submit">ENTRAR</a>
+
+    </div>
+   </main>
 </body>
 </html>

@@ -3,11 +3,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
-    background-color: #0c0c0e;
+    background-color: #121212;
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -24,7 +24,7 @@ body {
 }
 
 .back-link {
-    color: #7d7d8e;
+    color: #888888;
     text-decoration: none;
     font-size: 11px;
     letter-spacing: 1.2px;
@@ -43,8 +43,8 @@ body {
 
 .btn-outline {
     background: transparent;
-    border: 1px solid #232328;
-    color: #9a9aae;
+    border: 1px solid #2A2A2A;
+    color: #888888;
     padding: 8px 16px;
     border-radius: 6px;
     text-decoration: none;
@@ -56,9 +56,9 @@ body {
 
 .btn-outline:hover, 
 .btn-outline.active {
-    background-color: #1a1a1e;
+    background-color: #1E1E1E;
     color: #ffffff;
-    border-color: #383842;
+    border-color: #444444;
 }
 
 /* Container Principal */
@@ -76,7 +76,7 @@ body {
 }
 
 .subtitle {
-    color: #e11d48;
+    color: #D31235;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1.5px;
@@ -102,15 +102,15 @@ body {
 
 .input-group label {
     font-size: 11px;
-    color: #838396;
+    color: #888888;
     letter-spacing: 1.2px;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
 .input-group input {
-    background-color: #161619;
-    border: 1px solid #242429;
+    background-color: #181818;
+    border: 1px solid #2A2A2A;
     border-radius: 6px;
     padding: 14px 16px;
     color: #ffffff;
@@ -120,18 +120,18 @@ body {
 }
 
 .input-group input::placeholder {
-    color: #4a4a58;
+    color: #555555;
 }
 
 .input-group input:focus {
-    border-color: #e11d48;
-    background-color: #1a1a1e;
+    border-color: #D31235;
+    background-color: #1E1E1E;
 }
 
 /* Botão de Envio */
 .btn-submit {
     width: 100%;
-    background-color: #e11d48;
+    background-color: #D31235;
     color: #ffffff;
     border: none;
     border-radius: 6px;
@@ -145,7 +145,7 @@ body {
 }
 
 .btn-submit:hover {
-    background-color: #be123c;
+    background-color: #B00E2B;
 }
 
 .btn-submit:active {
@@ -160,9 +160,9 @@ body {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background-color: #1a1a1e;
-    color: #7d7d8e;
-    border: 1px solid #2a2a32;
+    background-color: #1E1E1E;
+    color: #888888;
+    border: 1px solid #2A2A2A;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -174,6 +174,43 @@ body {
 
 .help-btn:hover {
     color: #ffffff;
-    border-color: #4a4a58;
-    background-color: #242429;
+    border-color: #555555;
+    background-color: #2A2A2A;
+}
+
+
+/* Mensagens de erro e alertas do Flask */
+.error-msg {
+    color: #FF4D4D;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.flash-messages {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.flash-messages li {
+    background-color: rgba(211, 18, 53, 0.15);
+    border: 1px solid #D31235;
+    color: #FF8080;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* Botão em formato de link (tela de boas-vindas) */
+a.btn-submit {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 28px;
+}
+
+.welcome p {
+    color: #888888;
+    font-size: 14px;
+    line-height: 1.6;
 }

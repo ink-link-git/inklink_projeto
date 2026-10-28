@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Studio Ink</title>
+    <title>Login - InkLink</title>
     <!-- Importação das fontes do Google Fonts (Playfair Display + Montserrat) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     
     <!-- Link para o arquivo CSS dentro da pasta static -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('login_tatuador.static', filename='style.css') }}">
 </head>
 <body>
 
     <!-- Cabeçalho Superior (Botão de Perfis) -->
     <header class="top-header">
         <div class="header-buttons">
-            <a href="#" class="btn-outline">← PERFIS</a>
+            <a href="{{ url_for('login_cliente.selecionar_perfil') }}" class="btn-outline">← PERFIS</a>
         </div>
     </header>
 
@@ -47,7 +47,7 @@
         {% endwith %}
 
         <!-- Formulário de Login -->
-        <form method="POST" action="{{ url_for('main.login') }}" class="login-form">
+        <form method="POST" action="{{ url_for('login_tatuador.login') }}" class="login-form">
             {{ form.hidden_tag() }}
 
             <!-- CAMPO E-MAIL -->
@@ -78,10 +78,10 @@
 
         <!-- Rodapé do Card -->
         <div class="form-footer">
-            <p>Não tem conta? <a href="#">Cadastre-se</a></p>
+            <p>Não tem conta? <a href="{{ url_for('cadastro_tatuador.register') }}">Cadastre-se</a></p>
         </div>
 
     </main>
-<script src="{{ url_for('static', filename='main.js') }}"></script>
+<script src="{{ url_for('login_tatuador.static', filename='main.js') }}"></script>
 </body>
 </html>

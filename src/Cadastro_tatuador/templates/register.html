@@ -1,35 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro </title>
+    <title>Cadastro - InkLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('cadastro_tatuador.static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <div class="container">
+    <header class="header">
+        <a href="{{ url_for('login_cliente.selecionar_perfil') }}" class="back-link">← PERFIS</a>
+        <div class="header-buttons">
+            <a href="{{ url_for('login_tatuador.login') }}" class="btn-outline">ENTRAR</a>
+            <a href="{{ url_for('cadastro_tatuador.register') }}" class="btn-outline active">CRIAR CONTA</a>
+        </div>
+    </header>
 
-    <h1>Cadastro</h1>
+    <main class="container">
+        <div class="form-wrapper">
+            <span class="subtitle">ÁREA DO TATUADOR</span>
+            <h1 class="title">Criar conta</h1>
 
-    <form method="POST">
-        {{ form.hidden_tag() }}
+            {% with mensagens = get_flashed_messages() %}
+                {% if mensagens %}
+                    <ul class="flash-messages">
+                        {% for mensagem in mensagens %}
+                            <li>{{ mensagem }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
 
-       {{form.first_name.label}} {{ form.first_name() }}  </br>
-       {{form.last_name.label}} {{ form.last_name() }}  </br>
-       
-       {{form.email.label}} {{ form.email() }}  </br>
-       {% for error in form.email.errors %}
-            <b>{{error}}</b></br>
-        {% endfor %}
+            <form method="POST" action="{{ url_for('cadastro_tatuador.register') }}" id="registerForm">
+                {{ form.hidden_tag() }}
 
-       {{form.password.label}} {{ form.password() }}  </br>
-        {% for error in form.password.errors %}
-            <b>{{error}}</b></br>
-        {% endfor %}
+                <div class="input-group">
+                    <label for="nome">NOME COMPLETO</label>
+                    {{ form.nome(placeholder="Seu nome completo", autocomplete="name") }}
+                    {% for erro in form.nome.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
+                </div>
 
-       {{form.confirm.label}} {{ form.confirm() }}  </br>
-       {{form.submit.label}} {{ form.submit() }}  </br>
-    </form>
-    </div>
+                <div class="input-group">
+                    <label for="email">E-MAIL PROFISSIONAL</label>
+                    {{ form.email(placeholder="seu@email.com", autocomplete="email") }}
+                    {% for erro in form.email.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
+                </div>
+
+                <div class="input-group">
+                    <label for="cpf">CPF</label>
+                    {{ form.cpf(placeholder="123.456.789-00", autocomplete="off") }}
+                    {% for erro in form.cpf.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
+                </div>
+
+                <div class="input-group">
+                    <label for="tel">TELEFONE</label>
+                    {{ form.tel(type="tel", placeholder="(11) 99999-0000", autocomplete="tel") }}
+                    {% for erro in form.tel.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
+                </div>
+
+                <div class="input-group">
+                    <label for="especialidade">ESPECIALIDADE</label>
+                    {{ form.especialidade(placeholder="Ex: Blackwork, Fineline, Realismo") }}
+                    {% for erro in form.especialidade.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
+                </div>
+
+                <div class="input-group">
+                    <label for="password">SENHA</label>
+                    {{ form.password(placeholder="••••••••", autocomplete="new-password") }}
+                    {% for erro in form.password.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm">CONFIRMAR SENHA</label>
+                    {{ form.confirm(placeholder="••••••••", autocomplete="new-password") }}
+                    <span class="error-msg" id="erro-confirm"></span>
+                </div>
+
+                {{ form.submit(class="btn-submit", value="CRIAR CONTA") }}
+            </form>
+        </div>
+    </main>
+
+    <script src="{{ url_for('cadastro_tatuador.static', filename='js/script.js') }}"></script>
 </body>
 </html>

@@ -1,12 +1,6 @@
-from flask import Flask
-from login_tatuador.routes import main_bp
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'abc123'
-
-app.register_blueprint(main_bp)
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5152)
-
-    
+# Este módulo agora é carregado pelo app principal (src/app.py),
+# que junta todas as telas em uma única aplicação.
+#
+# Para subir o projeto:
+#     cd src
+#     python app.py
