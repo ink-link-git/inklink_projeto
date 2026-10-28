@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha de Anamnese - InkLink</title>
+  <link rel="stylesheet" href="{{ url_for('login_cliente.static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('gestao_anamnese.static', filename='css/ficha_cliente.css') }}">
+</head>
+<body>
+
+  <main class="ficha-main">
+    <div class="marca"><span class="marca-box">IL</span><span class="marca-texto">INKLINK</span></div>
+    <a class="voltar-link" href="{{ url_for('login_cliente.home_cliente') }}">← Voltar para a minha área</a>
+    <p class="eyebrow">Saúde</p>
+    <h1>Ficha de Anamnese</h1>
+
+    {% if erro %}
+      <p class="aviso">{{ erro }}</p>
+    {% elif not pendentes %}
+      <p class="aviso">Você não tem nenhuma sessão aguardando ficha. Se já preencheu, está tudo certo!</p>
+      {% if tem_rota('agendamento_cliente.agendar_sessao') %}
+      <p class="foot"><a href="{{ url_for('agendamento_cliente.agendar_sessao') }}">Agendar uma sessão</a></p>
+      {% endif %}
+    {% else %}
+    <form id="ficha-form" novalidate data-redirect="{{ url_for('login_cliente.home_cliente') }}">
+
+      <div class="field">
+        <label for="agendamento">Sessão</label>
+        <select id="agendamento" name="agendamento">
+          {% if not escolhido %}<option value="">Selecione a sessão</option>{% endif %}
+          {% for a in pendentes %}
+            <option value="{{ a.id }}" {{ 'selected' if a.id == escolhido }}>{{ a | quando }}{% if a.profissional %} — {{ a.profissional }}{% endif %}</option>
+          {% endfor %}
+        </select>
+        <span class="field-error" id="err-agendamento">Escolha a sessão.</span>
+      </div>
+
+      {% for campo, texto, campo_descricao, dica in perguntas %}
+      <div class="pergunta">
+        <p class="pergunta-texto">{{ texto }}</p>
+        <div class="sim-nao">
+          <label><input type="radio" name="{{ campo }}" value="nao" checked {% if campo_descricao %}data-detalhe="{{ campo_descricao }}"{% endif %}> Não</label>
+          <label><input type="radio" name="{{ campo }}" value="sim" {% if campo_descricao %}data-detalhe="{{ campo_descricao }}"{% endif %}> Sim</label>
+        </div>
+        {% if campo_descricao %}
+        <div class="field detalhe" id="detalhe-{{ campo }}" hidden>
+          <input type="text" id="{{ campo_descricao }}" name="{{ campo_descricao }}" maxlength="500" placeholder="{{ dica }}">
+          <span class="field-error" id="err-{{ campo_descricao }}">Conte um pouco mais sobre isso.</span>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="termo">
+        <label class="check">
+          <input type="checkbox" id="ciente_riscos" name="ciente_riscos">
+          <span>Estou ciente dos riscos inerentes ao procedimento de tatuagem. <span class="req">*</span></span>
+        </label>
+        <span class="field-error" id="err-ciente_riscos">Confirme que está ciente dos riscos.</span>
+
+        <label class="check">
+          <input type="checkbox" id="termo_aceito" name="termo_aceito">
+          <span>Li e aceito o termo de responsabilidade e declaro que as informações acima são verdadeiras. <span class="req">*</span></span>
+        </label>
+        <span class="field-error" id="err-termo_aceito">É preciso aceitar o termo de responsabilidade.</span>
+      </div>
+
+      <button type="submit" class="submit" id="submit-btn">Enviar ficha</button>
+      <div class="server-error" id="server-error"></div>
+    </form>
+    {% endif %}
+  </main>
+
+  <script src="{{ url_for('gestao_anamnese.static', filename='js/ficha_cliente.js') }}"></script>
+</body>
+</html>
