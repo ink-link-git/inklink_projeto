@@ -1,127 +1,4 @@
-/* ==========================================
-   RESET & CONFIGURAÇÕES GERAIS (STUDIO INK)
-   ========================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-body {
-    background-color: #0b0b0b;
-    color: #e5e5e5;
-    display: flex;
-    min-height: 100vh;
-}
-
-.container {
-    display: flex;
-    width: 100%;
-}
-
-/* ==========================================
-   SIDEBAR (BARRA LATERAL)
-   ========================================== */
-.sidebar {
-    width: 260px;
-    background-color: #121212;
-    border-right: 1px solid #1f1f1f;
-    display: flex;
-    flex-direction: column;
-    padding: 30px 0;
-    position: fixed;
-    height: 100vh;
-    left: 0;
-    top: 0;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 25px 30px 25px;
-    border-bottom: 1px solid #1f1f1f;
-}
-
-.logo .square {
-    background-color: #dc2626;
-    color: #ffffff;
-    font-weight: bold;
-    padding: 8px 10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-}
-
-.logo strong {
-    font-size: 0.85rem;
-    letter-spacing: 1.5px;
-    color: #ffffff;
-}
-
-.logo small {
-    font-size: 0.65rem;
-    color: #dc2626;
-    letter-spacing: 2px;
-    font-weight: 600;
-}
-
-.sidebar nav {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-}
-
-.sidebar nav a {
-    padding: 14px 25px;
-    color: #888888;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.2s ease-in-out;
-    border-left: 3px solid transparent;
-}
-
-.sidebar nav a:hover {
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.02);
-}
-
-.sidebar nav a.active {
-    color: #ffffff;
-    background-color: rgba(220, 38, 38, 0.08);
-    border-left-color: #dc2626;
-    font-weight: 500;
-}
-
-/* ==========================================
-   CONTEÚDO PRINCIPAL
-   ========================================== */
-.main-content {
-    margin-left: 260px;
-    flex: 1;
-    padding: 40px 50px;
-    background-color: #0d0d0d;
-}
-
-.main-content header {
-    margin-bottom: 30px;
-}
-
-.sub-title {
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-    color: #dc2626;
-    font-weight: 700;
-}
-
-.main-content h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.2rem;
-    color: #f3f3f3;
-    margin-top: 5px;
-    font-weight: normal; 
-}
+/* Tela da agenda — o layout geral vem de shared/tatuador.css */
 
 /* ==========================================
    CARDS DE AGENDAMENTO
@@ -134,8 +11,8 @@ body {
 }
 
 .card {
-    background-color: #141414;
-    border: 1px solid #1f1f1f;
+    background-color: #181818;
+    border: 1px solid #2A2A2A;
     border-radius: 6px;
     padding: 24px;
     transition: border-color 0.2s;
@@ -153,7 +30,7 @@ body {
 }
 
 .card-header h2 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-titulo);
     font-size: 1.35rem;
     color: #ffffff;
     font-weight: 500;
@@ -182,25 +59,25 @@ body {
 }
 
 .badge.cancelado {
-    background-color: rgba(220, 38, 38, 0.15);
-    color: #f87171;
-    border: 1px solid rgba(220, 38, 38, 0.3);
+    background-color: rgba(211, 18, 53, 0.15);
+    color: #FF4D4D;
+    border: 1px solid rgba(211, 18, 53, 0.3);
 }
 
 /* Detalhes do Card */
 .card .data {
     font-size: 0.9rem;
-    color: #9ca3af;
+    color: #888888;
     margin-bottom: 6px;
 }
 
 .card .data strong {
-    color: #d1d5db;
+    color: #CCCCCC;
 }
 
 .obs {
     font-style: italic;
-    color: #9ca3af;
+    color: #888888;
     margin: 12px 0;
     font-size: 0.95rem;
 }
@@ -219,7 +96,7 @@ body {
     gap: 10px;
     margin-top: 18px;
     padding-top: 15px;
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid #2A2A2A;
 }
 
 .btn {
@@ -250,24 +127,24 @@ body {
 }
 
 .btn-reagendar {
-    background-color: #1f2937;
-    color: #d1d5db;
-    border: 1px solid #374151;
+    background-color: #1E1E1E;
+    color: #CCCCCC;
+    border: 1px solid #2A2A2A;
 }
 
 .btn-reagendar:hover {
-    background-color: #374151;
+    background-color: #2A2A2A;
     color: #ffffff;
 }
 
 .btn-remover {
-    background-color: rgba(220, 38, 38, 0.1);
-    color: #f87171;
-    border: 1px solid rgba(220, 38, 38, 0.3);
+    background-color: rgba(211, 18, 53, 0.1);
+    color: #FF4D4D;
+    border: 1px solid rgba(211, 18, 53, 0.3);
 }
 
 .btn-remover:hover {
-    background-color: rgba(220, 38, 38, 0.2);
+    background-color: rgba(211, 18, 53, 0.2);
 }
 
 /* ==========================================
@@ -287,11 +164,11 @@ body {
 }
 
 .modal-content {
-    background-color: #141414;
+    background-color: #181818;
     padding: 30px;
     border-radius: 8px;
     width: 380px;
-    border: 1px solid #262626;
+    border: 1px solid #2A2A2A;
     color: #fff;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
 }
@@ -301,22 +178,22 @@ body {
     margin-bottom: 20px;
     font-size: 1.25rem;
     color: #ffffff;
-    font-family: Georgia, serif;
+    font-family: var(--font-titulo);
 }
 
 .modal-content label {
     display: block;
     margin-top: 12px;
     font-size: 0.85rem;
-    color: #9ca3af;
+    color: #888888;
 }
 
 .modal-content input {
     width: 100%;
     padding: 10px;
     margin-top: 6px;
-    background-color: #0d0d0d;
-    border: 1px solid #262626;
+    background-color: #121212;
+    border: 1px solid #2A2A2A;
     border-radius: 4px;
     color: #fff;
     box-sizing: border-box;
@@ -324,7 +201,7 @@ body {
 }
 
 .modal-content input:focus {
-    border-color: #dc2626;
+    border-color: #D31235;
     outline: none;
 }
 
@@ -334,3 +211,38 @@ body {
     gap: 10px;
     margin-top: 25px;
 }
+.card-inativo { opacity: 0.55; }
+
+.badge.realizado {
+    background-color: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.referencias { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.referencias img { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; border: 1px solid #2A2A2A; }
+
+.secao-titulo { font-size: 1rem; color: #CCCCCC; margin-bottom: 14px; font-weight: 600; }
+.secao-espaco { margin-top: 36px; }
+
+.modal-content select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    background-color: #121212;
+    border: 1px solid #2A2A2A;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.dia-ocupado {
+    margin-top: 16px;
+    padding: 10px 12px;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    background-color: rgba(245, 158, 11, 0.08);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #fbbf24;
+}
+.dia-ocupado ul { margin: 6px 0 0 16px; color: #CCCCCC; }
