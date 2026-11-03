@@ -1,0 +1,32 @@
+{% extends "shared/cliente_base.html" %}
+
+{% block titulo %}Ajuda - InkLink{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('configuracoes_cliente.static', filename='css/configuracoes.css') }}">
+{% endblock %}
+
+{% block eyebrow %}Configurações{% endblock %}
+{% block h1 %}Ajuda{% endblock %}
+
+{% block conteudo %}
+    <a class="config-voltar" href="{{ url_for('configuracoes_cliente.configuracoes') }}">&lsaquo; Voltar</a>
+
+    <div class="config-lista config-faq">
+        {% for item in faq %}
+            <details class="config-pergunta">
+                <summary>{{ item.pergunta }}</summary>
+                <p>{{ item.resposta }}</p>
+            </details>
+        {% endfor %}
+    </div>
+
+    <div class="config-suporte">
+        <strong>Ainda precisa de ajuda?</strong>
+        {% if suporte_email %}
+            <span>Escreva para <a href="mailto:{{ suporte_email }}">{{ suporte_email }}</a>.</span>
+        {% else %}
+            <span>Fale com o tatuador pelo seu agendamento ou com a equipe do estúdio.</span>
+        {% endif %}
+    </div>
+{% endblock %}
