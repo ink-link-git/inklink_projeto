@@ -1,0 +1,61 @@
+{% extends "shared/cliente_base.html" %}
+
+{% block titulo %}Alterar senha - InkLink{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('configuracoes_cliente.static', filename='css/configuracoes.css') }}">
+{% endblock %}
+
+{% block eyebrow %}Configurações{% endblock %}
+{% block h1 %}Alterar senha{% endblock %}
+
+{% block conteudo %}
+    <a class="config-voltar" href="{{ url_for('configuracoes_cliente.configuracoes') }}">&lsaquo; Voltar</a>
+
+    <form class="config-form" id="form-senha" novalidate>
+        <div class="config-campo">
+            <label for="atual">Senha atual</label>
+            <div class="config-senha-wrap">
+                <input type="password" id="atual" name="atual" autocomplete="current-password">
+                <button type="button" class="config-olho" aria-label="Mostrar senha" aria-pressed="false" tabindex="-1">
+                    <svg class="icone-aberto" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="icone-fechado" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 19c-7 0-11-7-11-7a19.8 19.8 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a19.8 19.8 0 0 1-3.17 4.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </button>
+            </div>
+            <small class="config-erro" data-erro="atual"></small>
+        </div>
+
+        <div class="config-campo">
+            <label for="nova">Nova senha</label>
+            <div class="config-senha-wrap">
+                <input type="password" id="nova" name="nova" autocomplete="new-password">
+                <button type="button" class="config-olho" aria-label="Mostrar senha" aria-pressed="false" tabindex="-1">
+                    <svg class="icone-aberto" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="icone-fechado" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 19c-7 0-11-7-11-7a19.8 19.8 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a19.8 19.8 0 0 1-3.17 4.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </button>
+            </div>
+            <small class="config-dica">Mínimo de 8 caracteres.</small>
+            <small class="config-erro" data-erro="nova"></small>
+        </div>
+
+        <div class="config-campo">
+            <label for="confirmar">Confirmar nova senha</label>
+            <div class="config-senha-wrap">
+                <input type="password" id="confirmar" name="confirmar" autocomplete="new-password">
+                <button type="button" class="config-olho" aria-label="Mostrar senha" aria-pressed="false" tabindex="-1">
+                    <svg class="icone-aberto" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="icone-fechado" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 19c-7 0-11-7-11-7a19.8 19.8 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a19.8 19.8 0 0 1-3.17 4.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </button>
+            </div>
+            <small class="config-erro" data-erro="confirmar"></small>
+        </div>
+
+        <p class="config-msg" id="msg-senha" role="status" aria-live="polite"></p>
+
+        <button type="submit" class="config-botao" id="btn-senha">Salvar nova senha</button>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('configuracoes_cliente.static', filename='js/senha.js') }}"></script>
+{% endblock %}

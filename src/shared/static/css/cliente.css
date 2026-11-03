@@ -1,0 +1,224 @@
+@import url("/static/shared/css/tema.css");
+
+/* Layout da área do cliente (barra lateral e cabeçalho).
+   Usado por todas as telas do cliente que têm a barra lateral, como o layout do tatuador
+   (tatuador.css) é usado pelas telas do tatuador. */
+:root {
+    --cli-fundo: #0c0c0c;          /* fundo da área de conteúdo */
+    --cli-painel: #161616;         /* barra lateral, cartões e botões */
+    --cli-borda: #2a2826;
+    --cli-perigo-fundo: #1b0c0f;   /* cartão "Sair da conta" */
+    --cli-perigo-borda: #3e0d15;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body.area-cliente {
+    font-family: var(--font-corpo);
+    background-color: var(--cli-fundo);
+    color: var(--secondary-foreground);
+    min-height: 100vh;
+}
+
+.cli-layout { display: flex; min-height: 100vh; }
+
+/* BARRA LATERAL */
+.cli-sidebar {
+    width: 230px;
+    background-color: var(--cli-painel);
+    border-right: 1px solid var(--cli-borda);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.cli-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 30px 30px 0;
+}
+
+/* Mesma marca das telas do tatuador (tatuador.css), com "CLIENTE" no lugar de "TATUADOR". */
+.cli-logo-box {
+    background-color: var(--primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    border-radius: 2px;
+}
+
+.cli-logo-texto strong {
+    display: block;
+    font-size: 0.85rem;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+}
+
+.cli-logo-texto span {
+    font-size: 0.65rem;
+    color: var(--muted-foreground);
+    letter-spacing: 1px;
+}
+
+.cli-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 22px 15px 0;
+    flex-grow: 1;
+}
+
+.cli-nav a {
+    display: flex;
+    align-items: center;
+    height: 39px;
+    padding: 0 16px;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    border-left: 2px solid transparent;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.cli-nav a:hover { background-color: #1c1c1c; color: #ffffff; }
+
+.cli-nav a.ativo {
+    background-color: rgba(211, 18, 53, 0.13);
+    color: var(--primary);
+    border-left-color: var(--primary);
+}
+
+.cli-nav .icone {
+    display: inline-block;
+    width: 12px;
+    margin-right: 7px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.cli-rodape {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 22px 23px;
+    border-top: 1px solid var(--cli-borda);
+}
+
+.cli-avatar {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cli-usuario { min-width: 0; }
+
+.cli-usuario strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cli-usuario span {
+    display: block;
+    font-size: 11px;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* CONTEÚDO */
+.cli-principal {
+    position: relative;
+    margin-left: 230px;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.cli-cabecalho {
+    padding: 51px 37px 24px;
+    border-bottom: 1px solid var(--cli-borda);
+}
+
+.cli-eyebrow {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    line-height: 14px;
+    margin-bottom: 5px;
+    color: var(--primary);
+    text-transform: uppercase;
+}
+
+.cli-cabecalho h1 {
+    font-family: var(--font-titulo);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 40px;
+    color: #ffffff;
+}
+
+.cli-conteudo { padding: 30px 37px 40px; }
+
+/* Botão redondo de ajuda, no canto da tela */
+.cli-ajuda {
+    position: fixed;
+    right: 11px;
+    bottom: 13px;
+    width: 29px;
+    height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #111111;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    z-index: 200;
+}
+
+.cli-flash { list-style: none; margin-bottom: 20px; }
+.cli-flash li {
+    padding: 10px 14px;
+    border: 1px solid var(--cli-borda);
+    border-radius: 3px;
+    background: var(--cli-painel);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 760px) {
+    .cli-sidebar { position: static; width: 100%; border-right: none; border-bottom: 1px solid var(--cli-borda); }
+    .cli-layout { flex-direction: column; }
+    .cli-principal { margin-left: 0; }
+    .cli-nav { flex-direction: row; flex-wrap: wrap; padding: 16px 15px; }
+    .cli-nav a { height: 34px; }
+    .cli-rodape { display: none; }
+    .cli-cabecalho { padding: 24px 20px 20px; }
+    .cli-conteudo { padding: 24px 20px 40px; }
+}
