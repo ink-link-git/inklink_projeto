@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil-Studio Ink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+</head>
+<body class="bg-dark text-white">
+    
+    <!-- Container Principal do Perfil -->
+    <main class="perfil-container">
+        <!-- CABEÇALHO DO TATUADOR -->
+<header class="perfil-header">
+            <!-- Avatar com as iniciais -->  
+            <div class="avatar-circle">
+                <span>{{ iniciais | default('JM') }}</span>
+            </div> 
+    
+    <!-- Informações textuais do perfil -->
+    <div class="perfil-info">
+        <!-- Nome do tatuador-->
+         <h1 class="perfil-nome">{{ nome_tatuador | default('Tatuador') }}</h1>
+         <!-- Tag/Especialidade -->
+         <span class="perfil-tag">{{ especialidade | default('blackwork') }}</span> 
+    </div>
+</header>
+
+<!-- Bio / Descrição do Tatuador -->
+<p class="perfil-bio">
+    {{ bio | default('Tatuador especialista em blackwork.') }}
+</p>     
+
+
+<!-- CARDS (Início da marcação básica) -->
+<section class="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-number">2</span>
+                <span class="metric-label">Confirmados</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-number">2</span>
+                <span class="metric-label">Pendentes</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-number">2</span>
+                <span class="metric-label">Concluídos</span>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
