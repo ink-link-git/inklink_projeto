@@ -37,7 +37,7 @@ def login_cliente():
 @bp.route("/cadastro/tatuador")
 def cadastro_tatuador():
     """Tela de cadastro do tatuador (ainda não implementada)."""
-    return render_template("em_construcao.html", titulo="Criar conta — Tatuador")
+    return render_template("register_tatuador.html")
 
 
 @bp.route("/login/tatuador")
@@ -110,6 +110,55 @@ def criar_conta():
 
     return jsonify({"success": True, "usuario": {"nome": nome, "email": email}}), 201
 
+# ==========================================
+# ROTA DA API DO TATUADOR:
+# ==========================================
+@bp.route("/api/tatuador", methods=["POST"])
+def criar_conta_tatuador():
+    """Recebe dados do formulário do tatuador, registra no Auth e salva na tabela 'tatuador'."""
+    data = request.get_json(silent=True) or {}
+
+    nome = (data.get("nome") or "").strip()
+    email = (data.get("email") or "").strip().lower()
+    cpf = (data.get("cpf") or "").strip()
+    tel = (data.get("tel") or "").strip()
+    especialidade = (data.get("especialidade") or "").strip()
+    senha = data.get("senha") or ""
+    confirmar = data.get("confirmar") or ""
+
+    if not all([nome, email, cpf, tel, especialidade, senha]):
+        return jsonify({"success": False, "errors": {"geral": "Preencha todos os campos obrigatórios."}}), 400
+
+    if senha != confirmar:
+        return jsonify({"success": False, "errors": {"confirmar": "As senhas não coincidem."}}), 400
+
+    try:
+        # 1. Cria usuário no Supabase Auth
+        auth_response = supabase.auth.sign_up({"email": email, "password": senha})
+        
+        # O ID gerado pelo Auth do Supabase pode ser vinculado à tabela se necessário
+        user_id = auth_response.user.id if auth_response and auth_response.user else None
+
+        # 2. Insere os dados na tabela 'tatuador' (id_tatuador gerado pelo banco ou auth)
+        dados_tatuador = {
+            "nome": nome,
+            "email": email,
+            "cpf": cpf,
+            "tel": tel,
+            "especialidade": especialidade
+        }
+        if user_id:
+            dados_tatuador["id_tatuador"] = user_id
+
+        supabase.table("tatuador").insert(dados_tatuador).execute()
+
+    except Exception as exc:
+        error_msg = str(exc)
+        if "User already registered" in error_msg:
+            return jsonify({"success": False, "errors": {"email": "Este e-mail já está cadastrado."}}), 400
+        return jsonify({"success": False, "errors": {"geral": f"Erro ao registrar: {error_msg}"}}), 500
+
+    return jsonify({"success": True, "usuario": {"nome": nome, "email": email}}), 201
 
 @bp.route("/api/login/cliente", methods=["POST"])
 def api_login_cliente():
@@ -136,6 +185,8 @@ def api_login_cliente():
 
     return jsonify({"success": True, "usuario": {"email": user.email}}), 200
 
+    
+
 
 # ==========================================
 # ROTAS DA API - SERVIÇOS
@@ -149,6 +200,7 @@ def listar_servicos():
         return jsonify({"success": True, "servicos": resposta.data}), 200
     except Exception as exc:
         return jsonify({"success": False, "errors": {"geral": str(exc)}}), 500
+
 
 
 # ==========================================

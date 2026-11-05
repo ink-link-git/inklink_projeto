@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta — Tatuador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Estilos baseados na sua imagem de referência */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+        .back-link {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+        .subtitle {
+            color: #cc2936;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 0 0 8px 0;
+        }
+        h1 {
+            font-family: serif;
+            font-size: 32px;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #cc2936;
+            outline: none;
+        }
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-wrapper input {
+            padding-right: 40px;
+        }
+        .toggle-pwd {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #strength {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
+        #strength span {
+            flex: 1;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: #cc2936;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+        .btn-submit:hover {
+            background-color: #b5232f;
+        }
+        .footer-text {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 20px;
+        }
+        .footer-text a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .error-msg {
+            color: #cc2936;
+            font-size: 11px;
+            display: none;
+            margin-top: 4px;
+        }
+        .error-msg.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/login/tatuador" class="back-link">&larr; VOLTAR AO LOGIN</a>
+        
+        <p class="subtitle">Área do Tatuador</p>
+        <h1>Criar conta</h1>
+
+        <div id="server-error" class="error-msg" style="margin-bottom: 15px;"></div>
+
+        <form id="registerForm">
+            <div class="input-group">
+                <label for="nome">Nome Artístico</label>
+                <input type="text" id="nome" name="nome" placeholder="Rafael Ink" required>
+                <span class="error-msg" id="err-nome">Insira seu nome artístico.</span>
+            </div>
+
+            <div class="input-group">
+                <label for="email">E-mail Profissional</label>
+                <input type="email" id="email" name="email" placeholder="rafael@studioink.com.br" required>
+                <span class="error-msg" id="err-email">E-mail inválido.</span>
+            </div>
+
+            <div class="input-group">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                <span class="error-msg" id="err-cpf">CPF inválido.</span>
+            </div>
+
+            <div class="input-group">
+                <label for="telefone">Telefone</label>
+                <input type="text" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+                <span class="error-msg" id="err-telefone">Telefone inválido.</span>
+            </div>
+
+            <div class="input-group">
+                <label for="especialidade">Especialidade</label>
+                <input type="text" id="especialidade" name="especialidade" placeholder="Blackwork & Fineline" required>
+                <span class="error-msg" id="err-especialidade">Informe sua especialidade.</span>
+            </div>
+
+            <div class="input-group">
+                <label for="senha">Senha</label>
+                <div class="password-wrapper">
+                    <input type="password" id="senha" name="senha" placeholder="********" required>
+                    <button type="button" id="toggle-senha" class="toggle-pwd"></button>
+                </div>
+                <!-- Barrinhas de Força -->
+                <div id="strength">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <span class="error-msg" id="err-senha">A senha deve ter pelo menos 8 caracteres.</span>
+            </div>
+
+            <div class="input-group">
+                <label for="confirmar">Confirmar Senha</label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmar" name="confirmar" placeholder="********" required>
+                    <button type="button" id="toggle-confirmar" class="toggle-pwd"></button>
+                </div>
+                <span class="error-msg" id="err-confirmar">As senhas não coincidem.</span>
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn-submit">Criar Conta</button>
+        </form>
+
+        <div class="footer-text">
+            Já tem conta? <a href="/login/tatuador">Entrar</a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/tatuador.js') }}"></script>
+</body>
+</html>
