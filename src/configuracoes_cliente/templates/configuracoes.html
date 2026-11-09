@@ -1,0 +1,38 @@
+{% extends "shared/cliente_base.html" %}
+
+{% block titulo %}Configurações - InkLink{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('configuracoes_cliente.static', filename='css/configuracoes.css') }}">
+{% endblock %}
+
+{% block eyebrow %}Preferências{% endblock %}
+{% block h1 %}Configurações{% endblock %}
+
+{% block conteudo %}
+    <div class="config-lista">
+        <a class="config-item config-link" href="{{ url_for('configuracoes_cliente.alterar_senha') }}">
+            <div class="config-texto">
+                <strong>Alterar senha</strong>
+                <span>Atualize sua senha de acesso</span>
+            </div>
+            <span class="config-seta">&rsaquo;</span>
+        </a>
+
+        <a class="config-item config-link" href="{{ url_for('configuracoes_cliente.ajuda') }}">
+            <div class="config-texto">
+                <strong>Ajuda</strong>
+                <span>Central de suporte e FAQ</span>
+            </div>
+            <span class="config-seta">&rsaquo;</span>
+        </a>
+
+        <a class="config-item config-sair" href="{{ url_for('login_cliente.logout_cliente') }}">
+            <span class="config-sair-icone">&crarr;</span>
+            <div class="config-texto">
+                <strong>Sair da conta</strong>
+                <span>Encerrar sessão atual</span>
+            </div>
+        </a>
+    </div>
+{% endblock %}

@@ -5,7 +5,7 @@ templates e static próprios). Este arquivo só junta todos eles em uma única
 aplicação Flask, para que as telas consigam navegar entre si.
 
 Telas: perfil, login/cadastro (cliente e tatuador), agendar sessão, agenda do
-tatuador, portfólio e fichas de anamnese.
+tatuador, portfólio, fichas de anamnese e configurações do cliente.
 
 Para rodar:
     cd src
@@ -37,6 +37,7 @@ MODULOS = {
     "agendamento_tatuador": ("agendamento_tatuador.routes", "agenda_bp"),
     "portfolio_tatuador": ("portfolio_tatuador.routes", "portfolio_bp"),
     "gestao_anamnese": ("gestao_anamnese.routes", "bp"),
+    "configuracoes_cliente": ("configuracoes_cliente.routes", "bp"),
 }
 
 
@@ -77,6 +78,11 @@ def create_app():
     def dados_do_tatuador():
         return {"tatuador": session.get("tatuador")}
 
+    # Idem para o cliente: o layout com barra lateral mostra o nome e o e-mail de quem entrou.
+    @app.context_processor
+    def dados_do_cliente():
+        return {"cliente": session.get("cliente")}
+
     # Registra cada módulo que existe em src/
     from importlib import import_module
 
@@ -98,6 +104,16 @@ def create_app():
             return url_for(endpoint, **valores)
         if secao and "shared.em_breve" in app.view_functions:
             return url_for("shared.em_breve", secao=secao)
+        return "#"
+
+    # Igual a rota(), mas a tela "em breve" é a da área do cliente.
+    @app.template_global()
+    def rota_cliente(endpoint, secao=None, **valores):
+        from flask import url_for
+        if endpoint in app.view_functions:
+            return url_for(endpoint, **valores)
+        if secao and "shared.cliente_em_breve" in app.view_functions:
+            return url_for("shared.cliente_em_breve", secao=secao)
         return "#"
 
     return app

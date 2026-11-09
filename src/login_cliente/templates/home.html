@@ -21,6 +21,9 @@
       {% if tem_rota('gestao_anamnese.ficha_cliente') %}
       <a href="{{ url_for('gestao_anamnese.ficha_cliente') }}" class="home-botao-secundario">Preencher ficha de anamnese</a>
       {% endif %}
+      {% if tem_rota('configuracoes_cliente.configuracoes') %}
+      <a href="{{ url_for('configuracoes_cliente.configuracoes') }}" class="home-botao-secundario">Configurações</a>
+      {% endif %}
       {% if not tem_rota('agendamento_cliente.agendar_sessao') %}
       <p class="home-vazio">Em breve você poderá agendar sessões por aqui.</p>
       {% endif %}

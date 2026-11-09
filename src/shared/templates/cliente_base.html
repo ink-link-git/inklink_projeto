@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Área do cliente{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('shared.static', filename='css/cliente.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="area-cliente">
+    {# Marca mostrada na barra lateral (a mesma das outras telas). #}
+    {% set marca_sigla = 'IL' %}
+    {% set marca_nome = 'INKLINK' %}
+    {% set nome_cliente = (cliente.nome if cliente else '') %}
+    {% set partes = nome_cliente.split() %}
+
+    <div class="cli-layout">
+        <aside class="cli-sidebar">
+            <div>
+                <div class="cli-logo">
+                    <span class="cli-logo-box">{{ marca_sigla }}</span>
+                    <div class="cli-logo-texto">
+                        <strong>{{ marca_nome }}</strong>
+                        <span>CLIENTE</span>
+                    </div>
+                </div>
+
+                <nav class="cli-nav">
+                    <a href="{{ url_for('login_cliente.home_cliente') }}" class="{{ 'ativo' if ativo == 'home' }}"><span class="icone">⌂</span>Home</a>
+                    <a href="{{ url_for('shared.cliente_em_breve', secao='perfil') }}" class="{{ 'ativo' if ativo == 'perfil' }}"><span class="icone">◉</span>Meu Perfil</a>
+                    <a href="{{ url_for('shared.cliente_em_breve', secao='tatuadores') }}" class="{{ 'ativo' if ativo == 'tatuadores' }}"><span class="icone">✦</span>Tatuadores</a>
+                    <a href="{{ rota_cliente('agendamento_cliente.agendar_sessao', 'agendamentos') }}" class="{{ 'ativo' if ativo == 'agendamentos' }}"><span class="icone">◫</span>Agendamentos</a>
+                    <a href="{{ rota_cliente('configuracoes_cliente.configuracoes', 'configuracoes') }}" class="{{ 'ativo' if ativo == 'configuracoes' }}"><span class="icone">&#9881;&#xFE0E;</span>Configurações</a>
+                </nav>
+            </div>
+
+            <div class="cli-rodape">
+                <div class="cli-avatar">{{ ((partes[0][:1] if partes else '?') ~ (partes[1][:1] if partes|length > 1 else ''))|upper }}</div>
+                <div class="cli-usuario">
+                    <strong>{{ nome_cliente }}</strong>
+                    <span>{{ cliente.email if cliente else '' }}</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="cli-principal">
+            <header class="cli-cabecalho">
+                <span class="cli-eyebrow">{% block eyebrow %}{% endblock %}</span>
+                <h1>{% block h1 %}{% endblock %}</h1>
+            </header>
+
+            <div class="cli-conteudo">
+                {% with mensagens = get_flashed_messages(with_categories=true) %}
+                    {% if mensagens %}
+                        <ul class="cli-flash">
+                            {% for categoria, mensagem in mensagens %}
+                                <li class="flash-{{ categoria }}">{{ mensagem }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+
+                {% block conteudo %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <a class="cli-ajuda" href="{{ rota_cliente('configuracoes_cliente.ajuda', 'ajuda') }}" aria-label="Ajuda" title="Ajuda">?</a>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
