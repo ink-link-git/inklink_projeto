@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}InkLink - Tatuador{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('shared.static', filename='css/tatuador.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="logo-box">IL</span>
+                <div class="logo-text">
+                    <strong>INKLINK</strong>
+                    <span>TATUADOR</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('login_tatuador.home_logada') }}" class="{{ 'active' if ativo == 'inicio' }}">Início</a>
+                <a href="{{ url_for('shared.em_breve', secao='perfil') }}" class="{{ 'active' if ativo == 'perfil' }}">Meu Perfil</a>
+                <a href="{{ rota('agendamento_tatuador.minha_agenda', 'agenda') }}" class="{{ 'active' if ativo == 'agenda' }}">Minha Agenda</a>
+                <a href="{{ rota('portfolio_tatuador.mostrar_portfolio', 'portfolio') }}" class="{{ 'active' if ativo == 'portfolio' }}">Meu Portfólio</a>
+                <a href="{{ url_for('shared.em_breve', secao='estoque') }}" class="{{ 'active' if ativo == 'estoque' }}">Estoque</a>
+                <a href="{{ rota('gestao_anamnese.fichas_tatuador', 'anamnese') }}" class="{{ 'active' if ativo == 'anamnese' }}">Fichas Anamnese</a>
+                <a href="{{ url_for('shared.em_breve', secao='configuracoes') }}" class="{{ 'active' if ativo == 'configuracoes' }}">Configurações</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-avatar">{{ (tatuador.nome or '?')[:1]|upper }}</div>
+                <div class="user-info">
+                    <strong>{{ tatuador.nome }}</strong>
+                    <span>{{ tatuador.especialidade or tatuador.email }}</span>
+                    <a href="{{ url_for('login_tatuador.logout') }}" class="sidebar-sair">Sair</a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            {% with mensagens = get_flashed_messages(with_categories=true) %}
+                {% if mensagens %}
+                    <ul class="flash-list">
+                        {% for categoria, mensagem in mensagens %}
+                            <li class="flash flash-{{ categoria }}">{{ mensagem }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            {% block conteudo %}{% endblock %}
+        </main>
+    </div>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

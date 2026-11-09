@@ -1,0 +1,8 @@
+Ordem para rodar no SQL Editor do Supabase (cada arquivo só precisa ser rodado quando o módulo dele estiver no projeto):
+
+01_agendamento.sql   -> agendamento_cliente + agendamento_tatuador
+02_anamnese.sql      -> gestao_anamnese (precisa da 01)
+03_portfolio.sql     -> portfolio_tatuador
+04_liberar_rls_opcional.sql -> só se o Supabase bloquear gravações (erro "row-level security")
+
+O arquivo ../supabase_migracao.sql junta 01, 02 e 03 em um só, para quem quer rodar tudo de uma vez.

@@ -1,0 +1,91 @@
+/* Complementos para as telas de login e cadastro do cliente.
+   O visual base (fundo, marca, título, campos, botão) vem do style.css do
+   login_tatuador, para as duas áreas ficarem idênticas. Aqui ficam só as
+   peças que o login do tatuador não tem. */
+
+:root {
+    --primary: #D31235;
+    --border: #2A2A2A;
+}
+
+/* Campos de telefone com o mesmo visual dos outros */
+.form-group input[type="tel"] {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: #1E1E1E;
+    border: 1px solid #2A2A2A;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input::placeholder {
+    color: #555555;
+}
+
+.form-group input:focus {
+    border-color: #D31235;
+}
+
+/* Erros de validação (o JS liga/desliga as classes "error" e "show") */
+.form-group input.error {
+    border-color: #FF4D4D;
+}
+
+.field-error {
+    display: none;
+    color: #FF4D4D;
+    font-size: 12px;
+}
+
+.field-error.show {
+    display: block;
+}
+
+.server-error {
+    display: none;
+    text-align: center;
+    color: #FF8080;
+    font-size: 13px;
+}
+
+.server-error.show {
+    display: block;
+}
+
+/* Barra de força da senha */
+.strength {
+    display: flex;
+    gap: 4px;
+}
+
+.strength span {
+    height: 3px;
+    flex: 1;
+    background: #2A2A2A;
+    border-radius: 2px;
+    transition: background 0.2s ease;
+}
+
+/* Botão com o mesmo texto em maiúsculas do tatuador */
+.btn-submit {
+    text-transform: uppercase;
+}
+
+.btn-submit:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.form-footer + .form-footer {
+    margin-top: 0;
+    border-top: none;
+    padding-top: 10px;
+}
+
+@media (max-width: 480px) {
+    .top-header {
+        padding: 16px 20px;
+    }
+}

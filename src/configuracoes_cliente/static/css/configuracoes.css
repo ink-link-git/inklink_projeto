@@ -1,0 +1,181 @@
+/* Tela de configurações do cliente. O layout (barra lateral, cabeçalho) vem de shared/cliente.css. */
+
+.config-lista {
+    max-width: 390px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.config-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: 71px;
+    padding: 0 18px;
+    background-color: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 2px;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.2s;
+}
+
+.config-link:hover { border-color: var(--border-strong); }
+
+.config-texto strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+    margin-bottom: 3px;
+}
+
+.config-texto span {
+    display: block;
+    font-size: 11px;
+    color: var(--muted-foreground);
+    letter-spacing: 0.2px;
+}
+
+.config-seta {
+    font-size: 18px;
+    line-height: 1;
+    color: var(--muted-foreground);
+}
+
+/* Sair da conta */
+.config-sair {
+    justify-content: flex-start;
+    gap: 14px;
+    margin-top: 14px;
+    height: 70px;
+    background-color: var(--cli-perigo-fundo);
+    border-color: var(--cli-perigo-borda);
+    border-radius: 3px;
+}
+
+.config-sair:hover { border-color: var(--primary); }
+.config-sair-icone { font-size: 15px; color: var(--primary); }
+.config-sair .config-texto strong { color: var(--primary); }
+.config-sair .config-texto span { color: rgba(211, 18, 53, 0.75); }
+
+/* Voltar */
+.config-voltar {
+    display: inline-block;
+    margin-bottom: 18px;
+    font-size: 12px;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    letter-spacing: 0.3px;
+}
+.config-voltar:hover { color: #ffffff; }
+
+/* Alterar senha */
+.config-form { max-width: 390px; display: flex; flex-direction: column; gap: 16px; }
+.config-campo { display: flex; flex-direction: column; gap: 6px; }
+.config-campo label { font-size: 12px; font-weight: 600; color: #ffffff; letter-spacing: 0.2px; }
+.config-campo input {
+    height: 44px;
+    padding: 0 14px;
+    background-color: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 13px;
+    font-family: inherit;
+}
+.config-campo input:focus { outline: none; border-color: var(--primary); }
+.config-campo input.invalido { border-color: var(--primary); }
+.config-dica { font-size: 11px; color: var(--muted-foreground); }
+.config-erro { font-size: 11px; color: var(--primary); min-height: 0; }
+.config-erro:empty { display: none; }
+
+.config-msg { font-size: 12px; margin: 0; }
+.config-msg:empty { display: none; }
+.config-msg.ok { color: #4ade80; }
+.config-msg.erro { color: var(--primary); }
+
+.config-botao {
+    height: 46px;
+    background-color: var(--primary);
+    border: none;
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.config-botao:hover { opacity: 0.9; }
+.config-botao:disabled { opacity: 0.6; cursor: default; }
+
+/* Botão de mostrar/ocultar senha */
+.config-senha-wrap { position: relative; }
+.config-senha-wrap input { width: 100%; padding-right: 44px; box-sizing: border-box; }
+.config-olho {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--muted-foreground);
+    cursor: pointer;
+}
+.config-olho:hover, .config-olho.ativo { color: #ffffff; }
+.config-olho:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
+.config-olho .icone-fechado { display: none; }
+.config-olho.ativo .icone-aberto { display: none; }
+.config-olho.ativo .icone-fechado { display: block; }
+
+/* Ajuda / FAQ */
+.config-faq { gap: 10px; }
+.config-pergunta {
+    background-color: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 2px;
+}
+.config-pergunta summary {
+    padding: 16px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+.config-pergunta summary::-webkit-details-marker { display: none; }
+.config-pergunta summary::after { content: "+"; color: var(--muted-foreground); font-size: 16px; }
+.config-pergunta[open] summary::after { content: "\2212"; }
+.config-pergunta[open] { border-color: var(--border-strong); }
+.config-pergunta p {
+    margin: 0;
+    padding: 0 18px 16px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+}
+
+.config-suporte {
+    max-width: 390px;
+    margin-top: 22px;
+    padding: 16px 18px;
+    border: 1px dashed var(--cli-borda);
+    border-radius: 2px;
+}
+.config-suporte strong { display: block; font-size: 13px; color: #ffffff; margin-bottom: 4px; }
+.config-suporte span { font-size: 12px; color: var(--muted-foreground); }
+.config-suporte a { color: var(--primary); text-decoration: none; }
