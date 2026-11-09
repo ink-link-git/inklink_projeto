@@ -1,0 +1,42 @@
+{% extends "shared/tatuador_base.html" %}
+{% block titulo %}Fichas de Anamnese - InkLink{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('gestao_anamnese.static', filename='css/anamnese.css') }}">
+{% endblock %}
+
+{% block conteudo %}
+<header class="content-header">
+    <div class="header-titles">
+        <span class="breadcrumb">SAÚDE</span>
+        <h1>Fichas de Anamnese</h1>
+        <p class="texto-suave">Clientes com agendamento confirmado</p>
+    </div>
+</header>
+
+{% if erro %}
+    <p class="texto-suave">{{ erro }}</p>
+{% endif %}
+
+<div class="fichas-lista">
+    {% for s in sessoes %}
+    <a class="ficha-item" href="{{ url_for('gestao_anamnese.ficha_do_agendamento', id_agendamento=s.id) }}">
+        <div class="ficha-item-info">
+            <strong>{{ s.nome_cliente }}</strong>
+            <span>{{ s.data_hora | datahora }}</span>
+            {% if s.alertas %}
+                <span class="ficha-alerta">Atenção: {{ s.alertas | join(', ') | lower }}</span>
+            {% endif %}
+        </div>
+        {% if s.ficha %}
+            <span class="selo selo-ok">Ficha recebida</span>
+        {% else %}
+            <span class="selo selo-pendente">Aguardando cliente</span>
+        {% endif %}
+    </a>
+    {% else %}
+        {% if not erro %}
+        <p class="texto-suave">Nenhum cliente com agendamento confirmado no momento.</p>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

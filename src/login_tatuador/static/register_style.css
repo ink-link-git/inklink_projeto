@@ -1,0 +1,184 @@
+/* RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* FUNDO DA TELA */
+body {
+    background-color: #121212; /* Fundo escuro */
+    color: #FFFFFF;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* BOTÃO PERFIS (TOPO DIREITO) */
+.top-header {
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-outline {
+    border: 1px solid #444444;
+    color: #CCCCCC;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.btn-outline:hover {
+    background-color: #222222;
+    color: #FFFFFF;
+}
+
+/* CONTAINER CENTRAL DO LOGIN */
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* LOGO (SI STUDIO INK) */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.brand-box {
+    background-color: #D31235; /* Quadrado vermelho SI */
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 2px;
+}
+
+.brand-text {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: #CCCCCC;
+}
+
+/* TÍTULOS */
+.subtitle {
+    color: #D31235; /* Texto vermelho pequeno */
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+.title {
+    font-family: 'Playfair Display', serif; /* Fonte do título "Entrar" */
+    font-size: 42px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* CAMPOS DO FORMULÁRIO */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #888888;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: #1E1E1E; /* Caixa de texto escura */
+    border: 1px solid #2A2A2A;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #D31235; /* Borda vermelha ao clicar no campo */
+}
+
+/* MENSAGEM DE ERRO DO CAMPO */
+.error-msg {
+    color: #FF4D4D;
+    font-size: 12px;
+}
+
+/* BOTÃO ENTRAR */
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background-color: #D31235; /* Botão vermelho */
+    border: none;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background-color: #B00E2B;
+}
+
+/* LINK DE CADASTRO (RODAPÉ) */
+.form-footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 13px;
+    color: #888888;
+    border-top: 1px solid #222222;
+    padding-top: 20px;
+}
+
+.form-footer a {
+    color: #FFFFFF;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* ALERTAS DO FLASK (FLASH) */
+.flash-messages {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.flash-messages li {
+    background-color: rgba(211, 18, 53, 0.2);
+    border: 1px solid #D31235;
+    color: #FF8080;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    text-align: center;
+}

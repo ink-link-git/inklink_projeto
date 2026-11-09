@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from dotenv import load_dotenv
-from login_tatuador.routes import main_bp
+from routes import main_bp
 load_dotenv()
 
 app = Flask(__name__)

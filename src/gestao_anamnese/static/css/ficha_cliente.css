@@ -1,0 +1,50 @@
+/* Ficha de anamnese — lado do cliente. Usa as variáveis de cor de login_cliente/style.css */
+
+.ficha-main {
+  max-width: 560px;
+  margin: 40px auto 80px;
+  padding: 0 24px;
+}
+
+.voltar-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+  text-decoration: none;
+}
+.voltar-link:hover { color: var(--foreground); }
+
+.aviso { color: var(--muted-foreground); font-size: 14px; margin-top: 16px; }
+
+.field select,
+.field .detalhe input {
+  width: 100%;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+}
+.field select:focus { outline: none; border-color: var(--ring); }
+
+.pergunta {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.pergunta-texto { font-size: 14px; color: var(--foreground); margin: 0 0 10px; }
+
+.sim-nao { display: flex; gap: 20px; font-size: 13px; color: var(--secondary-foreground); }
+.sim-nao label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.sim-nao input { accent-color: var(--primary); }
+
+.detalhe { margin-top: 12px; }
+
+.termo { display: flex; flex-direction: column; gap: 12px; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--secondary-foreground); cursor: pointer; }
+.check input { margin-top: 3px; accent-color: var(--primary); }
+.req { color: var(--primary); }
