@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session
-from login_tatuador.forms import LoginForm
+from login_tatuador.forms import RegisterForm, LoginForm
 from login_tatuador.db import supabase
 from shared.auth import tatuador_required, tatuador_logado
-
 try:
     from agendamento_tatuador.forms import resumo_agenda
 except ImportError:  # módulo da agenda ainda não está no projeto

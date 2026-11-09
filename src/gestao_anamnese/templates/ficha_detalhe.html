@@ -1,0 +1,45 @@
+{% extends "shared/tatuador_base.html" %}
+{% block titulo %}Ficha de {{ cliente.nome or 'cliente' }} - InkLink{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('gestao_anamnese.static', filename='css/anamnese.css') }}">
+{% endblock %}
+
+{% block conteudo %}
+<header class="content-header">
+    <div class="header-titles">
+        <span class="breadcrumb">SAÚDE</span>
+        <h1>{{ cliente.nome or 'Cliente' }}</h1>
+        <p class="texto-suave">{{ agendamento | quando }}{% if cliente.telefone %} · {{ cliente.telefone }}{% endif %}</p>
+    </div>
+    <div class="header-actions">
+        <a href="{{ url_for('gestao_anamnese.fichas_tatuador') }}" class="btn-outline">← FICHAS</a>
+    </div>
+</header>
+
+{% if not ficha %}
+    <p class="texto-suave">O cliente ainda não preencheu a ficha de anamnese desta sessão.</p>
+{% else %}
+    {% if alertas %}
+    <div class="ficha-aviso">
+        <strong>Pontos de atenção</strong>
+        <p>{{ alertas | join(' · ') }}</p>
+    </div>
+    {% endif %}
+
+    <div class="respostas">
+        {% for r in respostas %}
+        <div class="resposta">
+            <span class="resposta-pergunta">{{ r.pergunta }}</span>
+            <span class="resposta-valor {{ 'sim' if r.resposta else 'nao' }}">{{ 'Sim' if r.resposta else 'Não' }}</span>
+            {% if r.resposta and r.detalhe %}
+                <p class="resposta-detalhe">{{ r.detalhe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <p class="texto-suave" style="margin-top: 20px;">
+        Termo de responsabilidade aceito em {{ ficha.data_preenchimento | datahora }}.
+    </p>
+{% endif %}
+{% endblock %}

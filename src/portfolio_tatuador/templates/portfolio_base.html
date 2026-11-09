@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Ink - Tatuador</title>
+    <!-- Referência do CSS corrigida -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio_style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-box">SI</span>
+                <div class="logo-text">
+                    <strong>STUDIO INK</strong>
+                    <small>TATUADOR</small>
+                </div>
+            </div>
+            
+            <nav class="menu">
+                <a href="#">Meu Perfil</a>
+                <a href="#">Minha Agenda</a>
+                <a href="#" class="active">Meu Portfólio</a>
+                <a href="#">Estoque</a>
+                <a href="#">Fichas Anamnese</a>
+                <a href="#">Configurações</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>
