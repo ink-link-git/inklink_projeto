@@ -12,9 +12,6 @@ bp = Blueprint(
 
 SECOES_EM_BREVE = {
     "perfil": "Meu Perfil",
-    "agenda": "Minha Agenda",
-    "portfolio": "Meu Portfólio",
-    "anamnese": "Fichas de Anamnese",
     "estoque": "Estoque",
     "configuracoes": "Configurações",
 }
@@ -34,6 +31,7 @@ CLIENTE_EM_BREVE = {
     "agendamentos": "Agendamentos",
     "configuracoes": "Configurações",
     "ajuda": "Ajuda",
+    "ink-feed": "Ink.feed",
 }
 
 
