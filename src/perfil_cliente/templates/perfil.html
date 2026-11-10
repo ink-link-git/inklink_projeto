@@ -1,0 +1,77 @@
+{% extends "shared/cliente_base.html" %}
+
+{% block titulo %}Meu Perfil - InkLink{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('perfil_cliente.static', filename='css/perfil.css') }}">
+{% endblock %}
+
+{% block eyebrow %}Conta{% endblock %}
+{% block h1 %}Meu Perfil{% endblock %}
+
+{% block conteudo %}
+    <div class="perfil-wrap">
+
+        {% if erro %}
+            <p class="perfil-aviso">{{ erro }}</p>
+        {% endif %}
+
+        <header class="perfil-id">
+            <div class="perfil-avatar" id="perfil-avatar" aria-hidden="true">{{ perfil.iniciais }}</div>
+            <div>
+                <h2 id="perfil-nome-titulo">{{ perfil.nome }}</h2>
+                {% if perfil.desde %}<p>Membro desde {{ perfil.desde }}</p>{% endif %}
+            </div>
+        </header>
+
+        <form class="perfil-form" id="form-perfil" novalidate>
+            <div class="perfil-campo">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" value="{{ perfil.nome }}" maxlength="100" autocomplete="name" readonly>
+                <small class="perfil-erro" data-erro="nome"></small>
+            </div>
+
+            <div class="perfil-campo">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" value="{{ perfil.email }}" disabled
+                       title="O e-mail é o seu login e não pode ser alterado aqui.">
+            </div>
+
+            <div class="perfil-campo">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" value="{{ perfil.telefone }}" inputmode="tel" autocomplete="tel" readonly>
+                <small class="perfil-erro" data-erro="telefone"></small>
+            </div>
+
+            <p class="perfil-msg" id="msg-perfil" role="status" aria-live="polite"></p>
+
+            <div class="perfil-acoes">
+                <button type="button" class="perfil-btn" id="btn-editar">Editar perfil</button>
+                <button type="submit" class="perfil-btn perfil-btn-primario" id="btn-salvar" hidden>Salvar alterações</button>
+                <button type="button" class="perfil-btn" id="btn-cancelar" hidden>Cancelar</button>
+            </div>
+        </form>
+
+        {% if resumo %}
+            <section class="perfil-resumo" aria-label="Resumo">
+                <div>
+                    <strong>{{ resumo.tatuagens }}</strong>
+                    <span>{{ 'Tatuagem' if resumo.tatuagens == 1 else 'Tatuagens' }}</span>
+                </div>
+                <div>
+                    <strong>{{ resumo.artistas }}</strong>
+                    <span>{{ 'Artista' if resumo.artistas == 1 else 'Artistas' }}</span>
+                </div>
+                <div>
+                    <strong>{{ resumo.pendentes }}</strong>
+                    <span>{{ 'Pendente' if resumo.pendentes == 1 else 'Pendentes' }}</span>
+                </div>
+            </section>
+        {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('perfil_cliente.static', filename='js/perfil.js') }}"></script>
+{% endblock %}

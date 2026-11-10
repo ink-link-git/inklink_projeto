@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const lista = document.getElementById("lista-agendamentos");
-  if (!lista) return; // módulo de agendamento ainda não instalado
   const DIAS = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
 
   function formatarDataHora(texto) {
@@ -44,9 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const acoes = document.createElement("div");
       acoes.className = "agendamento-acoes";
 
-      if (!lista.dataset.fichaUrl || lista.dataset.fichaUrl === "#") {
-        // sem módulo de anamnese: não mostra o atalho
-      } else if (!item.tem_ficha) {
+      if (!item.tem_ficha) {
         const ficha = document.createElement("a");
         ficha.href = `${lista.dataset.fichaUrl}?agendamento=${item.id}`;
         ficha.textContent = "Preencher ficha";

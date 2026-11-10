@@ -1,22 +1,140 @@
-/* Área do cliente após o login. Usa as variáveis de cor de style.css */
+/* Home do cliente. As cores e fontes vêm do tema (tema.css) e o layout
+   (menu lateral, cabeçalho) vem do cliente.css, carregados pelo cliente_base.html.
+   Este arquivo só tem o que é próprio da Home. */
 
-.home-main { max-width: 560px; }
+.home-secao { margin-bottom: 32px; }
 
-.home-acoes { display: flex; flex-direction: column; gap: 12px; margin: 24px 0 36px; }
-.home-botao { text-align: center; text-decoration: none; display: block; }
-.home-botao-secundario {
-  text-align: center;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--foreground);
-  text-decoration: none;
-  font-size: 14px;
+.home-rotulo {
+  margin-bottom: 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
 }
-.home-botao-secundario:hover { border-color: var(--border-strong); }
 
-.home-subtitulo { font-size: 15px; font-weight: 600; color: var(--secondary-foreground); margin: 0 0 14px; }
 .home-vazio { color: var(--muted-foreground); font-size: 14px; }
+
+/* --- Próximo agendamento --- */
+
+.home-proximo {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 20px 24px;
+  border-radius: 2px;
+  margin-bottom: 32px;
+}
+.home-proximo-rotulo {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.home-proximo h2 {
+  margin-bottom: 6px;
+  font-family: var(--font-titulo);
+  font-weight: 600;
+  font-size: 20px;
+}
+.home-proximo p { font-size: 13px; font-weight: 600; opacity: 0.9; }
+
+.home-proximo.vazio {
+  background: var(--cli-painel);
+  border: 1px solid var(--cli-borda);
+}
+.home-proximo.vazio .home-proximo-rotulo { color: var(--muted-foreground); opacity: 1; }
+.home-proximo.vazio a { color: var(--primary); }
+
+/* --- Botão Ink.feed (mesmo estilo dos botões de contorno do protótipo) --- */
+
+.home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  background: var(--cli-painel);
+  color: var(--foreground);
+  border: 1px solid var(--cli-borda);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.home-btn::before {
+  content: "\25C6";
+  color: var(--primary);
+  font-size: 10px;
+}
+.home-btn:hover { border-color: var(--border-strong); }
+
+/* --- Artistas em destaque --- */
+
+.home-secao-topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.home-ver-todos {
+  color: var(--primary);
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.home-artistas { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.home-artista {
+  width: 150px;
+  background: var(--cli-painel);
+  border: 1px solid var(--cli-borda);
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.home-artista:hover { border-color: var(--border-strong); }
+
+.home-artista-foto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.home-artista-iniciais {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary);
+  color: var(--primary);
+  font-family: var(--font-titulo);
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.home-artista-info { padding: 10px 10px 12px; }
+.home-artista-info strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.home-artista-info span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Lista "Meus agendamentos" (cards montados pelo home.js) --- */
 
 .agendamento-card {
   background: var(--card);
