@@ -104,3 +104,42 @@ def autenticar_cliente(email, senha):
         return None, "Esta conta não é de cliente. Entre pela área do tatuador."
 
     return {"id": user.id, "nome": perfil.data[0]["nome"], "email": email}, None
+
+def proximo_agendamento(cliente_id):
+    """Próxima sessão ativa (PENDENTE ou CONFIRMADO) do cliente, para o banner da Home.
+
+    Usa a mesma consulta da lista "Meus agendamentos". Sessões de dias que já
+    passaram ficam de fora. Retorna None se não houver nenhuma.
+    """
+    from datetime import date
+
+    from agendamento_cliente.forms import listar_do_cliente
+    from shared.utils import parse_data_hora
+
+    hoje = date.today()
+    for item in listar_do_cliente(cliente_id):  # já vem em ordem de data
+        if item["status"] not in ("PENDENTE", "CONFIRMADO"):
+            continue
+        dt = parse_data_hora(item.get("data_hora") or item.get("data_desejada"))
+        if dt and dt.date() < hoje:
+            continue
+        return {
+            "tatuador": item["nome_tatuador"],
+            "quando": item["quando"],
+            "status": item["status"].capitalize(),
+        }
+    return None
+
+
+def artistas_em_destaque(limite=3):
+    """Tatuadores mostrados na Home.
+
+    Ainda não existe um critério de "destaque": por enquanto vêm primeiro os que
+    têm mais trabalhos no portfólio (e, no empate, por ordem alfabética).
+    """
+    from tatuadores_cliente.forms import listar_fichas
+
+    fichas = listar_fichas()
+    fichas.sort(key=lambda f: (-len(f["miniaturas"]), f["nome"].lower()))
+    return fichas[:limite]
+

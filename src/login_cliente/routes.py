@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, redirect, render_template, request, session, url_for
 from login_cliente.forms import (
+    artistas_em_destaque,
     autenticar_cliente,
+    proximo_agendamento,
     validar_dados_usuario,
     verificar_duplicidade,
     registrar_usuario,
@@ -41,7 +43,26 @@ def home_cliente():
     cliente = session.get("cliente")
     if not cliente:
         return redirect(url_for("login_cliente.login_cliente"))
-    return render_template("login_cliente/home.html", cliente=cliente)
+
+    try:
+        proximo = proximo_agendamento(cliente["id"])
+    except Exception as exc:
+        print(">>> ERRO AO BUSCAR O PRÓXIMO AGENDAMENTO:", exc)
+        proximo = None
+
+    try:
+        artistas = artistas_em_destaque()
+    except Exception as exc:
+        print(">>> ERRO AO BUSCAR OS ARTISTAS EM DESTAQUE:", exc)
+        artistas = []
+
+    return render_template(
+        "login_cliente/home.html",
+        cliente=cliente,
+        proximo=proximo,
+        artistas=artistas,
+        ativo="home",
+    )
 
 
 @bp.route("/logout/cliente")

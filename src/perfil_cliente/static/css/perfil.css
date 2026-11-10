@@ -1,0 +1,162 @@
+/* Tela "Meu Perfil" do cliente. O layout (barra lateral, cabeçalho) vem de shared/cliente.css
+   e as cores e fontes vêm do tema (shared/tema.css). Aqui só o que é próprio da tela. */
+
+.perfil-wrap { max-width: 432px; }
+
+.perfil-aviso {
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    border: 1px solid var(--cli-borda);
+    border-radius: 3px;
+    background: var(--cli-painel);
+    font-size: 12px;
+    color: var(--muted-foreground);
+}
+
+/* --- Avatar + nome --- */
+
+.perfil-id {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 34px;
+}
+
+.perfil-avatar {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: #ffffff;
+    border-radius: 50%;
+    font-family: var(--font-titulo);
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.perfil-id h2 {
+    font-family: var(--font-titulo);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 30px;
+    color: #ffffff;
+    overflow-wrap: anywhere;
+}
+
+.perfil-id p {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--secondary-foreground);
+}
+
+/* --- Formulário --- */
+
+.perfil-form { display: flex; flex-direction: column; gap: 18px; }
+
+.perfil-campo { display: flex; flex-direction: column; gap: 8px; }
+
+.perfil-campo label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--secondary-foreground);
+}
+
+.perfil-campo input {
+    width: 100%;
+    height: 46px;
+    padding: 0 16px;
+    background-color: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+}
+
+.perfil-campo input:focus { outline: none; border-color: var(--primary); }
+.perfil-campo input.invalido { border-color: var(--primary); }
+
+/* E-mail: fixo, mais apagado */
+.perfil-campo input:disabled {
+    color: var(--muted-foreground);
+    font-weight: 400;
+    cursor: not-allowed;
+}
+
+/* Enquanto edita, os campos liberados ganham um contorno mais forte */
+.perfil-form.editando input:not(:disabled) { border-color: var(--border-strong); }
+.perfil-form.editando input:not(:disabled):focus { border-color: var(--primary); }
+
+.perfil-erro { font-size: 11px; color: var(--primary); }
+.perfil-erro:empty { display: none; }
+
+.perfil-msg { font-size: 12px; margin: 0; }
+.perfil-msg:empty { display: none; }
+.perfil-msg.ok { color: #4ade80; }
+.perfil-msg.erro { color: var(--primary); }
+
+/* --- Botões --- */
+
+.perfil-acoes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+
+.perfil-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+    padding: 0 26px;
+    background: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s, border-color 0.2s;
+}
+.perfil-btn[hidden] { display: none; }
+.perfil-btn:hover { opacity: 0.85; }
+.perfil-btn:disabled { opacity: 0.6; cursor: default; }
+
+.perfil-btn-primario { background: var(--primary); border-color: var(--primary); }
+
+/* --- Resumo --- */
+
+.perfil-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 40px;
+}
+
+.perfil-resumo > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 90px;
+    padding: 12px 8px;
+    background-color: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 2px;
+}
+
+.perfil-resumo strong {
+    font-family: var(--font-titulo);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--primary);
+}
+
+.perfil-resumo span { font-size: 12px; color: var(--secondary-foreground); }
