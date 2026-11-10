@@ -39,6 +39,7 @@ MODULOS = {
     "gestao_anamnese": ("gestao_anamnese.routes", "bp"),
     "configuracoes_cliente": ("configuracoes_cliente.routes", "bp"),
     "perfil_cliente": ("perfil_cliente.routes", "bp"),
+    "tatuadores_cliente": ("tatuadores_cliente.routes", "bp"),
 }
 
 
