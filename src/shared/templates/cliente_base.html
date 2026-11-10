@@ -30,7 +30,7 @@
 
                 <nav class="cli-nav">
                     <a href="{{ url_for('login_cliente.home_cliente') }}" class="{{ 'ativo' if ativo == 'home' }}"><span class="icone">⌂</span>Home</a>
-                    <a href="{{ url_for('shared.cliente_em_breve', secao='perfil') }}" class="{{ 'ativo' if ativo == 'perfil' }}"><span class="icone">◉</span>Meu Perfil</a>
+                    <a href="{{ rota_cliente('perfil_cliente.perfil', 'perfil') }}" class="{{ 'ativo' if ativo == 'perfil' }}"><span class="icone">◉</span>Meu Perfil</a>
                     <a href="{{ url_for('shared.cliente_em_breve', secao='tatuadores') }}" class="{{ 'ativo' if ativo == 'tatuadores' }}"><span class="icone">✦</span>Tatuadores</a>
                     <a href="{{ rota_cliente('agendamento_cliente.agendar_sessao', 'agendamentos') }}" class="{{ 'ativo' if ativo == 'agendamentos' }}"><span class="icone">◫</span>Agendamentos</a>
                     <a href="{{ rota_cliente('configuracoes_cliente.configuracoes', 'configuracoes') }}" class="{{ 'ativo' if ativo == 'configuracoes' }}"><span class="icone">&#9881;&#xFE0E;</span>Configurações</a>
