@@ -1,0 +1,123 @@
+/* Tela Tatuadores do cliente. Layout base vem de shared/cliente.css. */
+
+.tat-busca { margin-bottom: 22px; max-width: 420px; }
+.tat-busca input {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px;
+    box-sizing: border-box;
+    background-color: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 13px;
+    font-family: inherit;
+}
+.tat-busca input:focus { outline: none; border-color: var(--primary); }
+
+.tat-filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; max-width: 980px; }
+.tat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 14px;
+    background: none;
+    border: 1px solid var(--cli-borda);
+    border-radius: 16px;
+    color: var(--muted-foreground);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+}
+.tat-chip span { font-size: 10px; opacity: 0.7; }
+.tat-chip:hover { border-color: var(--border-strong); color: #ffffff; }
+.tat-chip.ativo { background-color: var(--primary); border-color: var(--primary); color: #ffffff; }
+.tat-chip:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+.tat-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 16px;
+    max-width: 980px;
+}
+
+.tat-ficha {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    background-color: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 2px;
+    transition: border-color 0.2s;
+}
+.tat-ficha:hover { border-color: var(--border-strong); }
+.tat-ficha[hidden] { display: none; }
+
+.tat-topo { display: flex; align-items: center; gap: 14px; }
+.tat-foto {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.tat-iniciais {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.tat-id h2 { margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #ffffff; }
+.tat-esp {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.tat-endereco { margin: 0; font-size: 12px; line-height: 1.5; color: var(--muted-foreground); }
+.tat-endereco.vazio { font-style: italic; opacity: 0.7; }
+.tat-pin { color: var(--primary); margin-right: 4px; }
+
+.tat-miniaturas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.tat-miniaturas img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 2px;
+    background-color: var(--cli-fundo);
+}
+
+.tat-acoes { display: flex; gap: 8px; margin-top: auto; }
+.tat-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.tat-btn:hover { opacity: 0.9; }
+.tat-btn-sec { background: none; border-color: var(--cli-borda); color: #ffffff; }
+.tat-btn-sec:hover { border-color: var(--border-strong); opacity: 1; }
+
+.tat-vazio { font-size: 13px; color: var(--muted-foreground); }

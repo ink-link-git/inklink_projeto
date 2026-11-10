@@ -1,0 +1,73 @@
+{% extends "shared/cliente_base.html" %}
+
+{% block titulo %}Tatuadores - InkLink{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('tatuadores_cliente.static', filename='css/tatuadores.css') }}">
+{% endblock %}
+
+{% block eyebrow %}Agendar sessão{% endblock %}
+{% block h1 %}Escolha o tatuador{% endblock %}
+
+{% block conteudo %}
+    {% if erro %}
+        <p class="tat-vazio">{{ erro }}</p>
+    {% elif not fichas %}
+        <p class="tat-vazio">Nenhum tatuador cadastrado por enquanto.</p>
+    {% else %}
+        <div class="tat-busca">
+            <input type="search" id="tat-busca" placeholder="Buscar por nome ou especialidade" autocomplete="off" aria-label="Buscar tatuador">
+        </div>
+
+        {% if filtros %}
+            <div class="tat-filtros" id="tat-filtros" role="group" aria-label="Filtrar por tipo de arte">
+                <button type="button" class="tat-chip ativo" data-filtro="" aria-pressed="true">Todos</button>
+                {% for f in filtros %}
+                    <button type="button" class="tat-chip" data-filtro="{{ f.chave }}" aria-pressed="false">{{ f.rotulo }} <span>{{ f.total }}</span></button>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="tat-grade" id="tat-grade">
+            {% for t in fichas %}
+                <article class="tat-ficha" data-busca="{{ (t.nome ~ ' ' ~ t.especialidade)|lower }}" data-tags="{{ t.tags|map(attribute='chave')|join(' ') }}">
+                    <header class="tat-topo">
+                        {% if t.foto_url %}
+                            <img class="tat-foto" src="{{ t.foto_url }}" alt="Foto de {{ t.nome }}">
+                        {% else %}
+                            <div class="tat-foto tat-iniciais" aria-hidden="true">{{ t.iniciais }}</div>
+                        {% endif %}
+                        <div class="tat-id">
+                            <h2>{{ t.nome }}</h2>
+                            {% if t.especialidade %}<span class="tat-esp">{{ t.especialidade }}</span>{% endif %}
+                        </div>
+                    </header>
+
+                    <p class="tat-endereco {{ '' if t.endereco else 'vazio' }}">
+                        <span class="tat-pin" aria-hidden="true">&#9906;</span>
+                        {{ t.endereco if t.endereco else 'Endereço não informado' }}
+                    </p>
+
+                    {% if t.miniaturas %}
+                        <div class="tat-miniaturas">
+                            {% for m in t.miniaturas %}
+                                <img src="{{ m.url }}" alt="{{ m.titulo or 'Trabalho de ' ~ t.nome }}" loading="lazy">
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <footer class="tat-acoes">
+                        <a class="tat-btn tat-btn-sec" href="{{ url_for('portfolio_tatuador.portfolio_publico', id_tatuador=t.id_tatuador) }}">Ver portfólio</a>
+                        <a class="tat-btn" href="{{ url_for('agendamento_cliente.agendar_sessao', tatuador=t.id_tatuador) }}">Agendar</a>
+                    </footer>
+                </article>
+            {% endfor %}
+        </div>
+
+        <p class="tat-vazio" id="tat-sem-resultado" hidden>Nenhum tatuador encontrado. Tente outra busca ou outro tipo de arte.</p>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('tatuadores_cliente.static', filename='js/tatuadores.js') }}"></script>
+{% endblock %}
