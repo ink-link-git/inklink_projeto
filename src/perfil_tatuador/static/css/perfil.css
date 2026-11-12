@@ -1,24 +1,139 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;700&display=swap');
 
+/* ===== BASE ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     background-color: #121212;
     color: #fff;
-    padding: 40px 20px;
     font-family: 'Inter', sans-serif;
 }
 
-.perfil-container { max-width: 900px; margin: 0 auto; }
+.layout { display: flex; min-height: 100vh; }
 
-.perfil-header {
+/* ===== PAINEL LATERAL ===== */
+.menu-lateral {
+    width: 210px;
+    flex-shrink: 0;
+    background-color: #181818;
+    border-right: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.menu-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 28px 20px 24px;
+}
+
+.menu-logo-icone {
+    width: 24px;
+    height: 24px;
+    background-color: #991b1b;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.menu-logo-nome {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #a0a0a0;
+}
+
+.menu-logo-funcao {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #991b1b;
+}
+
+.menu-navegacao { flex: 1; padding: 0 10px; }
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 4px;
+    color: #8a8a8a;
+    font-size: 0.8rem;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.menu-item:hover,
+.menu-item:focus-visible {
+    background-color: #202020;
+    color: #fff;
+    outline: none;
+}
+
+.menu-item-ativo {
+    background-color: rgba(153, 27, 27, 0.15);
+    border-left-color: #991b1b;
+    color: #b42323;
+}
+
+.menu-icone { font-size: 0.85rem; width: 16px; text-align: center; }
+
+.menu-usuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #2a2a2a;
+}
+
+.menu-usuario-avatar {
+    width: 28px;
+    height: 28px;
+    background-color: #991b1b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.menu-usuario-nome   { display: block; font-size: 0.75rem; }
+.menu-usuario-funcao { display: block; font-size: 0.65rem; color: #8a8a8a; }
+
+/* ===== ÁREA PRINCIPAL ===== */
+.area-principal { flex: 1; padding: 40px 32px; min-width: 0; }
+
+.perfil-conteiner { max-width: 1000px; }
+
+/* ===== CABEÇALHO DO PERFIL ===== */
+.perfil-sobretitulo {
+    color: #991b1b;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.perfil-cabecalho {
     display: flex;
     align-items: center;
     gap: 20px;
     margin-bottom: 12px;
 }
 
-.avatar-circle {
+.avatar-circulo {
     width: 70px;
     height: 70px;
     background-color: #991b1b;
@@ -29,24 +144,32 @@ body {
     font: bold 1.5rem 'Playfair Display', serif;
 }
 
-.perfil-nome, .metric-number {
+.perfil-nome, .metrica-numero {
     font-family: 'Playfair Display', serif;
     color: #fff;
 }
 
-.perfil-nome { font-size: 2.2rem; }
+.perfil-nome { font-size: 2.2rem; font-weight: 500; }
 
-.perfil-tag, .metric-label { color: #a0a0a0; font-size: 0.9rem; }
+.perfil-especialidade, .metrica-rotulo { color: #a0a0a0; font-size: 0.9rem; }
 
-.perfil-bio { color: #ccc; margin-bottom: 30px; font-size: 0.95rem; }
+.perfil-bio { color: #ccc; font-size: 0.95rem; }
 
-.metrics-grid {
+.perfil-divisor {
+    border: none;
+    border-top: 1px solid #2a2a2a;
+    margin: 28px 0;
+}
+
+/* ===== MÉTRICAS ===== */
+.metricas-grade {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+    margin-bottom: 24px;
 }
 
-.metric-card {
+.metrica-cartao {
     background-color: #1e1e1e;
     border: 1px solid #2a2a2a;
     border-radius: 8px;
@@ -54,9 +177,111 @@ body {
     text-align: center;
 }
 
-.metric-number {
+.metrica-numero {
     display: block;
     font-size: 2rem;
-    color: #991b1b;
     margin-bottom: 6px;
+}
+
+.metrica-confirmado { color: #4ade80; }
+.metrica-pendente   { color: #facc15; }
+.metrica-concluido  { color: #6b6b6b; }
+
+/* ===== FAIXA DA PRÓXIMA SESSÃO ===== */
+.proxima-sessao {
+    display: block;
+    background-color: #991b1b;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 2px;
+    padding: 22px 24px;
+    margin-bottom: 36px;
+    transition: background-color 0.2s;
+}
+
+a.proxima-sessao:hover,
+a.proxima-sessao:focus-visible {
+    background-color: #b42323;
+    outline: none;
+}
+
+.proxima-rotulo {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 8px;
+}
+
+.proxima-cliente {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+}
+
+.proxima-detalhes {
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.proxima-vazia {
+    background-color: #1e1e1e;
+    border: 1px dashed #2a2a2a;
+}
+
+/* ===== ACESSO RÁPIDO ===== */
+.secao-titulo {
+    color: #a0a0a0;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.acesso-grade {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.acesso-cartao {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background-color: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 20px;
+    text-decoration: none;
+    color: #fff;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.acesso-cartao:hover,
+.acesso-cartao:focus-visible {
+    border-color: #991b1b;
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.acesso-icone     { color: #991b1b; font-size: 1.2rem; margin-bottom: 14px; }
+.acesso-titulo    { font-size: 0.9rem; font-weight: 600; }
+.acesso-descricao { color: #a0a0a0; font-size: 0.78rem; }
+
+/* ===== CELULAR ===== */
+@media (max-width: 800px) {
+    .layout { flex-direction: column; }
+    .menu-lateral { width: 100%; height: auto; position: static; }
+    .area-principal { padding: 20px 16px 40px; }
+}
+
+@media (max-width: 700px) {
+    .metricas-grade,
+    .acesso-grade { grid-template-columns: 1fr; }
+    .perfil-nome { font-size: 1.8rem; }
 }

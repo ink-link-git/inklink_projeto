@@ -3,50 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil-Studio Ink</title>
+    <title>Perfil - InkLink</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 </head>
-<body class="bg-dark text-white">
-    
-    <!-- Container Principal do Perfil -->
-    <main class="perfil-container">
-        <!-- CABEÇALHO DO TATUADOR -->
-<header class="perfil-header">
-            <!-- Avatar com as iniciais -->  
-            <div class="avatar-circle">
-                <span>{{ iniciais | default('JM') }}</span>
-            </div> 
-    
-    <!-- Informações textuais do perfil -->
-    <div class="perfil-info">
-        <!-- Nome do tatuador-->
-         <h1 class="perfil-nome">{{ nome_tatuador | default('Tatuador') }}</h1>
-         <!-- Tag/Especialidade -->
-         <span class="perfil-tag">{{ especialidade | default('blackwork') }}</span> 
+<body>
+
+{% set nome = nome_tatuador | default('Fer Art') %}
+{% set sigla = iniciais | default('FA') %}
+
+<div class="layout">
+
+    <!-- PAINEL LATERAL -->
+    <aside class="menu-lateral">
+        <div class="menu-logo">
+            <span class="menu-logo-icone">IK</span>
+            <div>
+                <strong class="menu-logo-nome">InkLink</strong>
+                <span class="menu-logo-funcao">Tatuador</span>
+            </div>
+        </div>
+
+        <nav class="menu-navegacao">
+            {# troque cada # pela rota correta quando ela existir #}
+            <a href="#" class="menu-item menu-item-ativo">
+                <span class="menu-icone">◉</span>Meu Perfil
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icone">◫</span>Minha Agenda
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icone">✦</span>Meu Portfólio
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icone">▣</span>Estoque
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icone">⚙</span>Configurações
+            </a>
+        </nav>
+
+        <div class="menu-usuario">
+            <div class="menu-usuario-avatar">{{ sigla }}</div>
+            <div>
+                <strong class="menu-usuario-nome">{{ nome }}</strong>
+                <span class="menu-usuario-funcao">Tatuador</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="area-principal">
+        <main class="perfil-conteiner">
+
+            <p class="perfil-sobretitulo">Tatuador · InkLink</p>
+
+            <header class="perfil-cabecalho">
+                <div class="avatar-circulo">
+                    <span>{{ sigla }}</span>
+                </div>
+                <div class="perfil-informacoes">
+                    <h1 class="perfil-nome">{{ nome }}</h1>
+                    <span class="perfil-especialidade">{{ especialidade | default('blackwork') }}</span>
+                </div>
+            </header>
+
+            <p class="perfil-bio">
+                {{ bio | default('Tatuador especialista em blackwork.') }}
+            </p>
+
+            <hr class="perfil-divisor">
+
+            <section class="metricas-grade">
+                <div class="metrica-cartao">
+                    <span class="metrica-numero metrica-confirmado">{{ confirmados | default(2) }}</span>
+                    <span class="metrica-rotulo">Confirmados</span>
+                </div>
+                <div class="metrica-cartao">
+                    <span class="metrica-numero metrica-pendente">{{ pendentes | default(2) }}</span>
+                    <span class="metrica-rotulo">Pendentes</span>
+                </div>
+                <div class="metrica-cartao">
+                    <span class="metrica-numero metrica-concluido">{{ concluidos | default(2) }}</span>
+                    <span class="metrica-rotulo">Concluídos</span>
+                </div>
+            </section>
+
+            {% set proxima_sessao = proxima_sessao | default({
+                'cliente': 'Lucas Mendes',
+                'data': '22 Ago 2026',
+                'hora': '14:00',
+                'tipo': 'Blackwork',
+                'duracao': '3h'
+            }) %}
+
+            {% if proxima_sessao %}
+            <a href="#" class="proxima-sessao">
+                <span class="proxima-rotulo">Próxima sessão</span>
+                <h2 class="proxima-cliente">{{ proxima_sessao.cliente }}</h2>
+                <p class="proxima-detalhes">
+                    {{ proxima_sessao.data }} às {{ proxima_sessao.hora }}
+                    · {{ proxima_sessao.tipo }} · {{ proxima_sessao.duracao }}
+                </p>
+            </a>
+            {% else %}
+            <div class="proxima-sessao proxima-vazia">
+                <span class="proxima-rotulo">Próxima sessão</span>
+                <p class="proxima-detalhes">Nenhuma sessão agendada.</p>
+            </div>
+            {% endif %}
+
+            <h3 class="secao-titulo">Acesso rápido</h3>
+            <nav class="acesso-grade">
+                <a href="#" class="acesso-cartao">
+                    <span class="acesso-icone">◫</span>
+                    <strong class="acesso-titulo">Minha Agenda</strong>
+                    <span class="acesso-descricao">Agendamentos do mês</span>
+                </a>
+                <a href="#" class="acesso-cartao">
+                    <span class="acesso-icone">✦</span>
+                    <strong class="acesso-titulo">Meu Portfólio</strong>
+                    <span class="acesso-descricao">Gerencie suas obras</span>
+                </a>
+                <a href="#" class="acesso-cartao">
+                    <span class="acesso-icone">▣</span>
+                    <strong class="acesso-titulo">Estoque</strong>
+                    <span class="acesso-descricao">Insumos e materiais</span>
+                </a>
+            </nav>
+
+        </main>
     </div>
-</header>
 
-<!-- Bio / Descrição do Tatuador -->
-<p class="perfil-bio">
-    {{ bio | default('Tatuador especialista em blackwork.') }}
-</p>     
-
-
-<!-- CARDS (Início da marcação básica) -->
-<section class="metrics-grid">
-            <div class="metric-card">
-                <span class="metric-number">2</span>
-                <span class="metric-label">Confirmados</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-number">2</span>
-                <span class="metric-label">Pendentes</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-number">2</span>
-                <span class="metric-label">Concluídos</span>
-            </div>
-        </section>
-    </main>
+</div>
 </body>
 </html>
