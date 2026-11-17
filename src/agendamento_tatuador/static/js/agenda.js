@@ -1,6 +1,47 @@
+<<<<<<< HEAD
+// Função para abrir o modal de reagendamento
+function abrirModal(idAgendamento) {
+    const form = document.getElementById('formReagendar');
+    if (form) {
+        form.action = '/reagendar/' + idAgendamento;
+        const modal = document.getElementById('modalReagendar');
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+}
+=======
 // Modal para aceitar um pedido ou reagendar: o tatuador escolhe dia, hora e duração.
 let sessoesConfirmadas = [];
+>>>>>>> cb74ef9b567c27a6726450cfd805c41947aac95e
 
+<<<<<<< HEAD
+// Função para fechar o modal
+function fecharModal() {
+    const modal = document.getElementById('modalReagendar');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Escuta os cliques na página de forma limpa
+document.addEventListener('DOMContentLoaded', function () {
+    // Botões para abrir o modal
+    const botoesReagendar = document.querySelectorAll('.btn-reagendar');
+    botoesReagendar.forEach(function (botao) {
+        botao.addEventListener('click', function () {
+            const id = this.getAttribute('data-id');
+            abrirModal(id);
+        });
+    });
+
+    // Botão para fechar o modal
+    const botaoFechar = document.getElementById('btnFecharModal');
+    if (botaoFechar) {
+        botaoFechar.addEventListener('click', fecharModal);
+    }
+});
+=======
 function hojeISO() {
     const d = new Date();
     d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
@@ -64,3 +105,5 @@ document.addEventListener('DOMContentLoaded', function () {
     const botaoFechar = document.getElementById('btnFecharModal');
     if (botaoFechar) botaoFechar.addEventListener('click', fecharModal);
 });
+
+>>>>>>> cb74ef9b567c27a6726450cfd805c41947aac95e
