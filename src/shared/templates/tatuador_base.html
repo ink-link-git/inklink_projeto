@@ -12,8 +12,8 @@
 </head>
 <body>
     <div class="layout-wrapper">
-        <aside class="sidebar">
-            <div class="sidebar-logo">
+        <aside class="sidebar" style="display: flex; flex-direction: column;">
+            <div class="sidebar-logo" style="order: 1;">
                 <span class="logo-box">IL</span>
                 <div class="logo-text">
                     <strong>INKLINK</strong>
@@ -21,23 +21,25 @@
                 </div>
             </div>
 
-            <nav class="sidebar-nav">
+            <nav class="sidebar-nav" style="order: 2;">
                 <a href="{{ url_for('login_tatuador.home_logada') }}" class="{{ 'active' if ativo == 'inicio' }}">Início</a>
-                <a href="{{ url_for('shared.em_breve', secao='perfil') }}" class="{{ 'active' if ativo == 'perfil' }}">Meu Perfil</a>
+                <a href="{{ url_for('perfil_tatuador.perfil') }}">Meu Perfil</a>
                 <a href="{{ rota('agendamento_tatuador.minha_agenda', 'agenda') }}" class="{{ 'active' if ativo == 'agenda' }}">Minha Agenda</a>
                 <a href="{{ rota('portfolio_tatuador.mostrar_portfolio', 'portfolio') }}" class="{{ 'active' if ativo == 'portfolio' }}">Meu Portfólio</a>
                 <a href="{{ url_for('shared.em_breve', secao='estoque') }}" class="{{ 'active' if ativo == 'estoque' }}">Estoque</a>
                 <a href="{{ rota('gestao_anamnese.fichas_tatuador', 'anamnese') }}" class="{{ 'active' if ativo == 'anamnese' }}">Fichas Anamnese</a>
-                <a href="{{ url_for('shared.em_breve', secao='configuracoes') }}" class="{{ 'active' if ativo == 'configuracoes' }}">Configurações</a>
+                <a href="{{ url_for('configuracoes_tatuador.configuracoes') }}">Configurações</a>
             </nav>
 
-            <div class="sidebar-footer">
-                <div class="user-avatar">{{ (tatuador.nome or '?')[:1]|upper }}</div>
-                <div class="user-info">
-                    <strong>{{ tatuador.nome }}</strong>
-                    <span>{{ tatuador.especialidade or tatuador.email }}</span>
-                    <a href="{{ url_for('login_tatuador.logout') }}" class="sidebar-sair">Sair</a>
+            <div class="sidebar-footer" style="order: 3; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-top: 1px solid #2A2A2A; margin-top: auto; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div class="user-avatar">{{ (tatuador.nome or '?')[:1]|upper }}</div>
+                    <div class="user-info" style="display: flex; flex-direction: column;">
+                        <strong>{{ tatuador.nome }}</strong>
+                        <span>{{ tatuador.especialidade or tatuador.email }}</span>
+                    </div>
                 </div>
+                <a href="{{ url_for('login_tatuador.logout') }}" class="sidebar-sair" style="color: #D31235; font-weight: 600; text-decoration: none;">Sair</a>
             </div>
         </aside>
 

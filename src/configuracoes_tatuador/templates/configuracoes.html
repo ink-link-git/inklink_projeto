@@ -1,0 +1,38 @@
+{% extends "shared/tatuador_base.html" %}
+
+{% block titulo %}Configurações - InkLink{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('configuracoes_tatuador.static', filename='css/configuracoes.css') }}">
+{% endblock %}
+
+{% block eyebrow %}Preferências{% endblock %}
+{% block h1 %}Configurações{% endblock %}
+
+{% block conteudo %}
+    <div class="config-lista">
+        <a class="config-item config-link" href="{{ url_for('configuracoes_tatuador.alterar_senha') }}">
+            <div class="config-texto">
+                <strong>Alterar senha</strong>
+                <span>Atualize sua senha de acesso</span>
+            </div>
+            <span class="config-seta">&rsaquo;</span>
+        </a>
+
+        <a class="config-item config-link" href="{{ url_for('configuracoes_tatuador.ajuda') }}">
+            <div class="config-texto">
+                <strong>Ajuda</strong>
+                <span>Central de suporte e FAQ para tatuadores</span>
+            </div>
+            <span class="config-seta">&rsaquo;</span>
+        </a>
+
+        <a class="config-item config-sair" href="{{ url_for('login_tatuador.logout') }}">
+            <span class="config-sair-icone">&crarr;</span>
+            <div class="config-texto">
+                <strong>Sair da conta</strong>
+                <span>Encerrar sessão atual</span>
+            </div>
+        </a>
+    </div>
+{% endblock %}
