@@ -1,6 +1,8 @@
 @import url("/static/shared/css/tema.css");
 
-/* Layout da área do tatuador (sidebar, cabeçalho e botões) — usado por todas as telas do tatuador. */
+/* ==========================================
+   RESET & CONFIGURAÇÕES GERAIS
+   ========================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -19,7 +21,9 @@ body {
     min-height: 100vh;
 }
 
-/* SIDEBAR */
+/* ==========================================
+   SIDEBAR (PADRÃO DESKTOP)
+   ========================================== */
 .sidebar {
     width: 260px;
     background-color: #161616;
@@ -124,7 +128,9 @@ body {
     color: #888888;
 }
 
-/* MAIN CONTENT */
+/* ==========================================
+   CONTEÚDO PRINCIPAL
+   ========================================== */
 .main-content {
     margin-left: 260px;
     flex-grow: 1;
@@ -262,8 +268,12 @@ body {
 }
 
 .resumo-card:hover { border-color: #D31235; }
-.resumo-numero { font-family: var(--font-titulo);
-    font-weight: 600; font-size: 2rem; color: #fff; }
+.resumo-numero { 
+    font-family: var(--font-titulo);
+    font-weight: 600; 
+    font-size: 2rem; 
+    color: #fff; 
+}
 .resumo-label { font-size: 0.8rem; color: #888888; }
 
 .secao-titulo { font-size: 1rem; color: #CCCCCC; margin-bottom: 12px; font-weight: 600; }
@@ -282,3 +292,86 @@ body {
 
 .proximo-card strong { color: #fff; font-size: 0.95rem; }
 .proximo-card span { color: #888888; font-size: 0.85rem; }
+
+/* ==========================================
+   RESPONSIVIDADE GLOBAL (CELULAR / TELA MENOR)
+   ========================================== */
+@media (max-width: 768px) {
+    .layout-wrapper {
+        flex-direction: column !important;
+        height: auto !important;
+    }
+    
+    /* Transforma a barra lateral do topo num container flex em coluna */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        border-right: none !important;
+        border-bottom: 1px solid #2A2A2A !important;
+        padding: 16px 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* 1º Elemento: Logo no topo */
+    .sidebar-logo {
+        padding: 0 16px 16px 16px !important;
+        order: 1 !important;
+    }
+
+    /* 2º Elemento: Links do menu lado a lado no meio */
+    .sidebar-nav {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        padding: 12px 16px !important;
+        order: 2 !important;
+    }
+
+    .sidebar-nav a {
+        padding: 8px 12px !important;
+        font-size: 0.8rem !important;
+        border-radius: 4px !important;
+        border-left: none !important;
+    }
+
+    .sidebar-nav a.active {
+        border-left: none !important;
+        background-color: rgba(211, 18, 53, 0.2) !important;
+    }
+
+    /* 3º Elemento: Rodapé (Perfil + Sair) forçado obrigatoriamente para o final */
+    .sidebar-footer {
+        order: 3 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 12px 16px !important;
+        border-top: 1px solid #2A2A2A !important;
+        margin-top: 8px !important;
+        width: 100% !important;
+        background-color: #121212 !important;
+    }
+
+    .user-info {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
+    }
+
+    .sidebar-sair {
+        display: inline-block !important;
+        margin-top: 4px !important;
+        font-weight: 600;
+        color: #D31235;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        flex-grow: 1 !important;
+        padding: 20px !important;
+    }
+}
