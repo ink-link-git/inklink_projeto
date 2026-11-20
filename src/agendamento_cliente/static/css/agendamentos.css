@@ -1,0 +1,118 @@
+.meus-agendamentos { width: 100%; }
+.agendamentos-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+.agendamentos-cabecalho h2 {
+    color: #fff;
+    font-family: var(--font-titulo);
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+.agendamentos-cabecalho p { color: var(--muted-foreground); font-size: 13px; line-height: 1.6; }
+.agendamentos-novo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 39px;
+    padding: 0 15px;
+    background: var(--primary);
+    color: #fff;
+    border: 1px solid var(--primary);
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: filter .2s;
+}
+.agendamentos-novo:hover { filter: brightness(1.12); }
+.agendamentos-lista { display: grid; gap: 13px; }
+.agendamentos-mensagem {
+    padding: 25px;
+    color: var(--muted-foreground);
+    background: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+}
+.agendamento-item {
+    padding: 19px 20px;
+    background: var(--cli-painel);
+    border: 1px solid var(--cli-borda);
+    border-radius: 4px;
+}
+.agendamento-item-topo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 13px;
+}
+.agendamento-data { color: #fff; font-size: 15px; font-weight: 600; line-height: 1.5; }
+.agendamento-tatuador { margin-top: 4px; color: var(--muted-foreground); font-size: 13px; }
+.agendamento-status {
+    flex-shrink: 0;
+    padding: 5px 10px;
+    border: 1px solid var(--cli-borda);
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .06em;
+}
+.status-pendente { color: #fbbf24; border-color: rgba(251,191,36,.35); }
+.status-confirmado { color: #34d399; border-color: rgba(52,211,153,.35); }
+.status-cancelado { color: #f87171; border-color: rgba(248,113,113,.35); }
+.status-realizado { color: #a5b4fc; border-color: rgba(165,180,252,.35); }
+.status-default { color: var(--muted-foreground); }
+.agendamento-detalhes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--cli-borda);
+}
+.agendamento-detalhe { min-width: 0; }
+.agendamento-detalhe small {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted-foreground);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+.agendamento-detalhe span { display: block; color: #eee; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.agendamento-descricao { grid-column: 1 / -1; }
+.agendamento-acoes-tela {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 13px;
+    border-top: 1px solid var(--cli-borda);
+}
+.agendamento-acoes-tela a, .agendamento-acoes-tela button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--primary);
+    font: inherit;
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.agendamento-acoes-tela button:disabled { opacity: .5; cursor: wait; }
+.agendamento-ficha-ok { color: #34d399; font-size: 12px; }
+@media (max-width: 600px) {
+    .agendamentos-cabecalho { align-items: flex-start; flex-direction: column; }
+    .agendamento-item { padding: 15px; }
+    .agendamento-item-topo { flex-direction: column; }
+    .agendamento-detalhes { grid-template-columns: 1fr; }
+    .agendamento-descricao { grid-column: auto; }
+}
