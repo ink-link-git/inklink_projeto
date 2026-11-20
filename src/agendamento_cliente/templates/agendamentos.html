@@ -1,0 +1,35 @@
+{% extends "shared/cliente_base.html" %}
+
+{% block titulo %}Agendamentos - InkLink{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('agendamento_cliente.static', filename='css/agendamentos.css') }}">
+{% endblock %}
+
+{% block eyebrow %}Sua jornada InkLink{% endblock %}
+{% block h1 %}Meus agendamentos{% endblock %}
+
+{% block conteudo %}
+<section class="meus-agendamentos" aria-labelledby="agendamentos-titulo">
+    <div class="agendamentos-cabecalho">
+        <div>
+            <h2 id="agendamentos-titulo">Todos os seus pedidos</h2>
+            <p>Acompanhe as solicitações, datas e atualizações dos tatuadores.</p>
+        </div>
+        <a class="agendamentos-novo" href="{{ rota_cliente('tatuadores_cliente.lista', 'tatuadores') }}">Novo agendamento</a>
+    </div>
+
+    <div id="lista-agendamentos-cliente"
+         class="agendamentos-lista"
+         data-api-url="{{ url_for('agendamento_cliente.api_agendamentos_cliente') }}"
+         data-cancelar-url="/api/agendamentos/__ID__/cancelar"
+         data-ficha-url="{{ url_for('gestao_anamnese.ficha_cliente') }}"
+         aria-live="polite">
+        <p class="agendamentos-mensagem">Carregando seus agendamentos...</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('agendamento_cliente.static', filename='js/agendamentos.js') }}" defer></script>
+{% endblock %}

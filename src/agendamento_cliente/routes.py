@@ -20,6 +20,13 @@ bp = Blueprint(
 )
 
 
+@bp.route("/cliente/agendamentos")
+@cliente_required
+def tela_agendamentos_cliente():
+    """Exibe a tela com todos os pedidos de agendamento do cliente logado."""
+    return render_template("agendamento_cliente/agendamentos.html", ativo="agendamentos")
+
+
 @bp.route("/cliente/agendar")
 @cliente_required
 def agendar_sessao():
