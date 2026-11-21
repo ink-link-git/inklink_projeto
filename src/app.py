@@ -13,12 +13,17 @@ Para rodar:
 """
 import os
 import secrets
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 from flask import Flask, session
 from jinja2 import FileSystemLoader, PrefixLoader
 
+SRC_DIR = Path(__file__).resolve().parent
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+    
 SRC_DIR = Path(__file__).resolve().parent
 
 # Módulos que têm telas: pasta -> (arquivo de rotas, nome do blueprint nesse arquivo).
