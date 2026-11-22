@@ -34,7 +34,7 @@
                 {% endif %}
             {% endwith %}
 
-            <form method="POST" action="{{ url_for('cadastro_tatuador.register') }}" id="registerForm">
+            <form method="POST" action="{{ url_for('cadastro_tatuador.register') }}" id="registerForm" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 
                 <div class="input-group">
@@ -68,8 +68,32 @@
                 </div>
 
                 <div class="input-group">
+                    <label for="endereco">ENDEREÇO DO ESTÚDIO</label>
+                    {{ form.endereco(placeholder="Rua, Número, Bairro - Cidade/UF", autocomplete="street-address") }}
+                    {% for erro in form.endereco.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
+                </div>
+
+                <div class="input-group">
+                    <label for="foto_perfil">FOTO DE PERFIL</label>
+                    {{ form.foto_perfil(accept="image/png, image/jpeg, image/jpg") }}
+                    {% for erro in form.foto_perfil.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
+                </div>
+
+                <div class="input-group">
                     <label for="password">SENHA</label>
                     {{ form.password(placeholder="••••••••", autocomplete="new-password") }}
+                    
+                    <!-- Barras do medidor de força da senha -->
+                    <div class="password-strength-container" style="margin-top: 6px;">
+                        <div class="strength-bars" style="display: flex; gap: 4px; height: 4px;">
+                            <span class="bar" style="flex: 1; background: #333; border-radius: 2px; transition: 0.3s;"></span>
+                            <span class="bar" style="flex: 1; background: #333; border-radius: 2px; transition: 0.3s;"></span>
+                            <span class="bar" style="flex: 1; background: #333; border-radius: 2px; transition: 0.3s;"></span>
+                            <span class="bar" style="flex: 1; background: #333; border-radius: 2px; transition: 0.3s;"></span>
+                        </div>
+                        <small id="strength-text" style="color: #aaa; font-size: 11px; margin-top: 4px; display: block;">Digite uma senha segura</small>
+                    </div>
+
                     {% for erro in form.password.errors %}<span class="error-msg">{{ erro }}</span>{% endfor %}
                 </div>
 

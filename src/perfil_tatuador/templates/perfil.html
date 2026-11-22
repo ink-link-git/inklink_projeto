@@ -16,18 +16,32 @@
             <p class="perfil-aviso">{{ erro }}</p>
         {% endif %}
 
+        <!-- Avatar do topo -->
         <header class="perfil-id">
-            <div class="perfil-avatar" id="perfil-avatar" aria-hidden="true">{{ perfil.iniciais }}</div>
+            <div class="perfil-avatar" id="perfil-avatar" aria-hidden="true">
+                {% if perfil.avatar_url %}
+                    <img src="{{ perfil.avatar_url }}" alt="Foto de perfil" class="perfil-img-avatar">
+                {% else %}
+                    {{ perfil.iniciais }}
+                {% endif %}
+            </div>
             <div>
                 <h2 id="perfil-nome-titulo">{{ perfil.nome }}</h2>
                 {% if perfil.desde %}<p>Membro desde {{ perfil.desde }}</p>{% endif %}
             </div>
         </header>
 
-        <form class="perfil-form" id="form-perfil" novalidate>
+        <form class="perfil-form" id="form-perfil" novalidate enctype="multipart/form-data">
+            
+            <!-- Input oculto para alteração da foto quando em modo edição -->
+            <div class="perfil-campo perfil-campo-foto" id="campo-foto-container" style="display: none;">
+                <label for="foto_perfil">ALTERAR FOTO DE PERFIL</label>
+                <input type="file" id="foto_perfil" name="foto_perfil" accept="image/png, image/jpeg, image/jpg">
+            </div>
+
             <div class="perfil-campo">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome" value="{{ perfil.nome }}" maxlength="100" autocomplete="name" readonly>
+                <input type="text" id="nome" name="nome" value="{{ perfil.nome }}" maxlength="100" autocomplete="name" disabled>
                 <small class="perfil-erro" data-erro="nome"></small>
             </div>
 
@@ -39,8 +53,15 @@
 
             <div class="perfil-campo">
                 <label for="telefone">Telefone</label>
-                <input type="tel" id="telefone" name="telefone" value="{{ perfil.telefone }}" inputmode="tel" autocomplete="tel" readonly>
+                <input type="tel" id="telefone" name="telefone" value="{{ perfil.telefone }}" inputmode="tel" autocomplete="tel" disabled>
                 <small class="perfil-erro" data-erro="telefone"></small>
+            </div>
+
+            <!-- Campo: Endereço -->
+            <div class="perfil-campo">
+                <label for="endereco">Endereço</label>
+                <input type="text" id="endereco" name="endereco" value="{{ perfil.endereco }}" autocomplete="street-address" disabled>
+                <small class="perfil-erro" data-erro="endereco"></small>
             </div>
 
             <p class="perfil-msg" id="msg-perfil" role="status" aria-live="polite"></p>
