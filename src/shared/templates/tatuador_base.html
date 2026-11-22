@@ -26,7 +26,7 @@
                 <a href="{{ url_for('perfil_tatuador.perfil') }}">Meu Perfil</a>
                 <a href="{{ rota('agendamento_tatuador.minha_agenda', 'agenda') }}" class="{{ 'active' if ativo == 'agenda' }}">Minha Agenda</a>
                 <a href="{{ rota('portfolio_tatuador.mostrar_portfolio', 'portfolio') }}" class="{{ 'active' if ativo == 'portfolio' }}">Meu Portfólio</a>
-                <a href="{{ url_for('shared.em_breve', secao='estoque') }}" class="{{ 'active' if ativo == 'estoque' }}">Estoque</a>
+                <a href="{{ rota('estoque_tatuador.estoque', 'estoque') }}" class="{{ 'active' if ativo == 'estoque' }}">Estoque</a>
                 <a href="{{ rota('gestao_anamnese.fichas_tatuador', 'anamnese') }}" class="{{ 'active' if ativo == 'anamnese' }}">Fichas Anamnese</a>
                 <a href="{{ url_for('configuracoes_tatuador.configuracoes') }}">Configurações</a>
             </nav>

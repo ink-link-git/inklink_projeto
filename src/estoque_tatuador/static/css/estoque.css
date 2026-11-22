@@ -1,0 +1,51 @@
+.estoque-abas { display: flex; gap: 8px; margin: -16px 0 32px; }
+.estoque-abas a { text-transform: uppercase; letter-spacing: .5px; border-radius: 0; }
+.estoque-lista, .estoque-form { max-width: 800px; }
+
+.estoque-cat { font-size: .75rem; letter-spacing: 2px; color: #888; font-weight: 400; margin: 24px 0 12px; }
+.estoque-cat:first-child { margin-top: 0; }
+.estoque-item { background: #181818; border: 1px solid #2A2A2A; border-radius: 4px; padding: 18px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+.estoque-item strong { color: #fff; font-size: .95rem; }
+.estoque-item small { display: block; color: #D31235; font-size: .75rem; margin-top: 4px; }
+.estoque-item.baixo { border-color: rgba(211, 18, 53, .4); }
+.estoque-qtd { text-align: right; color: #fff; font-weight: 700; }
+.estoque-qtd span { display: block; color: #888; font-size: .75rem; font-weight: 400; }
+.estoque-item.baixo .estoque-qtd { color: #D31235; }
+
+.estoque-form label { display: block; color: #888; font-size: .75rem; letter-spacing: 1.5px; margin-bottom: 10px; }
+.estoque-form select, .estoque-form input[type=text], .estoque-form input[type=date] { width: 100%; background: #1E1E1E; border: 1px solid #2A2A2A; border-radius: 4px; color: #fff; padding: 16px; font: inherit; margin-bottom: 24px; color-scheme: dark; }
+.estoque-form select { margin-bottom: 24px; }
+.estoque-form #cliente_outro { margin-top: -12px; }
+.estoque-form input:focus, .estoque-form select:focus { outline: none; border-color: #D31235; }
+.estoque-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+.chip { background: #1E1E1E; border: 1px solid #2A2A2A; display: flex; align-items: center; }
+.chip-btn { background: none; border: 0; color: #888; padding: 9px 14px; font: inherit; font-size: .8rem; cursor: pointer; }
+.chip-btn:disabled { opacity: .4; cursor: not-allowed; }
+.chip.on { border-color: #D31235; }
+.chip.on .chip-btn { color: #fff; }
+.chip-step { display: flex; align-items: center; border-left: 1px solid #2A2A2A; }
+.step-btn { width: 30px; align-self: stretch; background: transparent; border: 0; color: #888; font-size: 1rem; line-height: 1; cursor: pointer; transition: .15s; }
+.step-btn:hover { background: #D31235; color: #fff; }
+.chip-qtd { width: 38px; background: transparent; border: 0; color: #fff; padding: 9px 0; font: inherit; font-size: .8rem; text-align: center; -moz-appearance: textfield; appearance: textfield; }
+.chip-qtd::-webkit-inner-spin-button, .chip-qtd::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.chip-qtd:focus { outline: none; }
+.estoque-enviar { width: 100%; padding: 18px; letter-spacing: 2px; font-size: .85rem; border-radius: 0; }
+
+.estoque-uso { background: #181818; border: 1px solid #2A2A2A; border-radius: 4px; padding: 22px; margin-bottom: 16px; }
+.estoque-uso-topo { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+.estoque-uso-topo h2 { font-family: var(--font-titulo); font-weight: 600; font-size: 1.2rem; color: #fff; }
+.estoque-uso-topo time { color: #888; font-size: .8rem; }
+.estoque-tag { display: inline-block; background: #1E1E1E; border: 1px solid #2A2A2A; color: #888; font-size: .75rem; padding: 6px 10px; margin: 0 8px 6px 0; }
+
+.estoque-aviso { margin: -12px 0 24px; }
+.chip-step[hidden] { display: none; }
+
+.estoque-compra { background: #181818; border: 1px solid #2A2A2A; border-radius: 4px; padding: 24px; margin: 16px 0 28px; }
+.estoque-compra[hidden], #novoMaterial[hidden] { display: none; }
+.estoque-compra input[type=text], .estoque-compra select { margin-bottom: 16px; }
+#novoMaterial { margin-bottom: 8px; }
+#novoMaterial input, #novoMaterial select { margin-bottom: 12px; }
+.estoque-form select { width: 100%; background: #1E1E1E; border: 1px solid #2A2A2A; border-radius: 4px; color: #fff; padding: 16px; font: inherit; }
+.estoque-compra-acoes { display: flex; gap: 10px; margin-top: 8px; }
+.estoque-compra-acoes button { padding: 14px 22px; border-radius: 0; letter-spacing: 1px; }
+#btnCompra { border-radius: 0; letter-spacing: 1px; margin-bottom: 8px; padding: 12px 18px; }

@@ -47,6 +47,7 @@ MODULOS = {
     "tatuadores_cliente": ("tatuadores_cliente.routes", "bp"),
     "configuracoes_tatuador": ("configuracoes_tatuador.routes", "bp"),
     "perfil_tatuador": ("perfil_tatuador.routes", "bp"),
+    "estoque_tatuador": ("estoque_tatuador.routes", "bp"),
 }
 
 

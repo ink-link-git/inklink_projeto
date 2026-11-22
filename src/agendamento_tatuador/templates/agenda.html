@@ -95,10 +95,12 @@
         <h2 id="modalTitulo">Definir horário</h2>
         <form id="formHorario" method="POST" data-url-base="{{ url_for('agendamento_tatuador.minha_agenda') }}">
             <label for="dia">Dia</label>
-            <input type="date" id="dia" name="dia" required>
+            <input type="text" id="dia_br" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" autocomplete="off" required>
+            <input type="hidden" id="dia" name="dia">
 
             <label for="hora">Horário de início</label>
-            <input type="time" id="hora" name="hora" required>
+            <input type="text" id="hora_br" inputmode="numeric" placeholder="hh:mm (24h)" maxlength="5" autocomplete="off" required>
+            <input type="hidden" id="hora" name="hora">
 
             <label for="duracao_min">Duração prevista</label>
             <select id="duracao_min" name="duracao_min">
