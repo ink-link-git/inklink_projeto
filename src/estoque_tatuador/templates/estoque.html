@@ -1,0 +1,116 @@
+{% extends "shared/tatuador_base.html" %}
+{% block titulo %}Estoque - InkLink{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('estoque_tatuador.static', filename='css/estoque.css') }}">
+{% endblock %}
+
+{% block conteudo %}
+<header class="content-header">
+    <div class="header-titles">
+        <span class="breadcrumb">MATERIAIS</span>
+        <h1>Estoque</h1>
+    </div>
+</header>
+
+<div class="estoque-abas">
+    <a class="{{ 'btn-red' if aba == 'listagem' else 'btn-dark' }}" href="{{ url_for('estoque_tatuador.estoque', aba='listagem') }}">LISTAGEM</a>
+    <a class="{{ 'btn-red' if aba == 'uso' else 'btn-dark' }}" href="{{ url_for('estoque_tatuador.estoque', aba='uso') }}">REGISTRAR USO</a>
+    <a class="{{ 'btn-red' if aba == 'historico' else 'btn-dark' }}" href="{{ url_for('estoque_tatuador.estoque', aba='historico') }}">HISTÓRICO</a>
+</div>
+
+{% if erro %}<p class="texto-suave">{{ erro }}</p>{% endif %}
+
+{% if aba == 'listagem' %}
+<div class="estoque-lista">
+    <button type="button" class="btn-red" id="btnCompra">+ REGISTRAR COMPRA</button>
+
+    <form method="post" action="{{ url_for('estoque_tatuador.comprar') }}" class="estoque-form estoque-compra" id="formCompra" hidden>
+        <label for="compra_item">MATERIAL COMPRADO</label>
+        <select id="compra_item" name="item" required>
+            <option value="" disabled selected>Selecione o material</option>
+            {% for i in itens %}<option value="{{ i.id }}">{{ i.nome }}</option>{% endfor %}
+            <option value="__novo__">+ Novo material</option>
+        </select>
+
+        <div id="novoMaterial" hidden>
+            <input type="text" name="novo_nome" placeholder="Nome do material" maxlength="80">
+            <select name="novo_categoria">
+                {% for c in categorias %}<option value="{{ c }}">{{ c | capitalize }}</option>{% endfor %}
+            </select>
+            <input type="text" name="novo_unidade" placeholder="Unidade (ex: frascos, unid., potes)" maxlength="20">
+        </div>
+
+        <label for="compra_qtd">QUANTIDADE COMPRADA</label>
+        <input type="text" id="compra_qtd" name="quantidade" inputmode="numeric" placeholder="Ex: 10" maxlength="6" autocomplete="off" required>
+
+        <label for="compra_data_br">DATA DA COMPRA</label>
+        <input type="text" id="compra_data_br" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" autocomplete="off" required>
+        <input type="hidden" id="compra_data" name="data_compra">
+
+        <div class="estoque-compra-acoes">
+            <button type="submit" class="btn-red">SALVAR COMPRA</button>
+            <button type="button" class="btn-dark" id="btnCancelarCompra">CANCELAR</button>
+        </div>
+    </form>
+
+    {% for categoria, lista in grupos.items() %}
+    <h3 class="estoque-cat">{{ categoria }}</h3>
+    {% for i in lista %}
+    <div class="estoque-item {{ 'baixo' if i.baixo }}">
+        <div><strong>{{ i.nome }}</strong>{% if i.baixo %}<small>⚠ Estoque baixo</small>{% endif %}</div>
+        <div class="estoque-qtd">{{ i.quantidade }}<span>{{ i.rotulo }}</span></div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+</div>
+
+{% elif aba == 'uso' %}
+<form method="post" action="{{ url_for('estoque_tatuador.registrar') }}" class="estoque-form">
+    <label for="cliente">CLIENTE DA SESSÃO</label>
+    <select id="cliente" name="cliente" required>
+        <option value="" disabled selected>Selecione o cliente</option>
+        {% for nome in clientes %}<option value="{{ nome }}">{{ nome }}</option>{% endfor %}
+        <option value="__outro__">Outro cliente (digitar)</option>
+    </select>
+    <input type="text" id="cliente_outro" name="cliente_outro" placeholder="Nome do cliente" maxlength="120" hidden>
+    {% if erro_clientes %}<p class="texto-suave estoque-aviso">Não foi possível carregar seus clientes agora. Use "Outro cliente".</p>
+    {% elif not clientes %}<p class="texto-suave estoque-aviso">Você ainda não tem clientes com agendamento. Use "Outro cliente".</p>{% endif %}
+
+    <label for="data_sessao">DATA DA SESSÃO</label>
+    <input type="text" id="data_br" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" autocomplete="off" required>
+    <input type="hidden" id="data_sessao" name="data_sessao">
+
+    <label>INSUMOS UTILIZADOS</label>
+    <div class="estoque-chips">
+        {% for i in itens %}
+        <div class="chip" data-max="{{ i.quantidade }}" data-id="{{ i.id }}">
+            <button type="button" class="chip-btn" {{ 'disabled' if i.quantidade < 1 }}>+ {{ i.nome }}</button>
+            <span class="chip-step" hidden>
+                <button type="button" class="step-btn" data-passo="-1" aria-label="Diminuir">−</button>
+                <input type="number" class="chip-qtd" min="1" max="{{ i.quantidade }}" value="1">
+                <button type="button" class="step-btn" data-passo="1" aria-label="Aumentar">+</button>
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn-red estoque-enviar">REGISTRAR USO</button>
+</form>
+
+{% else %}
+<div class="estoque-lista">
+    {% for u in historico %}
+    <div class="estoque-uso">
+        <div class="estoque-uso-topo"><h2>{{ u.titulo }}</h2><time>{{ u.data_fmt }}</time></div>
+        {% for l in u.itens %}<span class="estoque-tag">{{ '+' if u.tipo == 'compra' }}{{ l.quantidade }} {{ l.rotulo }} — {{ l.nome }}</span>{% endfor %}
+    </div>
+    {% else %}
+    <p class="texto-suave">Nenhum uso registrado ainda.</p>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if aba == 'uso' %}<script src="{{ url_for('estoque_tatuador.static', filename='js/estoque.js') }}"></script>{% endif %}
+{% if aba == 'listagem' %}<script src="{{ url_for('estoque_tatuador.static', filename='js/compra.js') }}"></script>{% endif %}
+{% endblock %}
