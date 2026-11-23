@@ -1,133 +1,154 @@
-(function () {
-    const form = document.getElementById("form-perfil");
-    const nomeInput = document.getElementById("nome");
-    const telefoneInput = document.getElementById("telefone");
-    const btnEditar = document.getElementById("btn-editar");
-    const btnSalvar = document.getElementById("btn-salvar");
-    const btnCancelar = document.getElementById("btn-cancelar");
-    const msg = document.getElementById("msg-perfil");
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form-perfil');
+    const btnEditar = document.getElementById('btn-editar');
+    const btnSalvar = document.getElementById('btn-salvar');
+    const btnCancelar = document.getElementById('btn-cancelar');
+    
+    const campoFoto = document.getElementById('campo-foto-container');
+    const inputFoto = document.getElementById('foto_perfil');
+    const msgPerfil = document.getElementById('msg-perfil');
+    
+    const inputsEditaveis = [
+        document.getElementById('nome'),
+        document.getElementById('telefone'),
+        document.getElementById('endereco')
+    ];
 
-    let original = { nome: nomeInput.value, telefone: telefoneInput.value };
+    if (!form || !btnEditar) return;
 
-    function limpar() {
-        msg.textContent = "";
-        msg.className = "perfil-msg";
-        form.querySelectorAll("[data-erro]").forEach((el) => { el.textContent = ""; });
-        form.querySelectorAll("input").forEach((el) => el.classList.remove("invalido"));
-    }
+    // Garante que todos começam desabilitados e impossíveis de clicar
+    inputsEditaveis.forEach(input => {
+        if (input) input.disabled = true;
+    });
 
-    function mostrarErros(errors) {
-        Object.keys(errors).forEach((campo) => {
-            const el = form.querySelector(`[data-erro="${campo}"]`);
-            if (el) {
-                el.textContent = errors[campo];
-                const input = form.elements[campo];
-                if (input) input.classList.add("invalido");
-            } else {
-                msg.textContent = errors[campo];
-                msg.className = "perfil-msg erro";
+    let valoresOriginais = {};
+
+    // Pré-visualização da foto ao selecionar um arquivo novo
+    if (inputFoto) {
+        inputFoto.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const avatarContainer = document.getElementById('perfil-avatar');
+                    let img = avatarContainer.querySelector('img');
+                    if (!img) {
+                        avatarContainer.innerHTML = '';
+                        img = document.createElement('img');
+                        img.className = 'perfil-img-avatar';
+                        avatarContainer.appendChild(img);
+                    }
+                    img.src = event.target.result;
+                }
+                reader.readAsDataURL(file);
             }
         });
     }
 
-    function modoEdicao(ativo) {
-        nomeInput.readOnly = !ativo;
-        telefoneInput.readOnly = !ativo;
-        form.classList.toggle("editando", ativo);
-        btnEditar.hidden = ativo;
-        btnSalvar.hidden = !ativo;
-        btnCancelar.hidden = !ativo;
-    }
+    // Ao clicar em "Editar perfil", destrava tudo
+    btnEditar.addEventListener('click', () => {
+        form.classList.add('editando');
+        if (msgPerfil) msgPerfil.textContent = '';
+        
+        inputsEditaveis.forEach(input => {
+            if (input) {
+                valoresOriginais[input.id] = input.value;
+                input.disabled = false; // Libera o campo para edição
+            }
+        });
 
-    function formatarTelefone(valor) {
-        const digitos = valor.replace(/\D/g, "").slice(0, 11);
-        if (digitos.length > 10) return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 7)}-${digitos.slice(7)}`;
-        if (digitos.length > 6) return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 6)}-${digitos.slice(6)}`;
-        if (digitos.length > 2) return `(${digitos.slice(0, 2)}) ${digitos.slice(2)}`;
-        return digitos;
-    }
+        if (campoFoto) campoFoto.style.display = 'flex';
 
-    function validar() {
-        const errors = {};
-        if (nomeInput.value.trim().split(/\s+/).filter(Boolean).length < 2) {
-            errors.nome = "Informe seu nome completo.";
+        btnEditar.hidden = true;
+        btnSalvar.hidden = false;
+        btnCancelar.hidden = false;
+        
+        if (inputsEditaveis[0]) inputsEditaveis[0].focus();
+    });
+
+    // Ao clicar em "Cancelar", volta os valores e trava tudo de novo
+    btnCancelar.addEventListener('click', () => {
+        form.classList.remove('editando');
+        if (msgPerfil) msgPerfil.textContent = '';
+
+        inputsEditaveis.forEach(input => {
+            if (input) {
+                input.value = valoresOriginais[input.id] || '';
+                input.disabled = true; // Bloqueia o campo novamente
+            }
+        });
+
+        if (campoFoto) {
+            campoFoto.style.display = 'none';
+            if (inputFoto) inputFoto.value = ''; // Limpa o input file
         }
-        if (telefoneInput.value.replace(/\D/g, "").length < 10) {
-            errors.telefone = "Informe um telefone válido (com DDD).";
-        }
-        return errors;
-    }
 
-    function atualizarTela(perfil) {
-        document.getElementById("perfil-nome-titulo").textContent = perfil.nome;
-        document.getElementById("perfil-avatar").textContent = perfil.iniciais;
-
-        // Atualiza a barra lateral do tatuador dinamicamente
-        const nomeBarra = document.querySelector(".tat-usuario strong, .cli-usuario strong");
-        if (nomeBarra) nomeBarra.textContent = perfil.nome;
-        const avatarBarra = document.querySelector(".tat-avatar, .cli-avatar");
-        if (avatarBarra) avatarBarra.textContent = perfil.iniciais;
-    }
-
-    telefoneInput.addEventListener("input", () => {
-        telefoneInput.value = formatarTelefone(telefoneInput.value);
+        btnEditar.hidden = false;
+        btnSalvar.hidden = true;
+        btnCancelar.hidden = true;
     });
 
-    btnEditar.addEventListener("click", () => {
-        limpar();
-        modoEdicao(true);
-        nomeInput.focus();
-    });
-
-    btnCancelar.addEventListener("click", () => {
-        limpar();
-        nomeInput.value = original.nome;
-        telefoneInput.value = original.telefone;
-        modoEdicao(false);
-    });
-
-    form.addEventListener("submit", (e) => {
+    // Envio do formulário via AJAX para salvar no banco e Supabase
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        limpar();
-
-        const errors = validar();
-        if (Object.keys(errors).length) {
-            mostrarErros(errors);
-            return;
+        if (msgPerfil) {
+            msgPerfil.textContent = 'Salvando alterações...';
+            msgPerfil.style.color = '#fff';
         }
 
-        btnSalvar.disabled = true;
-        btnSalvar.textContent = "Salvando...";
+        // Habilita temporariamente os inputs para o FormData conseguir capturar os valores
+        inputsEditaveis.forEach(input => { if (input) input.disabled = false; });
+        const formData = new FormData(form);
+        // Trava de novo enquanto envia
+        inputsEditaveis.forEach(input => { if (input) input.disabled = true; });
 
-        fetch("/api/tatuador/perfil", {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                nome: nomeInput.value.trim(),
-                telefone: telefoneInput.value
-            })
-        })
-            .then((r) => r.json().catch(() => ({})))
-            .then((res) => {
-                if (res.success) {
-                    original = { nome: res.perfil.nome, telefone: res.perfil.telefone };
-                    nomeInput.value = original.nome;
-                    telefoneInput.value = original.telefone;
-                    atualizarTela(res.perfil);
-                    modoEdicao(false);
-                    msg.textContent = res.message;
-                    msg.className = "perfil-msg ok";
-                } else {
-                    mostrarErros(res.errors || { geral: "Não foi possível salvar as alterações." });
-                }
-            })
-            .catch(() => {
-                msg.textContent = "Erro de conexão. Tente novamente.";
-                msg.className = "perfil-msg erro";
-            })
-            .then(() => {
-                btnSalvar.disabled = false;
-                btnSalvar.textContent = "Salvar alterações";
+        try {
+            const response = await fetch('/api/tatuador/perfil', {
+                method: 'PATCH',
+                body: formData
             });
+
+            const resultado = await response.json();
+
+            if (response.ok && resultado.success) {
+                if (msgPerfil) {
+                    msgPerfil.textContent = resultado.message || 'Perfil atualizado com sucesso!';
+                    msgPerfil.style.color = '#4BB543';
+                }
+
+                // Atualiza o nome exibido no título do perfil se houver
+                const tituloNome = document.getElementById('perfil-nome-titulo');
+                if (tituloNome && resultado.perfil.nome) {
+                    tituloNome.textContent = resultado.perfil.nome;
+                }
+
+                // Esconde controles de edição e volta aos botões normais
+                form.classList.remove('editando');
+                if (campoFoto) campoFoto.style.display = 'none';
+                btnEditar.hidden = false;
+                btnSalvar.hidden = true;
+                btnCancelar.hidden = true;
+
+                // Recarrega a página após 1 segundo para atualizar a sessão e a foto do sidebar perfeitamente
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+
+            } else {
+                // Se houver erros de validação
+                inputsEditaveis.forEach(input => { if (input) input.disabled = false; }); // destrava para corrigir
+                if (msgPerfil) {
+                    msgPerfil.textContent = resultado.errors?.geral || 'Verifique os campos e tente novamente.';
+                    msgPerfil.style.color = '#D31235';
+                }
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            inputsEditaveis.forEach(input => { if (input) input.disabled = false; });
+            if (msgPerfil) {
+                msgPerfil.textContent = 'Erro de conexão ao salvar alterações.';
+                msgPerfil.style.color = '#D31235';
+            }
+        }
     });
-})();
+});

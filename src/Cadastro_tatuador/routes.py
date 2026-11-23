@@ -1,4 +1,6 @@
+import os
 from flask import Blueprint, render_template, redirect, url_for, flash, session
+from werkzeug.utils import secure_filename
 from Cadastro_tatuador.forms import RegisterForm
 from Cadastro_tatuador.db import supabase
 
@@ -17,7 +19,24 @@ def register():
 
     if form.validate_on_submit():
         try:
-            # 1. Cria o usuário com e-mail e senha no Supabase Auth
+            # 1. Tratamento e upload da foto de perfil
+            foto_url = None
+            foto = form.foto_perfil.data
+            
+            if foto and foto.filename != '':
+                filename = secure_filename(foto.filename)
+                
+                # Define a pasta onde a foto será salva (ex: Cadastro_tatuador/static/uploads)
+                upload_folder = os.path.join(main_bp.static_folder, 'uploads')
+                os.makedirs(upload_folder, exist_ok=True)
+                
+                filepath = os.path.join(upload_folder, filename)
+                foto.save(filepath)
+                
+                # Caminho relativo ou URL que será acessível e salva no banco
+                foto_url = f"/static/cadastro_tatuador/uploads/{filename}"
+
+            # 2. Cria o usuário com e-mail e senha no Supabase Auth
             auth_response = supabase.auth.sign_up({
                 "email": form.email.data,
                 "password": form.password.data,
@@ -32,17 +51,19 @@ def register():
             # Pega o ID único (UUID) gerado na autenticação
             id_tatuador = auth_response.user.id
 
-            # 2. Prepara os dados do perfil (SEM a senha)
+            # 3. Prepara os dados do perfil (incluindo endereço e foto)
             dados_tatuador = {
                 "id_tatuador": id_tatuador,  # Chave estrangeira ligada ao auth.users
                 "nome": form.nome.data,
                 "email": form.email.data,
                 "cpf": form.cpf.data,
                 "tel": form.tel.data,
-                "especialidade": form.especialidade.data
+                "especialidade": form.especialidade.data,
+                "endereco": form.endereco.data,       # Adicionado
+                "avatar_url": foto_url              # Adicionado (caminho da imagem)
             }
 
-            # 3. Insere os dados adicionais na tabela 'tatuador'
+            # 4. Insere os dados adicionais na tabela 'tatuador'
             response = supabase.table('tatuador').insert(dados_tatuador).execute()
             print(">>> SUCESSO NO SUPABASE:", response.data)
 

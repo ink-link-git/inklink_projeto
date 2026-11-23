@@ -60,6 +60,8 @@ def login():
             'nome': perfil.data[0].get('nome') or form.email.data,
             'email': form.email.data,
             'especialidade': perfil.data[0].get('especialidade'),
+            'avatar_url': perfil.data[0].get('avatar_url'),  
+            'endereco': perfil.data[0].get('endereco'),
         }
         flash('Login realizado com sucesso!', 'success')
         return redirect(url_for('login_tatuador.home_logada'))

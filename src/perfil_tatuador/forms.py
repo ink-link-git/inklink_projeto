@@ -40,6 +40,8 @@ def buscar_perfil(tatuador_id):
         "nome": nome,
         "email": (tatuador.get("email") or "").strip(),
         "telefone": formatar_telefone(tatuador.get("tel")),
+        "endereco": tatuador.get("endereco") or "",        # <-- Adicionado
+        "avatar_url": tatuador.get("avatar_url") or "",    # <-- Adicionado
         "iniciais": iniciais(nome),
         "desde": membro_desde(tatuador),
     }
@@ -82,11 +84,20 @@ def validar_perfil(nome, telefone):
     return errors, tel_digits
 
 
-def atualizar_perfil(tatuador_id, nome, tel_digits):
-    """Atualiza nome e tel do tatuador filtrando pela coluna 'id_tatuador'."""
+def atualizar_perfil(tatuador_id, nome, tel_digits, endereco="", avatar_url=None):
+    """Atualiza nome, telefone, endereço e avatar do tatuador no banco."""
+    dados_para_atualizar = {
+        "nome": nome, 
+        "tel": tel_digits,
+        "endereco": endereco
+    }
+    
+    if avatar_url:
+        dados_para_atualizar["avatar_url"] = avatar_url
+
     resposta = (
         supabase.table("tatuador")
-        .update({"nome": nome, "tel": tel_digits})
+        .update(dados_para_atualizar)
         .eq("id_tatuador", tatuador_id)
         .execute()
     )

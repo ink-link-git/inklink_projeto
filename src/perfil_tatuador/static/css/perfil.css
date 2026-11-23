@@ -24,6 +24,8 @@
 .perfil-avatar {
     width: 80px;
     height: 80px;
+    min-width: 80px;
+    min-height: 80px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -34,6 +36,17 @@
     font-family: var(--font-titulo);
     font-size: 28px;
     font-weight: 600;
+    overflow: hidden; /* Trava estritamente o formato circular */
+    position: relative;
+}
+
+/* Estilo corrigido para a imagem de perfil */
+.perfil-img-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
 }
 
 .perfil-id h2 {
@@ -69,9 +82,9 @@
     width: 100%;
     height: 46px;
     padding: 0 16px;
-    background-color: var(--tat-painel, var(--cli-painel));
-    border: 1px solid var(--tat-borda, var(--cli-borda));
-    border-radius: 2px;
+    background-color: #1a1a1a;
+    border: 1px solid #333333;
+    border-radius: 4px;
     color: #ffffff;
     font-size: 13px;
     font-weight: 600;
@@ -82,12 +95,16 @@
 .perfil-campo input.invalido { border-color: var(--primary); }
 
 .perfil-campo input:disabled {
-    color: var(--muted-foreground);
+    color: #777;
+    background-color: #141414;
     font-weight: 400;
     cursor: not-allowed;
 }
 
-.perfil-form.editando input:not(:disabled) { border-color: var(--border-strong); }
+.perfil-form.editando input:not(:disabled) { 
+    background-color: #222;
+    border-color: #555; 
+}
 .perfil-form.editando input:not(:disabled):focus { border-color: var(--primary); }
 
 .perfil-erro { font-size: 11px; color: var(--primary); }

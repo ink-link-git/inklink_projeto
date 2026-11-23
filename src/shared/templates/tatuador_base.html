@@ -23,17 +23,24 @@
 
             <nav class="sidebar-nav" style="order: 2;">
                 <a href="{{ url_for('login_tatuador.home_logada') }}" class="{{ 'active' if ativo == 'inicio' }}">Início</a>
-                <a href="{{ url_for('perfil_tatuador.perfil') }}">Meu Perfil</a>
+                <a href="{{ url_for('perfil_tatuador.perfil') }}" class="{{ 'active' if ativo == 'perfil' }}">Meu Perfil</a>
                 <a href="{{ rota('agendamento_tatuador.minha_agenda', 'agenda') }}" class="{{ 'active' if ativo == 'agenda' }}">Minha Agenda</a>
                 <a href="{{ rota('portfolio_tatuador.mostrar_portfolio', 'portfolio') }}" class="{{ 'active' if ativo == 'portfolio' }}">Meu Portfólio</a>
                 <a href="{{ rota('estoque_tatuador.estoque', 'estoque') }}" class="{{ 'active' if ativo == 'estoque' }}">Estoque</a>
                 <a href="{{ rota('gestao_anamnese.fichas_tatuador', 'anamnese') }}" class="{{ 'active' if ativo == 'anamnese' }}">Fichas Anamnese</a>
-                <a href="{{ url_for('configuracoes_tatuador.configuracoes') }}">Configurações</a>
+                <a href="{{ url_for('configuracoes_tatuador.configuracoes') }}" class="{{ 'active' if ativo == 'configuracoes' }}">Configurações</a>
             </nav>
 
             <div class="sidebar-footer" style="order: 3; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-top: 1px solid #2A2A2A; margin-top: auto; width: 100%;">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <div class="user-avatar">{{ (tatuador.nome or '?')[:1]|upper }}</div>
+                    
+                    <!-- Exibe a foto do bucket se existir, senão mostra a inicial -->
+                    {% if tatuador.avatar_url %}
+                        <img src="{{ tatuador.avatar_url }}" alt="Foto de {{ tatuador.nome }}" class="user-avatar" style="object-fit: cover; width: 36px; height: 36px; border-radius: 50%;">
+                    {% else %}
+                        <div class="user-avatar">{{ (tatuador.nome or '?')[:1]|upper }}</div>
+                    {% endif %}
+
                     <div class="user-info" style="display: flex; flex-direction: column;">
                         <strong>{{ tatuador.nome }}</strong>
                         <span>{{ tatuador.especialidade or tatuador.email }}</span>
