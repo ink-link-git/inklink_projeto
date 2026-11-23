@@ -38,7 +38,7 @@ def login():
         try:
             perfil = (
                 supabase.table('tatuador')
-                .select('id_tatuador, nome, email, especialidade')
+                .select('id_tatuador, nome, email, especialidade, avatar_url, endereco')
                 .eq('id_tatuador', resposta.user.id)
                 .limit(1)
                 .execute()
