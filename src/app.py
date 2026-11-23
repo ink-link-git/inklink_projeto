@@ -23,8 +23,6 @@ from jinja2 import FileSystemLoader, PrefixLoader
 SRC_DIR = Path(__file__).resolve().parent
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
-    
-SRC_DIR = Path(__file__).resolve().parent
 
 # Módulos que têm telas: pasta -> (arquivo de rotas, nome do blueprint nesse arquivo).
 # O nome da pasta também é o prefixo usado nos templates:
@@ -85,7 +83,31 @@ def create_app():
     # O layout do tatuador sempre sabe quem está logado, sem cada rota precisar passar.
     @app.context_processor
     def dados_do_tatuador():
-        return {"tatuador": session.get("tatuador")}
+        tatuador_sessao = session.get("tatuador")
+        if not tatuador_sessao:
+            return {"tatuador": None}
+
+        tatuador_id = tatuador_sessao.get("id")
+
+        if tatuador_id:
+            try:
+                from Cadastro_tatuador.db import supabase
+
+                response = (
+                    supabase.table("tatuador")
+                    .select("*")
+                    .eq("id_tatuador", tatuador_id)
+                    .limit(1)
+                    .execute()
+                )
+
+                if response.data:
+                    dados = response.data[0]
+                    return {"tatuador": {**tatuador_sessao, **dados, "id": tatuador_id}}
+            except Exception as e:
+                print(">>> ERRO NO CONTEXT PROCESSOR DO TATUADOR:", e)
+
+        return {"tatuador": tatuador_sessao}
 
     # Idem para o cliente: o layout com barra lateral mostra o nome e o e-mail de quem entrou.
     @app.context_processor
