@@ -222,3 +222,30 @@ body.area-cliente {
     .cli-cabecalho { padding: 24px 20px 20px; }
     .cli-conteudo { padding: 24px 20px 40px; }
 }
+/* Imagem de fundo translúcida nas telas do cliente */
+.cli-principal {
+    position: relative;
+    isolation: isolate;
+}
+
+.cli-principal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 55%;
+    background: var(--fundo-pagina, url("/static/shared/img/perfil_cliente2.jpg")) no-repeat center right / cover;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: -1;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
+    mask-image: linear-gradient(to right, transparent, #000 45%);
+}
+
+@media (max-width: 760px) {
+    .cli-principal::before {
+        width: 100%;
+        opacity: 0.08;
+    }
+}

@@ -413,3 +413,4 @@ textarea#descricao::placeholder { color: var(--muted-foreground); }
   transition: border-color 0.2s;
 }
 .tatuador-btn:hover { border-color: var(--primary); }
+
