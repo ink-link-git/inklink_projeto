@@ -375,3 +375,30 @@ body {
         padding: 20px !important;
     }
 }
+/* Imagem de fundo translúcida em todas as telas do tatuador */
+.main-content {
+    position: relative;
+    isolation: isolate; /* cria um contexto próprio e deixa a imagem atrás do conteúdo */
+}
+
+.main-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 55%;
+    background: url("/static/shared/img/perfil_1.jpg") no-repeat center right / cover;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: -1;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
+    mask-image: linear-gradient(to right, transparent, #000 45%);
+}
+
+@media (max-width: 768px) {
+    .main-content::before {
+        width: 100%;
+        opacity: 0.08;
+    }
+}

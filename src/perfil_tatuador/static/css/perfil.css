@@ -174,3 +174,7 @@
 }
 
 .perfil-resumo span { font-size: 12px; color: var(--secondary-foreground); }
+
+:root {
+    --fundo-pagina: url("/static/perfil_tatuador/img/perfil_1.jpg");
+}
