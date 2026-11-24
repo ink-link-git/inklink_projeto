@@ -160,3 +160,4 @@
 }
 .agendamento-acoes button:disabled { opacity: 0.5; cursor: not-allowed; }
 .ficha-ok { color: #34d399; }
+.agendamento-acoes button.agendamento-whatsapp { color: #25d366; font-weight: 600; }

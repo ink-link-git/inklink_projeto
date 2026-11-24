@@ -62,6 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
         acoes.append(ficha);
       }
 
+      if (status === "PENDENTE") {
+        if (item.whatsapp_enviado_em) {
+          acoes.append(elemento("span", "agendamento-ficha-ok", "Contato por WhatsApp enviado ✓"));
+        } else {
+          const whats = elemento("button", "agendamento-whatsapp", "Contatar tatuador no Whatsapp");
+          whats.type = "button";
+          whats.addEventListener("click", () => contatarWhatsapp(item.id, whats));
+          acoes.append(whats);
+        }
+      }
+
       const cancelar = elemento("button", "", "Cancelar agendamento");
       cancelar.type = "button";
       cancelar.addEventListener("click", () => cancelarAgendamento(item.id, cancelar));
@@ -85,6 +96,30 @@ document.addEventListener("DOMContentLoaded", () => {
       lista.replaceChildren(...data.agendamentos.map(criarCard));
     } catch (error) {
       mostrarMensagem("Não foi possível carregar seus agendamentos. Atualize a página e tente novamente.");
+    }
+  }
+
+  async function contatarWhatsapp(id, botao) {
+    botao.disabled = true;
+    // A janela é aberta já no clique (antes do fetch), senão o navegador bloqueia como pop-up.
+    const janela = window.open("", "_blank");
+    try {
+      const url = lista.dataset.whatsappUrl.replace("__ID__", encodeURIComponent(id));
+      const response = await fetch(url, { method: "POST", headers: { Accept: "application/json" } });
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        if (janela) janela.close();
+        window.alert(data.errors?.geral || "Não foi possível abrir o WhatsApp.");
+        await carregar(); // atualiza o estado do botão (pode já ter sido usado)
+        return;
+      }
+      if (janela) janela.location.href = data.url;
+      else window.location.href = data.url;
+      await carregar(); // o botão vira "Contato por WhatsApp enviado ✓"
+    } catch (error) {
+      if (janela) janela.close();
+      window.alert("Não foi possível conectar ao servidor.");
+      botao.disabled = false;
     }
   }
 
