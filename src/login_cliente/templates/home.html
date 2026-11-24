@@ -62,6 +62,7 @@
     <section class="home-secao">
         <h3 class="home-rotulo">Meus agendamentos</h3>
         <div id="lista-agendamentos" data-cancelar-url="/api/agendamentos/__ID__/cancelar"
+             data-whatsapp-url="/api/agendamentos/__ID__/whatsapp"
              data-ficha-url="{{ url_for('gestao_anamnese.ficha_cliente') }}">
             <p class="home-vazio">Carregando...</p>
         </div>

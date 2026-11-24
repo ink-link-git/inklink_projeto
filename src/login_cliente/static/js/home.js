@@ -55,6 +55,22 @@ document.addEventListener("DOMContentLoaded", () => {
         acoes.appendChild(ok);
       }
 
+      if (item.status === "PENDENTE") {
+        if (item.whatsapp_enviado_em) {
+          const enviado = document.createElement("span");
+          enviado.className = "ficha-ok";
+          enviado.textContent = "WhatsApp enviado ✓";
+          acoes.appendChild(enviado);
+        } else {
+          const whats = document.createElement("button");
+          whats.type = "button";
+          whats.className = "agendamento-whatsapp";
+          whats.textContent = "Contatar tatuador no Whatsapp";
+          whats.addEventListener("click", () => contatarWhatsapp(item.id, whats));
+          acoes.appendChild(whats);
+        }
+      }
+
       const cancelar = document.createElement("button");
       cancelar.type = "button";
       cancelar.textContent = "Cancelar";
@@ -64,6 +80,29 @@ document.addEventListener("DOMContentLoaded", () => {
       card.appendChild(acoes);
     }
     return card;
+  }
+
+  async function contatarWhatsapp(id, botao) {
+    botao.disabled = true;
+    // A janela é aberta já no clique (antes do fetch), senão o navegador bloqueia como pop-up.
+    const janela = window.open("", "_blank");
+    try {
+      const response = await fetch(lista.dataset.whatsappUrl.replace("__ID__", id), { method: "POST" });
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        if (janela) janela.close();
+        alert((data.errors && data.errors.geral) || "Não foi possível abrir o WhatsApp.");
+        carregar(); // atualiza o estado do botão (pode já ter sido usado)
+        return;
+      }
+      if (janela) janela.location.href = data.url;
+      else window.location.href = data.url;
+      carregar(); // o botão vira "WhatsApp enviado ✓"
+    } catch (err) {
+      if (janela) janela.close();
+      alert("Não foi possível conectar ao servidor.");
+      botao.disabled = false;
+    }
   }
 
   async function cancelarAgendamento(id, botao) {

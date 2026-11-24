@@ -3,6 +3,7 @@ from flask import Blueprint, current_app, flash, jsonify, redirect, render_templ
 from agendamento_cliente.forms import (
     cancelar_do_cliente,
     buscar_tatuador,
+    contatar_tatuador_whatsapp,
     criar_agendamento,
     enviar_referencias,
     listar_do_cliente,
@@ -140,3 +141,18 @@ def api_cancelar_agendamento(id_agendamento):
     if not ok:
         return jsonify({"success": False, "errors": {"geral": mensagem}}), 400
     return jsonify({"success": True, "mensagem": mensagem}), 200
+
+
+@bp.route("/api/agendamentos/<int:id_agendamento>/whatsapp", methods=["POST"])
+@cliente_required
+def api_contatar_whatsapp(id_agendamento):
+    """Libera (uma única vez) o WhatsApp do tatuador para um pedido pendente."""
+    try:
+        ok, resultado = contatar_tatuador_whatsapp(cliente_logado(), id_agendamento)
+    except Exception as exc:
+        print(">>> ERRO AO CONTATAR TATUADOR NO WHATSAPP:", exc)
+        return jsonify({"success": False, "errors": {"geral": "Não foi possível abrir o WhatsApp agora."}}), 500
+
+    if not ok:
+        return jsonify({"success": False, "errors": {"geral": resultado}}), 400
+    return jsonify({"success": True, "url": resultado}), 200

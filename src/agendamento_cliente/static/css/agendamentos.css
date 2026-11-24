@@ -109,6 +109,7 @@
 }
 .agendamento-acoes-tela button:disabled { opacity: .5; cursor: wait; }
 .agendamento-ficha-ok { color: #34d399; font-size: 12px; }
+.agendamento-acoes-tela button.agendamento-whatsapp { color: #25d366; font-weight: 600; text-decoration: none; }
 @media (max-width: 600px) {
     .agendamentos-cabecalho { align-items: flex-start; flex-direction: column; }
     .agendamento-item { padding: 15px; }
