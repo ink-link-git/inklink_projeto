@@ -23,6 +23,7 @@
          class="agendamentos-lista"
          data-api-url="{{ url_for('agendamento_cliente.api_agendamentos_cliente') }}"
          data-cancelar-url="/api/agendamentos/__ID__/cancelar"
+         data-whatsapp-url="/api/agendamentos/__ID__/whatsapp"
          data-ficha-url="{{ url_for('gestao_anamnese.ficha_cliente') }}"
          aria-live="polite">
         <p class="agendamentos-mensagem">Carregando seus agendamentos...</p>

@@ -1,5 +1,6 @@
 import time
-from datetime import date
+from datetime import date, datetime, timezone
+from urllib.parse import quote
 
 from werkzeug.utils import secure_filename
 
@@ -188,3 +189,87 @@ def cancelar_do_cliente(cliente_id, id_agendamento):
 
     supabase.table("agendamento").update({"status": "CANCELADO"}).eq("id", id_agendamento).eq("cliente_auth_id", cliente_id).execute()
     return True, "Agendamento cancelado."
+
+
+def _telefone_whatsapp(valor):
+    """Deixa só os números e coloca o 55 (Brasil). Devolve None se não parecer um telefone."""
+    digitos = "".join(ch for ch in str(valor or "") if ch.isdigit())
+    if len(digitos) < 10:
+        return None
+    # Até 11 dígitos = DDD + número (sem o código do país). O 55 também é DDD do RS,
+    # por isso a decisão é pelo tamanho e não por "começa com 55".
+    if len(digitos) <= 11:
+        digitos = "55" + digitos
+    return digitos
+
+
+def contatar_tatuador_whatsapp(cliente, id_agendamento):
+    """Libera o contato por WhatsApp de um pedido PENDENTE, uma única vez.
+
+    Retorna (True, url_do_whatsapp) ou (False, mensagem_de_erro).
+    """
+    resposta = (
+        supabase.table("agendamento")
+        .select("*")
+        .eq("id", id_agendamento)
+        .eq("cliente_auth_id", cliente["id"])
+        .limit(1)
+        .execute()
+    )
+    if not resposta.data:
+        return False, "Agendamento não encontrado."
+    agendamento = resposta.data[0]
+
+    if (agendamento.get("status") or "").upper() != "PENDENTE":
+        return False, "O contato por WhatsApp só está disponível enquanto o agendamento está pendente."
+    if agendamento.get("whatsapp_enviado_em"):
+        return False, "Você já usou o contato por WhatsApp neste agendamento."
+
+    # Antes de gastar a única chance, garante que existe para quem mandar a mensagem.
+    resposta = (
+        supabase.table("tatuador")
+        .select("nome, tel")
+        .eq("id_tatuador", agendamento["id_tatuador"])
+        .limit(1)
+        .execute()
+    )
+    tatuador = resposta.data[0] if resposta.data else None
+    telefone = _telefone_whatsapp(tatuador.get("tel")) if tatuador else None
+    if not telefone:
+        return False, "Este tatuador ainda não cadastrou um WhatsApp para contato."
+
+    # Marca como usado SOMENTE se continuar pendente e ainda não usado. Tudo numa única
+    # operação no banco: dois cliques ao mesmo tempo não passam os dois.
+    marcado = (
+        supabase.table("agendamento")
+        .update({"whatsapp_enviado_em": datetime.now(timezone.utc).isoformat()})
+        .eq("id", id_agendamento)
+        .eq("cliente_auth_id", cliente["id"])
+        .eq("status", "PENDENTE")
+        .is_("whatsapp_enviado_em", "null")
+        .execute()
+    )
+    if not marcado.data:
+        return False, "Você já usou o contato por WhatsApp neste agendamento."
+
+    from shared.utils import formatar_dia
+
+    # formatar_dia devolve "seg, 02/11/2026"; aqui basta a data.
+    dia = (formatar_dia(agendamento.get("data_desejada")) or "").split(", ")[-1]
+    periodo = PERIODOS.get(agendamento.get("periodo")) or "Sem preferência"
+    descricao = (agendamento.get("descricao") or "").strip()
+    if len(descricao) > 500:
+        descricao = descricao[:500].rstrip() + "…"
+
+    linhas = [
+        f"Olá, {tatuador.get('nome') or 'tudo bem'}! Aqui é {cliente.get('nome') or 'um cliente'}. "
+        "Fiz um pedido de agendamento pelo InkLink:",
+        "",
+        f"📅 Data desejada: {dia}",
+        f"🕐 Período: {periodo}",
+    ]
+    if descricao:
+        linhas.append(f"📝 Ideia da tatuagem: {descricao}")
+    linhas += ["", "Poderia me passar um orçamento e os horários disponíveis?"]
+
+    return True, f"https://wa.me/{telefone}?text={quote(chr(10).join(linhas))}"
