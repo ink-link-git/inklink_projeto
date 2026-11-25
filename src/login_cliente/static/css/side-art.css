@@ -1,0 +1,46 @@
+/* Imagens laterais translúcidas (Y = cliente, X = tatuador) */
+.side-art {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  /* ocupa só o espaço livre ao lado da coluna central (~700px) */
+  width: calc((100vw - 700px) / 2);
+  max-width: 520px;
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-size: cover;      /* preenche a altura toda da tela */
+  background-position: center;
+  opacity: 0.22;               /* 0.15 = sutil · 0.35 = marcante */
+  filter: grayscale(0.3);
+  mix-blend-mode: lighten;     /* fundo escuro do JPG some e só a arte aparece */
+}
+
+.side-art--left {
+  left: 0;
+  -webkit-mask-image: linear-gradient(to right, #000 45%, transparent 100%);
+          mask-image: linear-gradient(to right, #000 45%, transparent 100%);
+}
+.side-art--right {
+  right: 0;
+  -webkit-mask-image: linear-gradient(to left, #000 45%, transparent 100%);
+          mask-image: linear-gradient(to left, #000 45%, transparent 100%);
+}
+
+.side-art--cliente {
+  background-image: url("../img/cliente.jpg");
+  filter: grayscale(1);   /* 1 = totalmente preto e branco */
+}
+.side-art--tatuador { background-image: url("../img/tatuador.jpg"); }
+
+/* conteúdo sempre acima das imagens */
+.perfil-main,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* sem espaço lateral suficiente, esconde */
+@media (max-width: 1000px) {
+  .side-art { display: none; }
+}

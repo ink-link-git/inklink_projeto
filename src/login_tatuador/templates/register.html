@@ -11,9 +11,11 @@
     
     <!-- CSS Estilizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='register_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('login_cliente.static', filename='css/side-art.css') }}">   
 </head>
 <body>
 
+    <div class="side-art side-art--right side-art--tatuador" aria-hidden="true"></div>
     <header class="top-header">
         <div class="header-buttons">
             <a href="{{ url_for('main.login') }}" class="btn-outline">← PERFIS</a>
