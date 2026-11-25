@@ -9,11 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     
+    
     <!-- Link para o arquivo CSS dentro da pasta static -->
     <link rel="stylesheet" href="{{ url_for('login_tatuador.static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('login_cliente.static', filename='css/side-art.css') }}">
 </head>
 <body>
 
+    <div class="side-art side-art--right side-art--tatuador" aria-hidden="true"></div>
     <!-- Cabeçalho Superior (Botão de Perfis) -->
     <header class="top-header">
         <div class="header-buttons">

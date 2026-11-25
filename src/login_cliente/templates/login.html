@@ -10,9 +10,12 @@
     <!-- Mesmo visual da área do tatuador + complementos do cliente -->
     <link rel="stylesheet" href="{{ url_for('login_tatuador.static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('login_cliente.static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('login_cliente.static', filename='css/side-art.css') }}">
 </head>
 <body>
 
+    <div class="side-art side-art--left side-art--cliente" aria-hidden="true"></div>
+    
     <header class="top-header">
         <div class="header-buttons">
             <a href="{{ url_for('login_cliente.selecionar_perfil') }}" class="btn-outline">← PERFIS</a>
