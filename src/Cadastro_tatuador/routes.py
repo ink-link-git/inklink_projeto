@@ -24,8 +24,8 @@ def register():
             # 1. Tratamento e upload da foto de perfil
             foto_url = None
             foto = form.foto_perfil.data
-            
-                       if foto and foto.filename != '':
+
+            if foto and foto.filename != '':
                 extensao = os.path.splitext(secure_filename(foto.filename))[1]
                 nome_arquivo = f"cadastro_{uuid.uuid4().hex}{extensao}"
 
@@ -38,6 +38,8 @@ def register():
 
                 # URL pública salva no banco
                 foto_url = supabase.storage.from_('avatars').get_public_url(nome_arquivo)
+
+            # 2. Cria o usuário com e-mail e senha no Supabase Auth
 
             # 2. Cria o usuário com e-mail e senha no Supabase Auth
             auth_response = supabase.auth.sign_up({
