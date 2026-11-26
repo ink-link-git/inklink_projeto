@@ -1,8 +1,10 @@
 import os
+import uuid
 from flask import Blueprint, render_template, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
 from Cadastro_tatuador.forms import RegisterForm
 from Cadastro_tatuador.db import supabase
+
 
 # Blueprint do módulo. O static_url_path próprio evita conflito com os outros módulos.
 main_bp = Blueprint(
@@ -23,18 +25,19 @@ def register():
             foto_url = None
             foto = form.foto_perfil.data
             
-            if foto and foto.filename != '':
-                filename = secure_filename(foto.filename)
-                
-                # Define a pasta onde a foto será salva (ex: Cadastro_tatuador/static/uploads)
-                upload_folder = os.path.join(main_bp.static_folder, 'uploads')
-                os.makedirs(upload_folder, exist_ok=True)
-                
-                filepath = os.path.join(upload_folder, filename)
-                foto.save(filepath)
-                
-                # Caminho relativo ou URL que será acessível e salva no banco
-                foto_url = f"/static/cadastro_tatuador/uploads/{filename}"
+                       if foto and foto.filename != '':
+                extensao = os.path.splitext(secure_filename(foto.filename))[1]
+                nome_arquivo = f"cadastro_{uuid.uuid4().hex}{extensao}"
+
+                # Envia para o bucket 'avatars' no Supabase
+                supabase.storage.from_('avatars').upload(
+                    path=nome_arquivo,
+                    file=foto.read(),
+                    file_options={"content-type": foto.content_type, "upsert": "true"}
+                )
+
+                # URL pública salva no banco
+                foto_url = supabase.storage.from_('avatars').get_public_url(nome_arquivo)
 
             # 2. Cria o usuário com e-mail e senha no Supabase Auth
             auth_response = supabase.auth.sign_up({
