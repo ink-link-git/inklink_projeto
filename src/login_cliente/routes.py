@@ -85,8 +85,7 @@ def entrar_cliente():
     session["cliente"] = cliente
     return jsonify({"success": True, "redirect": url_for("login_cliente.home_cliente")})
 
-
-@bp.route("/api/index", methods=["POST"])
+@bp.route("/api/cadastro/cliente", methods=["POST"])
 def criar_conta():
     """Recebe dados do formulário, valida, registra no Auth e salva na tabela 'cliente'."""
     data = request.get_json(silent=True) or {}
