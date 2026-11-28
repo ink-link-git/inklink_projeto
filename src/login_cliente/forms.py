@@ -1,7 +1,11 @@
+import os
+
 from login_cliente.db import supabase
 
+EXTENSOES_FOTO = {".jpg", ".jpeg", ".png"}
 
-def validar_dados_usuario(nome, email, telefone, cpf, senha, confirmar):
+
+def validar_dados_usuario(nome, email, telefone, cpf, senha, confirmar, foto=None):
     """Valida os campos do formulário e retorna um dicionário de erros, se houver."""
     errors = {}
 
@@ -25,6 +29,11 @@ def validar_dados_usuario(nome, email, telefone, cpf, senha, confirmar):
     if senha != confirmar:
         errors["confirmar"] = "As senhas não coincidem."
 
+    # Foto de perfil é opcional; se veio, só JPG, JPEG ou PNG (mesma regra do tatuador).
+    if foto and foto.filename:
+        if os.path.splitext(foto.filename)[1].lower() not in EXTENSOES_FOTO:
+            errors["foto_perfil"] = "Apenas imagens nos formatos JPG, JPEG ou PNG são permitidas."
+
     return errors, cpf_digits, tel_digits
 
 
@@ -47,7 +56,7 @@ def verificar_duplicidade(email, cpf_digits):
     return errors
 
 
-def registrar_usuario(email, senha, nome, cpf_digits, tel_digits):
+def registrar_usuario(email, senha, nome, cpf_digits, tel_digits, avatar_url=None):
     """Realiza o cadastro no Supabase Auth e insere o perfil na tabela 'cliente'."""
     auth_response = supabase.auth.sign_up({
         "email": email,
@@ -64,6 +73,7 @@ def registrar_usuario(email, senha, nome, cpf_digits, tel_digits):
         "email": email,
         "cpf": cpf_digits,
         "telefone": tel_digits,
+        "avatar_url": avatar_url,  # URL pública da foto (ou None, se não enviou)
     }).execute()
 
     return user
@@ -94,7 +104,7 @@ def autenticar_cliente(email, senha):
     # A conta existe no Auth, mas precisa ser de cliente (e não, por exemplo, de tatuador).
     perfil = (
         supabase.table("cliente")
-        .select("nome, email")
+        .select("nome, email, avatar_url")
         .eq("auth_id", user.id)
         .limit(1)
         .execute()
@@ -103,7 +113,12 @@ def autenticar_cliente(email, senha):
         supabase.auth.sign_out()
         return None, "Esta conta não é de cliente. Entre pela área do tatuador."
 
-    return {"id": user.id, "nome": perfil.data[0]["nome"], "email": email}, None
+    return {
+        "id": user.id,
+        "nome": perfil.data[0]["nome"],
+        "email": email,
+        "avatar_url": perfil.data[0].get("avatar_url"),
+    }, None
 
 def proximo_agendamento(cliente_id):
     """Próxima sessão ativa (PENDENTE ou CONFIRMADO) do cliente, para o banner da Home.

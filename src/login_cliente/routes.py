@@ -1,4 +1,10 @@
+import os
+import uuid
+
 from flask import Blueprint, jsonify, redirect, render_template, request, session, url_for
+from werkzeug.utils import secure_filename
+
+from login_cliente.db import supabase
 from login_cliente.forms import (
     artistas_em_destaque,
     autenticar_cliente,
@@ -88,7 +94,9 @@ def entrar_cliente():
 @bp.route("/api/cadastro/cliente", methods=["POST"])
 def criar_conta():
     """Recebe dados do formulário, valida, registra no Auth e salva na tabela 'cliente'."""
-    data = request.get_json(silent=True) or {}
+    # O formulário agora leva um arquivo (a foto), então os campos chegam em request.form
+    # e a imagem em request.files (antes era JSON).
+    data = request.form
 
     nome = (data.get("nome") or "").strip()
     email = (data.get("email") or "").strip().lower()
@@ -96,9 +104,10 @@ def criar_conta():
     cpf = (data.get("cpf") or "").strip()
     senha = data.get("senha") or ""
     confirmar = data.get("confirmar") or ""
+    foto = request.files.get("foto_perfil")
 
     # --- 1. Validação de dados ---
-    errors, cpf_digits, tel_digits = validar_dados_usuario(nome, email, telefone, cpf, senha, confirmar)
+    errors, cpf_digits, tel_digits = validar_dados_usuario(nome, email, telefone, cpf, senha, confirmar, foto)
     if errors:
         return jsonify({"success": False, "errors": errors}), 400
 
@@ -110,9 +119,29 @@ def criar_conta():
     except Exception as exc:
         return jsonify({"success": False, "errors": {"geral": str(exc)}}), 500
 
-    # --- 3 & 4. Registro no Auth e salvamento na tabela ---
+    # --- 3. Upload da foto de perfil (opcional) ---
+    foto_url = None
+    if foto and foto.filename != "":
+        try:
+            extensao = os.path.splitext(secure_filename(foto.filename))[1]
+            nome_arquivo = f"cadastro_{uuid.uuid4().hex}{extensao}"
+
+            # Envia para o bucket 'avatars' no Supabase (o mesmo do tatuador)
+            supabase.storage.from_("avatars").upload(
+                path=nome_arquivo,
+                file=foto.read(),
+                file_options={"content-type": foto.content_type, "upsert": "true"},
+            )
+
+            # URL pública salva no banco
+            foto_url = supabase.storage.from_("avatars").get_public_url(nome_arquivo)
+        except Exception as exc:
+            print(">>> ERRO NO UPLOAD DA FOTO DO CLIENTE:", exc)
+            return jsonify({"success": False, "errors": {"geral": "Não foi possível enviar a foto de perfil."}}), 500
+
+    # --- 4 & 5. Registro no Auth e salvamento na tabela ---
     try:
-        registrar_usuario(email, senha, nome, cpf_digits, tel_digits)
+        registrar_usuario(email, senha, nome, cpf_digits, tel_digits, foto_url)
     except Exception as exc:
         error_msg = str(exc)
         if "User already registered" in error_msg:

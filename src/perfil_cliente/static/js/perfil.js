@@ -7,8 +7,13 @@
     const btnCancelar = document.getElementById("btn-cancelar");
     const msg = document.getElementById("msg-perfil");
 
+    // Foto de perfil: o campo só aparece no modo edição.
+    const campoFoto = document.getElementById("campo-foto-container");
+    const inputFoto = document.getElementById("foto_perfil");
+    const avatarPerfil = document.getElementById("perfil-avatar");
+
     // Valores que estão salvos: é para eles que o "Cancelar" volta.
-    let original = { nome: nomeInput.value, telefone: telefoneInput.value };
+    let original = { nome: nomeInput.value, telefone: telefoneInput.value, avatarHtml: avatarPerfil.innerHTML };
 
     function limpar() {
         msg.textContent = "";
@@ -36,6 +41,7 @@
         nomeInput.readOnly = !ativo;
         telefoneInput.readOnly = !ativo;
         form.classList.toggle("editando", ativo);
+        campoFoto.style.display = ativo ? "flex" : "none";
         btnEditar.hidden = ativo;
         btnSalvar.hidden = !ativo;
         btnCancelar.hidden = !ativo;
@@ -58,19 +64,55 @@
         if (telefoneInput.value.replace(/\D/g, "").length < 10) {
             errors.telefone = "Informe um telefone válido (com DDD).";
         }
+        const foto = inputFoto.files[0];
+        if (foto && !/\.(jpe?g|png)$/i.test(foto.name)) {
+            errors.foto_perfil = "Apenas imagens nos formatos JPG, JPEG ou PNG são permitidas.";
+        }
         return errors;
     }
 
-    // Depois de salvar, o resto da tela acompanha o novo nome (sem recarregar).
+    // Coloca a foto (ou, sem foto, as iniciais) dentro de um círculo de avatar.
+    function pintarAvatar(el, perfil, classeImg) {
+        el.textContent = "";
+        if (perfil.avatar_url) {
+            const img = document.createElement("img");
+            img.src = perfil.avatar_url;
+            img.alt = "Foto de perfil";
+            img.className = classeImg;
+            el.appendChild(img);
+        } else {
+            el.textContent = perfil.iniciais;
+        }
+    }
+
+    // Depois de salvar, o resto da tela acompanha o novo nome e a nova foto (sem recarregar).
     function atualizarTela(perfil) {
         document.getElementById("perfil-nome-titulo").textContent = perfil.nome;
-        document.getElementById("perfil-avatar").textContent = perfil.iniciais;
+        pintarAvatar(avatarPerfil, perfil, "perfil-img-avatar");
 
         const nomeBarra = document.querySelector(".cli-usuario strong");
         if (nomeBarra) nomeBarra.textContent = perfil.nome;
         const avatarBarra = document.querySelector(".cli-avatar");
-        if (avatarBarra) avatarBarra.textContent = perfil.iniciais;
+        if (avatarBarra) pintarAvatar(avatarBarra, perfil, "cli-avatar-img");
     }
+
+    // Pré-visualização da foto ao selecionar um arquivo novo
+    inputFoto.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            let img = avatarPerfil.querySelector("img");
+            if (!img) {
+                avatarPerfil.innerHTML = "";
+                img = document.createElement("img");
+                img.className = "perfil-img-avatar";
+                avatarPerfil.appendChild(img);
+            }
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
 
     telefoneInput.addEventListener("input", () => {
         telefoneInput.value = formatarTelefone(telefoneInput.value);
@@ -86,6 +128,8 @@
         limpar();
         nomeInput.value = original.nome;
         telefoneInput.value = original.telefone;
+        inputFoto.value = "";                          // Limpa o input file
+        avatarPerfil.innerHTML = original.avatarHtml;  // Desfaz a pré-visualização
         modoEdicao(false);
     });
 
@@ -102,21 +146,25 @@
         btnSalvar.disabled = true;
         btnSalvar.textContent = "Salvando...";
 
+        // FormData (e não JSON) porque agora o formulário pode levar a foto de perfil.
+        // Sem Content-Type: o navegador monta o multipart sozinho.
+        const formData = new FormData();
+        formData.append("nome", nomeInput.value.trim());
+        formData.append("telefone", telefoneInput.value);
+        if (inputFoto.files[0]) formData.append("foto_perfil", inputFoto.files[0]);
+
         fetch("/api/cliente/perfil", {
             method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                nome: nomeInput.value.trim(),
-                telefone: telefoneInput.value
-            })
+            body: formData
         })
             .then((r) => r.json().catch(() => ({})))
             .then((res) => {
                 if (res.success) {
-                    original = { nome: res.perfil.nome, telefone: res.perfil.telefone };
-                    nomeInput.value = original.nome;
-                    telefoneInput.value = original.telefone;
+                    nomeInput.value = res.perfil.nome;
+                    telefoneInput.value = res.perfil.telefone;
+                    inputFoto.value = "";
                     atualizarTela(res.perfil);
+                    original = { nome: res.perfil.nome, telefone: res.perfil.telefone, avatarHtml: avatarPerfil.innerHTML };
                     modoEdicao(false);
                     msg.textContent = res.message;
                     msg.className = "perfil-msg ok";

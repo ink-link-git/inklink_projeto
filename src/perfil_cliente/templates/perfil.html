@@ -17,14 +17,28 @@
         {% endif %}
 
         <header class="perfil-id">
-            <div class="perfil-avatar" id="perfil-avatar" aria-hidden="true">{{ perfil.iniciais }}</div>
+            <div class="perfil-avatar" id="perfil-avatar" aria-hidden="true">
+                {% if perfil.avatar_url %}
+                    <img src="{{ perfil.avatar_url }}" alt="Foto de perfil" class="perfil-img-avatar">
+                {% else %}
+                    {{ perfil.iniciais }}
+                {% endif %}
+            </div>
             <div>
                 <h2 id="perfil-nome-titulo">{{ perfil.nome }}</h2>
                 {% if perfil.desde %}<p>Membro desde {{ perfil.desde }}</p>{% endif %}
             </div>
         </header>
 
-        <form class="perfil-form" id="form-perfil" novalidate>
+        <form class="perfil-form" id="form-perfil" novalidate enctype="multipart/form-data">
+
+            <!-- Input oculto para alteração da foto quando em modo edição -->
+            <div class="perfil-campo perfil-campo-foto" id="campo-foto-container" style="display: none;">
+                <label for="foto_perfil">ALTERAR FOTO DE PERFIL</label>
+                <input type="file" id="foto_perfil" name="foto_perfil" accept="image/png, image/jpeg, image/jpg">
+                <small class="perfil-erro" data-erro="foto_perfil"></small>
+            </div>
+
             <div class="perfil-campo">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" value="{{ perfil.nome }}" maxlength="100" autocomplete="name" readonly>

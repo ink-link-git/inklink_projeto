@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const telefoneInput = document.getElementById("telefone");
     const senhaInput = document.getElementById("senha");
     const confirmarInput = document.getElementById("confirmar");
+    const fotoInput = document.getElementById("foto_perfil");
     
     const submitBtn = document.getElementById("submit-btn");
     const form = document.getElementById("signup-form");
@@ -17,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
       email: { input: emailInput, err: document.getElementById("err-email") },
       telefone: { input: telefoneInput, err: document.getElementById("err-telefone") },
       senha: { input: senhaInput, err: document.getElementById("err-senha") },
-      confirmar: { input: confirmarInput, err: document.getElementById("err-confirmar") }
+      confirmar: { input: confirmarInput, err: document.getElementById("err-confirmar") },
+      foto_perfil: { input: fotoInput, err: document.getElementById("err-foto_perfil") }
     };
   
     function setError(fieldKey, isInvalid, customMessage = null) {
@@ -64,6 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return ok;
     }
   
+    // A foto é opcional; se vier, precisa ser JPG, JPEG ou PNG (o servidor confere de novo).
+    function validateFoto() {
+      const file = fotoInput.files[0];
+      const ok = !file || /\.(jpe?g|png)$/i.test(file.name);
+      setError("foto_perfil", !ok);
+      return ok;
+    }
+
     function calculatePasswordScore(val) {
       let score = 0;
       if (val.length >= 8) score++;
@@ -121,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
     senhaInput.addEventListener("blur", validateSenha);
     senhaInput.addEventListener("input", updateStrength);
     confirmarInput.addEventListener("blur", validateConfirmar);
+    fotoInput.addEventListener("change", validateFoto);
   
     // --- Envio do formulário via Fetch API ---
     form.addEventListener("submit", async (e) => {
@@ -133,28 +144,29 @@ document.addEventListener("DOMContentLoaded", () => {
       const isTelefoneValid = validateTelefone();
       const isSenhaValid = validateSenha();
       const isConfirmarValid = validateConfirmar();
+      const isFotoValid = validateFoto();
   
-      if (!isNomeValid || !isCpfValid || !isEmailValid || !isTelefoneValid || !isSenhaValid || !isConfirmarValid) {
+      if (!isNomeValid || !isCpfValid || !isEmailValid || !isTelefoneValid || !isSenhaValid || !isConfirmarValid || !isFotoValid) {
         return;
       }
   
       submitBtn.disabled = true;
       submitBtn.innerText = "Criando conta...";
   
-      const payload = {
-        nome: nomeInput.value.trim(),
-        cpf: cpfInput.value.trim(),
-        email: emailInput.value.trim(),
-        telefone: telefoneInput.value.trim(),
-        senha: senhaInput.value,
-        confirmar: confirmarInput.value
-      };
+      // FormData (e não JSON) porque agora o formulário leva um arquivo: a foto de perfil.
+      const payload = new FormData();
+      payload.append("nome", nomeInput.value.trim());
+      payload.append("cpf", cpfInput.value.trim());
+      payload.append("email", emailInput.value.trim());
+      payload.append("telefone", telefoneInput.value.trim());
+      payload.append("senha", senhaInput.value);
+      payload.append("confirmar", confirmarInput.value);
+      if (fotoInput.files[0]) payload.append("foto_perfil", fotoInput.files[0]);
   
       try {
         const response = await fetch("/api/cadastro/cliente", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: payload   // sem Content-Type: o navegador monta o multipart sozinho
         });
   
         const data = await response.json();

@@ -42,6 +42,7 @@ def buscar_perfil(auth_id):
         "nome": nome,
         "email": (cliente.get("email") or "").strip(),
         "telefone": formatar_telefone(cliente.get("telefone")),
+        "avatar_url": cliente.get("avatar_url") or "",
         "iniciais": iniciais(nome),
         "desde": membro_desde(cliente),
     }
@@ -84,11 +85,16 @@ def validar_perfil(nome, telefone):
     return errors, tel_digits
 
 
-def atualizar_perfil(auth_id, nome, tel_digits):
-    """Grava nome e telefone do cliente. O e-mail não muda aqui (é o login da conta)."""
+def atualizar_perfil(auth_id, nome, tel_digits, avatar_url=None):
+    """Grava nome, telefone e (se veio uma nova) a foto do cliente. O e-mail não muda aqui (é o login da conta)."""
+    dados_para_atualizar = {"nome": nome, "telefone": tel_digits}
+
+    if avatar_url:
+        dados_para_atualizar["avatar_url"] = avatar_url
+
     resposta = (
         supabase.table("cliente")
-        .update({"nome": nome, "telefone": tel_digits})
+        .update(dados_para_atualizar)
         .eq("auth_id", auth_id)
         .execute()
     )

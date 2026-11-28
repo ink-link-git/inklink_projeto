@@ -38,7 +38,13 @@
             </div>
 
             <div class="cli-rodape">
-                <div class="cli-avatar">{{ ((partes[0][:1] if partes else '?') ~ (partes[1][:1] if partes|length > 1 else ''))|upper }}</div>
+                <div class="cli-avatar">
+                    {% if cliente and cliente.avatar_url %}
+                        <img src="{{ cliente.avatar_url }}" alt="Foto de {{ nome_cliente }}" class="cli-avatar-img">
+                    {% else %}
+                        {{ ((partes[0][:1] if partes else '?') ~ (partes[1][:1] if partes|length > 1 else ''))|upper }}
+                    {% endif %}
+                </div>
                 <div class="cli-usuario">
                     <strong>{{ nome_cliente }}</strong>
                     <span>{{ cliente.email if cliente else '' }}</span>

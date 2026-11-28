@@ -30,7 +30,7 @@
         <span class="subtitle">ÁREA DO CLIENTE</span>
         <h1 class="title">Criar conta</h1>
 
-        <form id="signup-form" class="login-form" novalidate data-login-url="{{ url_for('login_cliente.login_cliente') }}">
+        <form id="signup-form" class="login-form" novalidate enctype="multipart/form-data" data-login-url="{{ url_for('login_cliente.login_cliente') }}">
 
             <div class="form-group">
                 <label for="nome">NOME COMPLETO</label>
@@ -54,6 +54,12 @@
                 <label for="telefone">TELEFONE</label>
                 <input id="telefone" name="telefone" type="tel" placeholder="(11) 99999-0000" autocomplete="tel">
                 <span class="field-error" id="err-telefone">Informe um telefone válido.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="foto_perfil">FOTO DE PERFIL</label>
+                <input id="foto_perfil" name="foto_perfil" type="file" accept="image/png, image/jpeg, image/jpg">
+                <span class="field-error" id="err-foto_perfil">Apenas imagens nos formatos JPG, JPEG ou PNG são permitidas.</span>
             </div>
 
             <div class="form-group">
